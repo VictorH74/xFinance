@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+     "module": "ESNext",
+
+    "rootDir": ".",
+    "outDir": "dist",
+    "baseUrl": "./",
+
+    "paths": {
+      "@/*": ["src/*"],
+      "@prisma-generated/*": ["generated/*"]
+    },
+
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+
+     "moduleResolution": "bundler",
+    "target": "ES2023",
+    "ignoreDeprecations": "6.0"
+  }
+
+}
