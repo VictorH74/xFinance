@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { MockUser } from "@/lib/auth/mock-session";
 
 const navigationItems = [
   { href: "/dashboard", label: "Dashboard", shortLabel: "DS" },
@@ -12,7 +13,11 @@ const navigationItems = [
   { href: "/configurations", label: "Configurations", shortLabel: "CF" },
 ];
 
-export default function Sidebar() {
+type SidebarProps = {
+  user: MockUser;
+};
+
+export default function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname();
 
   return (
@@ -66,11 +71,16 @@ export default function Sidebar() {
       </div>
 
       <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
-        <p className="text-sm font-semibold text-zinc-950">Monthly focus</p>
-        <p className="mt-1 text-sm text-zinc-500">
-          Review subscriptions, move spare cash to goals, and export your month
-          before closing the cycle.
-        </p>
+        <p className="text-sm font-semibold text-zinc-950">{user.name}</p>
+        <p className="mt-1 text-sm text-zinc-500">{user.email}</p>
+        <form action="/api/auth/logout" method="post" className="mt-4">
+          <button
+            type="submit"
+            className="w-full rounded-xl bg-zinc-950 px-3 py-2 text-sm font-medium text-white transition hover:bg-zinc-800"
+          >
+            Sign out
+          </button>
+        </form>
       </div>
     </aside>
   );
