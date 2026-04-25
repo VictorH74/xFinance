@@ -1,21 +1,21 @@
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
 import { DuplicatedUserError } from "@/application/errors/user/DuplicatedUserError";
 import { UseCase } from "@/application/interfaces/use-cases/UseCase";
-import { IFinanceMetaRepository } from "../../repositories/financeMeta.repository";
+import { IFinanceGoalRepository } from "../../repositories/financeGoal.repository";
 
-export interface CreateFinanceMetaUseCaseI extends UseCase<
-  CreateFinanceMetaUseCaseI.Request,
-  CreateFinanceMetaUseCaseI.Response
+export interface CreateFinanceGoalUseCaseI extends UseCase<
+  CreateFinanceGoalUseCaseI.Request,
+  CreateFinanceGoalUseCaseI.Response
 > {
   execute(
-    reqBody: CreateFinanceMetaUseCaseI.Request,
-  ): Promise<CreateFinanceMetaUseCaseI.Response>;
+    reqBody: CreateFinanceGoalUseCaseI.Request,
+  ): Promise<CreateFinanceGoalUseCaseI.Response>;
 }
 
-export namespace CreateFinanceMetaUseCaseI {
-  export type Request = IFinanceMetaRepository.SaveFinanceMetaRequest;
+export namespace CreateFinanceGoalUseCaseI {
+  export type Request = IFinanceGoalRepository.SaveFinanceGoalRequest;
   export type Response =
-    | IFinanceMetaRepository.SaveFinanceMetaResponse
+    | IFinanceGoalRepository.SaveFinanceGoalResponse
     | InvalidDataError
     | DuplicatedUserError;
 }

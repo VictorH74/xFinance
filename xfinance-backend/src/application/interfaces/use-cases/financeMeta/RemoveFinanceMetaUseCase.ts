@@ -1,18 +1,18 @@
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
 import { UseCase } from "../UseCase";
-import { IFinanceMetaRepository } from "../../repositories/financeMeta.repository";
+import { IFinanceGoalRepository } from "../../repositories/financeGoal.repository";
 
-export interface RemoveFinanceMetaUseCaseI extends UseCase<
-  RemoveFinanceMetaUseCaseI.Request,
-  RemoveFinanceMetaUseCaseI.Response
+export interface RemoveFinanceGoalUseCaseI extends UseCase<
+  RemoveFinanceGoalUseCaseI.Request,
+  RemoveFinanceGoalUseCaseI.Response
 > {
   execute(
-    reqBody: RemoveFinanceMetaUseCaseI.Request,
-  ): Promise<RemoveFinanceMetaUseCaseI.Response>;
+    reqBody: RemoveFinanceGoalUseCaseI.Request,
+  ): Promise<RemoveFinanceGoalUseCaseI.Response>;
 }
 
-export namespace RemoveFinanceMetaUseCaseI {
-  RemoveFinanceMetaUseCaseI;
-  export type Request = IFinanceMetaRepository.RemoveFinanceMetaRequest;
+export namespace RemoveFinanceGoalUseCaseI {
+  RemoveFinanceGoalUseCaseI;
+  export type Request = IFinanceGoalRepository.RemoveFinanceGoalRequest;
   export type Response = void | InvalidDataError | Error;
 }

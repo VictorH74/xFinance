@@ -1,14 +1,14 @@
-import { IFinanceMetaRepository } from "@/application/interfaces/repositories/financeMeta.repository";
+import { IFinanceGoalRepository } from "@/application/interfaces/repositories/financeGoal.repository";
 import { IUserRepository } from "@/application/interfaces/repositories/user.repository";
-import { RemoveFinanceMetaUseCaseI } from "@/application/interfaces/use-cases/financeMeta/RemoveFinanceMetaUseCase";
+import { RemoveFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeGoal/RemoveFinanceGoalUseCase";
 import { RemoveUserUseCaseI } from "@/application/interfaces/use-cases/user/RemoveUserUseCase";
 
-export class RemoveFinanceMetaUseCaseImpl implements RemoveFinanceMetaUseCaseI {
-  constructor(private readonly repository: IFinanceMetaRepository) {}
+export class RemoveFinanceGoalUseCaseImpl implements RemoveFinanceGoalUseCaseI {
+  constructor(private readonly repository: IFinanceGoalRepository) {}
 
   async execute(
-    id: RemoveFinanceMetaUseCaseI.Request,
-  ): Promise<RemoveFinanceMetaUseCaseI.Response> {
+    id: RemoveFinanceGoalUseCaseI.Request,
+  ): Promise<RemoveFinanceGoalUseCaseI.Response> {
     return this.repository.remove(id);
   }
 }

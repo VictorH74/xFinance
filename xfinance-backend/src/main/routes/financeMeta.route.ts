@@ -1,30 +1,30 @@
 import { Router } from "express";
 import { expressJsonRouteAdapter } from "../adapters/express-route-adapter";
-import { makeListFinanceMetaController } from "../factories/controllers/financeMeta/makeListFinanceMetaController";
-import { makeCreateFinanceMetaController } from "../factories/controllers/financeMeta/makeCreateFinanceMetaController";
-import { makeRemoveFinanceMetaController } from "../factories/controllers/financeMeta/makeRemoveFinanceMetaController";
-import { makeUpdateFinanceMetaController } from "../factories/controllers/financeMeta/makeUpdateFinanceMetaController";
+import { makeListFinanceGoalController } from "../factories/controllers/financeGoal/makeListFinanceGoalController";
+import { makeCreateFinanceGoalController } from "../factories/controllers/financeGoal/makeCreateFinanceGoalController";
+import { makeRemoveFinanceGoalController } from "../factories/controllers/financeGoal/makeRemoveFinanceGoalController";
+import { makeUpdateFinanceGoalController } from "../factories/controllers/financeGoal/makeUpdateFinanceGoalController";
 
 // TODO: implement validations
-export default function financeMetaRoutes(router: Router) {
+export default function financeGoalRoutes(router: Router) {
   router.get(
-    "finance-meta/by-user/:userId",
+    "finance-goal/by-user/:userId",
     // validation,
-    expressJsonRouteAdapter(makeListFinanceMetaController()),
+    expressJsonRouteAdapter(makeListFinanceGoalController()),
   );
   router.post(
-    "finance-meta",
+    "finance-goal",
     // validation,
-    expressJsonRouteAdapter(makeCreateFinanceMetaController()),
+    expressJsonRouteAdapter(makeCreateFinanceGoalController()),
   );
   router.delete(
-    "finance-meta/:id",
+    "finance-goal/:id",
     // validation,
-    expressJsonRouteAdapter(makeRemoveFinanceMetaController()),
+    expressJsonRouteAdapter(makeRemoveFinanceGoalController()),
   );
   router.put(
-    "finance-meta/:id",
+    "finance-goal/:id",
     // validation,
-    expressJsonRouteAdapter(makeUpdateFinanceMetaController()),
+    expressJsonRouteAdapter(makeUpdateFinanceGoalController()),
   );
 }

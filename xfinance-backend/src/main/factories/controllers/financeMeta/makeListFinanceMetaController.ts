@@ -1,8 +1,8 @@
 import { BaseController } from "@/infra/http/controllers/BaseController";
-import { makeListFinanceMetaUseCase } from "../../use-cases/financeMeta/makeListFinanceMetaUseCase";
-import { ListFinanceMetaController } from "@/infra/http/controllers/financeMeta/ListFinanceMetaController";
+import { makeListFinanceGoalUseCase } from "../../use-cases/financeGoal/makeListFinanceGoalUseCase";
+import { ListFinanceGoalController } from "@/infra/http/controllers/financeGoal/ListFinanceGoalController";
 
-export const makeListFinanceMetaController = (): BaseController => {
-  const useCase = makeListFinanceMetaUseCase();
-  return new ListFinanceMetaController(useCase);
+export const makeListFinanceGoalController = (): BaseController => {
+  const useCase = makeListFinanceGoalUseCase();
+  return new ListFinanceGoalController(useCase);
 };

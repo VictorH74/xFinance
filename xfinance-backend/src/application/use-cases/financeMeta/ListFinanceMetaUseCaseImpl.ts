@@ -1,12 +1,12 @@
-import { IFinanceMetaRepository } from "@/application/interfaces/repositories/financeMeta.repository";
-import { ListFinanceMetaUseCaseI } from "@/application/interfaces/use-cases/financeMeta/ListFinanceMetaUseCase";
+import { IFinanceGoalRepository } from "@/application/interfaces/repositories/financeGoal.repository";
+import { ListFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeGoal/ListFinanceGoalUseCase";
 
-export class ListFinanceMetaUseCaseImpl implements ListFinanceMetaUseCaseI {
-  constructor(private readonly repository: IFinanceMetaRepository) {}
+export class ListFinanceGoalUseCaseImpl implements ListFinanceGoalUseCaseI {
+  constructor(private readonly repository: IFinanceGoalRepository) {}
 
   async execute(
-    reqBody: ListFinanceMetaUseCaseI.Request,
-  ): Promise<ListFinanceMetaUseCaseI.Response> {
+    reqBody: ListFinanceGoalUseCaseI.Request,
+  ): Promise<ListFinanceGoalUseCaseI.Response> {
     return this.repository.findAll(reqBody);
   }
 }

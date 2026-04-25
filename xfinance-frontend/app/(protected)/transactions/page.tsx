@@ -1,4 +1,7 @@
 import { Metadata } from "next";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import InsertChartIcon from "@mui/icons-material/InsertChart";
+import { PageTitle } from "@/components/pages/protected/PageTitle";
 
 const transactions = [
   {
@@ -41,37 +44,76 @@ export default function TransactionsPage() {
   return (
     <main className="min-h-screen bg-zinc-50 px-6 py-8 text-zinc-950">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
-        <section className="rounded-3xl bg-linear-to-br from-zinc-950 via-zinc-900 to-sky-800 p-8 text-white shadow-lg shadow-zinc-950/10">
-          <p className="text-sm font-medium uppercase tracking-[0.3em] text-white/70">
-            Transactions
-          </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-tight">
-            Every movement, clearly organized.
-          </h1>
-          <p className="mt-3 max-w-2xl text-base text-white/80">
-            Review incoming and outgoing cash, spot patterns, and stay close to
-            the details behind your budget.
-          </p>
+        <PageTitle
+          title="Transações"
+          description="Importe seu extrato ou lance manualmente via IA"
+        />
+
+        <section className="flex flex-row gap-2">
+          <button className="rounded-2xl cursor-pointer border border-zinc-200 bg-white shadow-sm grow p-6 text-center text-zinc-700">
+            <div className="grid place-items-center size-12 mx-auto bg-zinc-100 rounded-md">
+              <InsertDriveFileIcon className="" />
+            </div>
+            <h3 className=" font-semibold text-lg">
+              Extrato bancário CSV / OFX
+            </h3>
+            <p className="text-zinc-400">Arraste ou clique para selecionar</p>
+            <p className="text-zinc-400">
+              Compatível com Nubank, Itaú, Bradesco e outros
+            </p>
+            <div className="border border-zinc-600 mt-5 rounded-md w-fit mx-auto px-3 text-sm font-semibold py-1">
+              Selecionar arquivo
+            </div>
+          </button>
+          <button className="rounded-2xl cursor-pointer border border-zinc-200 bg-white shadow-sm grow p-6 text-center text-zinc-700">
+            <div className="grid place-items-center size-12 mx-auto bg-zinc-100 rounded-md">
+              <InsertChartIcon className="" />
+            </div>
+            <h3 className=" font-semibold text-lg">Planilha Excel / CSV</h3>
+            <p className="text-zinc-400">Importe sua planilha existente</p>
+            <p className="text-zinc-400">
+              O sistema categoriza automaticamente
+            </p>
+            <div className="border border-zinc-600 mt-5 rounded-md w-fit mx-auto px-3 text-sm font-semibold py-1">
+              Selecionar planilha
+            </div>
+          </button>
+        </section>
+
+        <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm space-y-2">
+          <div className="flex flex-row items-center gap-2">
+            <h3 className="text-lg font-semibold">Adição por texto</h3>
+            <span className="text-emerald-600 bg-emerald-50 rounded-lg px-2 text-sm">
+              ✦ IA
+            </span>
+          </div>
+          <form action="">
+            <input
+              type="text"
+              className="w-full bg-zinc-100 border border-zinc-300 rounded-md p-2 outline-none"
+              placeholder="gastei 45 reais no almoço hoje no restaurante"
+            />
+          </form>
         </section>
 
         <section className="grid gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-zinc-500">Entries this month</p>
+            <p className="text-sm text-zinc-500">Entradas desse mês</p>
             <p className="mt-2 text-3xl font-semibold">128</p>
           </div>
           <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-zinc-500">Largest expense</p>
+            <p className="text-sm text-zinc-500">Maior Gasto</p>
             <p className="mt-2 text-3xl font-semibold">$1,450</p>
           </div>
           <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-zinc-500">Recurring charges</p>
+            <p className="text-sm text-zinc-500">Cobranças recorrentes?</p>
             <p className="mt-2 text-3xl font-semibold">12</p>
           </div>
         </section>
 
         <section className="rounded-3xl border border-zinc-200 bg-white shadow-sm">
           <div className="border-b border-zinc-200 px-6 py-5">
-            <h2 className="text-xl font-semibold">Latest transactions</h2>
+            <h2 className="text-xl font-semibold">Histórico de transações</h2>
             <p className="text-sm text-zinc-500">
               A focused view of the most recent financial activity.
             </p>

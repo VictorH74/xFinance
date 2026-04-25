@@ -1,3 +1,4 @@
+import { PageTitle } from "@/components/pages/protected/PageTitle";
 import { Metadata } from "next";
 
 const goals = [
@@ -43,39 +44,7 @@ export default function GoalsPage() {
   return (
     <main className="min-h-screen bg-zinc-50 px-6 py-8 text-zinc-950 w-full">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
-        <section className="rounded-3xl bg-linear-to-br from-emerald-500 via-teal-500 to-cyan-600 p-8 text-white shadow-lg shadow-emerald-950/10">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-2xl">
-              <p className="text-sm font-medium uppercase tracking-[0.3em] text-white/75">
-                Goals
-              </p>
-              <h1 className="mt-3 text-4xl font-semibold tracking-tight">
-                Keep every savings target in motion.
-              </h1>
-              <p className="mt-3 max-w-xl text-base text-white/85">
-                Track progress, compare deadlines, and focus your next
-                contribution where it matters most.
-              </p>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-3">
-              <div className="rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
-                <p className="text-sm text-white/70">Active goals</p>
-                <p className="mt-2 text-3xl font-semibold">{goals.length}</p>
-              </div>
-              <div className="rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
-                <p className="text-sm text-white/70">Saved so far</p>
-                <p className="mt-2 text-3xl font-semibold">
-                  {formatCurrency(totalCurrent)}
-                </p>
-              </div>
-              <div className="rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
-                <p className="text-sm text-white/70">Portfolio progress</p>
-                <p className="mt-2 text-3xl font-semibold">{completionRate}%</p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <PageTitle title="Metas mensais" description="Defina limites de gasto por categoria" />
 
         <section className="grid gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">

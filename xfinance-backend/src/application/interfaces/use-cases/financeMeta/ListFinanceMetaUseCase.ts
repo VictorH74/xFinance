@@ -1,15 +1,15 @@
 import { UseCase } from "../UseCase";
-import { IFinanceMetaRepository } from "../../repositories/financeMeta.repository";
+import { IFinanceGoalRepository } from "../../repositories/financeGoal.repository";
 
-export interface ListFinanceMetaUseCaseI extends UseCase<
-  ListFinanceMetaUseCaseI.Request,
-  ListFinanceMetaUseCaseI.Response
+export interface ListFinanceGoalUseCaseI extends UseCase<
+  ListFinanceGoalUseCaseI.Request,
+  ListFinanceGoalUseCaseI.Response
 > {
-  execute(userId: ListFinanceMetaUseCaseI.Request): Promise<ListFinanceMetaUseCaseI.Response>;
+  execute(userId: ListFinanceGoalUseCaseI.Request): Promise<ListFinanceGoalUseCaseI.Response>;
 }
 
-export namespace ListFinanceMetaUseCaseI {
-  ListFinanceMetaUseCaseI;
-  export type Request = IFinanceMetaRepository.FindAllFinanceMetaRequest;
-  export type Response = IFinanceMetaRepository.FindAllFinanceMetaResponse;
+export namespace ListFinanceGoalUseCaseI {
+  ListFinanceGoalUseCaseI;
+  export type Request = IFinanceGoalRepository.FindAllFinanceGoalRequest;
+  export type Response = IFinanceGoalRepository.FindAllFinanceGoalResponse;
 }

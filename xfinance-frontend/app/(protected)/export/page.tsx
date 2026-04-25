@@ -1,3 +1,4 @@
+import { PageTitle } from "@/components/pages/protected/PageTitle";
 import { Metadata } from "next";
 
 const exportFormats = [
@@ -23,18 +24,11 @@ export default function ExportPage() {
   return (
     <main className="min-h-screen bg-zinc-50 px-6 py-8 text-zinc-950">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
-        <section className="rounded-3xl bg-linear-to-br from-violet-600 via-fuchsia-600 to-rose-500 p-8 text-white shadow-lg shadow-fuchsia-950/10">
-          <p className="text-sm font-medium uppercase tracking-[0.3em] text-white/75">
-            Export
-          </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-tight">
-            Package your financial data in the format you need.
-          </h1>
-          <p className="mt-3 max-w-2xl text-base text-white/85">
-            Prepare reports, share summaries, or move your history into other
-            tools without losing structure.
-          </p>
-        </section>
+        <PageTitle title="Exportar" description="Baixe seus dados ou relatórios" />
+
+        <div>
+          <h3>Filtrar antes de exportar</h3>
+        </div>
 
         <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <article className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">

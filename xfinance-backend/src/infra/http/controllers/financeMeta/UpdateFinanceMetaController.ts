@@ -7,16 +7,16 @@ import {
   serverError,
 } from "@/infra/http/helpers/http";
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
-import { UpdateFinanceMetaUseCaseI } from "@/application/interfaces/use-cases/financeMeta/UpdateFinanceMetaUseCase";
+import { UpdateFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeGoal/UpdateFinanceGoalUseCase";
 
-export class UpdateFinanceMetaController extends BaseController {
-  constructor(private readonly CreateUser: UpdateFinanceMetaUseCaseI) {
+export class UpdateFinanceGoalController extends BaseController {
+  constructor(private readonly CreateUser: UpdateFinanceGoalUseCaseI) {
     super();
   }
 
   async execute(
-    httpRequest: UpdateFinanceMetaController.Request,
-  ): Promise<UpdateFinanceMetaController.Response> {
+    httpRequest: UpdateFinanceGoalController.Request,
+  ): Promise<UpdateFinanceGoalController.Response> {
     const reqBody = httpRequest.body;
 
     const responseData = await this.CreateUser.execute(reqBody!);
@@ -30,7 +30,7 @@ export class UpdateFinanceMetaController extends BaseController {
   }
 }
 
-export namespace UpdateFinanceMetaController {
-  export type Request = HttpRequest<UpdateFinanceMetaUseCaseI.Request>;
-  export type Response = HttpResponse<UpdateFinanceMetaUseCaseI.Response>;
+export namespace UpdateFinanceGoalController {
+  export type Request = HttpRequest<UpdateFinanceGoalUseCaseI.Request>;
+  export type Response = HttpResponse<UpdateFinanceGoalUseCaseI.Response>;
 }

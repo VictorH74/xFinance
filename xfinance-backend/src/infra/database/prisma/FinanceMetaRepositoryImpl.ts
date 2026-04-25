@@ -1,51 +1,51 @@
-import { IFinanceMetaRepository } from "@/application/interfaces/repositories/financeMeta.repository";
+import { IFinanceGoalRepository } from "@/application/interfaces/repositories/financeGoal.repository";
 import { prisma } from "@/main/lib/prisma";
 
-const toFinanceMeta = (financeMeta: {
+const toFinanceGoal = (financeGoal: {
   id: number;
   categoryId: number;
   expensePercent: number;
   limit: number;
   createdAt: Date;
   userId: string;
-}): IFinanceMetaRepository.UpdateFinanceMetaResponse => ({
-  id: financeMeta.id,
-  categoryId: financeMeta.categoryId,
-  expenseValue: financeMeta.expensePercent,
-  limit: financeMeta.limit,
-  createdAt: financeMeta.createdAt.toISOString(),
-  userId: financeMeta.userId,
+}): IFinanceGoalRepository.UpdateFinanceGoalResponse => ({
+  id: financeGoal.id,
+  categoryId: financeGoal.categoryId,
+  expenseValue: financeGoal.expensePercent,
+  limit: financeGoal.limit,
+  createdAt: financeGoal.createdAt.toISOString(),
+  userId: financeGoal.userId,
 });
 
-export class FinanceMetaRepositoryImpl implements IFinanceMetaRepository {
+export class FinanceGoalRepositoryImpl implements IFinanceGoalRepository {
   async save(
-    FinanceMeta_data: IFinanceMetaRepository.SaveFinanceMetaRequest,
-  ): Promise<IFinanceMetaRepository.SaveFinanceMetaResponse> {
-    const financeMeta = await prisma.financeMeta.create({
-      data: FinanceMeta_data,
+    FinanceGoal_data: IFinanceGoalRepository.SaveFinanceGoalRequest,
+  ): Promise<IFinanceGoalRepository.SaveFinanceGoalResponse> {
+    const financeGoal = await prisma.financeGoal.create({
+      data: FinanceGoal_data,
     });
 
-    return financeMeta.id;
+    return financeGoal.id;
   }
 
   async findAll(
-    _userId: IFinanceMetaRepository.FindAllFinanceMetaRequest,
-  ): Promise<IFinanceMetaRepository.FindAllFinanceMetaResponse> {
-    const metas = await prisma.financeMeta.findMany({
+    _userId: IFinanceGoalRepository.FindAllFinanceGoalRequest,
+  ): Promise<IFinanceGoalRepository.FindAllFinanceGoalResponse> {
+    const goals = await prisma.financeGoal.findMany({
       orderBy: {
         id: "asc",
       },
     });
 
-    return metas.map(toFinanceMeta);
+    return goals.map(toFinanceGoal);
   }
 
   async update(
-    FinanceMeta_data: IFinanceMetaRepository.UpdateFinanceMetaRequest,
-  ): Promise<IFinanceMetaRepository.UpdateFinanceMetaResponse> {
-    const { id, ...data } = FinanceMeta_data;
+    FinanceGoal_data: IFinanceGoalRepository.UpdateFinanceGoalRequest,
+  ): Promise<IFinanceGoalRepository.UpdateFinanceGoalResponse> {
+    const { id, ...data } = FinanceGoal_data;
 
-    const financeMeta = await prisma.financeMeta.update({
+    const financeGoal = await prisma.financeGoal.update({
       where: {
         id,
       },
@@ -56,13 +56,13 @@ export class FinanceMetaRepositoryImpl implements IFinanceMetaRepository {
       },
     });
 
-    return toFinanceMeta(financeMeta);
+    return toFinanceGoal(financeGoal);
   }
 
   async remove(
-    id: IFinanceMetaRepository.RemoveFinanceMetaRequest,
+    id: IFinanceGoalRepository.RemoveFinanceGoalRequest,
   ): Promise<void> {
-    await prisma.financeMeta.delete({
+    await prisma.financeGoal.delete({
       where: {
         id,
       },
@@ -70,4 +70,4 @@ export class FinanceMetaRepositoryImpl implements IFinanceMetaRepository {
   }
 }
 
-export const financeMetaRepository = new FinanceMetaRepositoryImpl()
+export const financeGoalRepository = new FinanceGoalRepositoryImpl()

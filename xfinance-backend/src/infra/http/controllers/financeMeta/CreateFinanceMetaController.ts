@@ -7,16 +7,16 @@ import {
   serverError,
 } from "@/infra/http/helpers/http";
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
-import { CreateFinanceMetaUseCaseI } from "@/application/interfaces/use-cases/financeMeta/CreateFinanceMetaUseCase";
+import { CreateFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeGoal/CreateFinanceGoalUseCase";
 
-export class CreateFinanceMetaController extends BaseController {
-  constructor(private readonly useCase: CreateFinanceMetaUseCaseI) {
+export class CreateFinanceGoalController extends BaseController {
+  constructor(private readonly useCase: CreateFinanceGoalUseCaseI) {
     super();
   }
 
   async execute(
-    httpRequest: CreateFinanceMetaController.Request,
-  ): Promise<CreateFinanceMetaController.Response> {
+    httpRequest: CreateFinanceGoalController.Request,
+  ): Promise<CreateFinanceGoalController.Response> {
     const reqBody = httpRequest.body;
 
     const responseData = await this.useCase.execute(reqBody!);
@@ -30,7 +30,7 @@ export class CreateFinanceMetaController extends BaseController {
   }
 }
 
-export namespace CreateFinanceMetaController {
-  export type Request = HttpRequest<CreateFinanceMetaUseCaseI.Request>;
-  export type Response = HttpResponse<CreateFinanceMetaUseCaseI.Response>;
+export namespace CreateFinanceGoalController {
+  export type Request = HttpRequest<CreateFinanceGoalUseCaseI.Request>;
+  export type Response = HttpResponse<CreateFinanceGoalUseCaseI.Response>;
 }

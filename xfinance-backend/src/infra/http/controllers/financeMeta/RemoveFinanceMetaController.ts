@@ -7,16 +7,16 @@ import {
   serverError,
 } from "@/infra/http/helpers/http";
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
-import { RemoveFinanceMetaUseCaseI } from "@/application/interfaces/use-cases/financeMeta/RemoveFinanceMetaUseCase";
+import { RemoveFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeGoal/RemoveFinanceGoalUseCase";
 
-export class RemoveFinanceMetaController extends BaseController {
-  constructor(private readonly useCase: RemoveFinanceMetaUseCaseI) {
+export class RemoveFinanceGoalController extends BaseController {
+  constructor(private readonly useCase: RemoveFinanceGoalUseCaseI) {
     super();
   }
 
   async execute(
-    httpRequest: RemoveFinanceMetaController.Request,
-  ): Promise<RemoveFinanceMetaController.Response> {
+    httpRequest: RemoveFinanceGoalController.Request,
+  ): Promise<RemoveFinanceGoalController.Response> {
     const reqBody = httpRequest.body;
 
     const responseData = await this.useCase.execute(reqBody!);
@@ -30,7 +30,7 @@ export class RemoveFinanceMetaController extends BaseController {
   }
 }
 
-export namespace RemoveFinanceMetaController {
-  export type Request = HttpRequest<RemoveFinanceMetaUseCaseI.Request>;
-  export type Response = HttpResponse<RemoveFinanceMetaUseCaseI.Response>;
+export namespace RemoveFinanceGoalController {
+  export type Request = HttpRequest<RemoveFinanceGoalUseCaseI.Request>;
+  export type Response = HttpResponse<RemoveFinanceGoalUseCaseI.Response>;
 }

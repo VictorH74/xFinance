@@ -1,8 +1,8 @@
-import { CreateFinanceMetaUseCaseI } from "@/application/interfaces/use-cases/financeMeta/CreateFinanceMetaUseCase";
-import { CreateFinanceMetaUseCaseImpl } from "@/application/use-cases/financeMeta/CreateFinanceMetaUseCaseImpl";
-import { financeMetaRepository } from "@/infra/database/prisma/FinanceMetaRepositoryImpl";
+import { CreateFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeGoal/CreateFinanceGoalUseCase";
+import { CreateFinanceGoalUseCaseImpl } from "@/application/use-cases/financeGoal/CreateFinanceGoalUseCaseImpl";
+import { financeGoalRepository } from "@/infra/database/prisma/FinanceGoalRepositoryImpl";
 
 
-export const makeCreateFinanceMetaUseCase = (): CreateFinanceMetaUseCaseI => {
-    return new CreateFinanceMetaUseCaseImpl(financeMetaRepository)
+export const makeCreateFinanceGoalUseCase = (): CreateFinanceGoalUseCaseI => {
+    return new CreateFinanceGoalUseCaseImpl(financeGoalRepository)
 };

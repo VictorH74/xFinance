@@ -2,17 +2,17 @@ import { BaseController } from "@/infra/http/controllers/BaseController";
 import { HttpRequest } from "@/infra/http/interfaces/HttpRequest";
 import { HttpResponse } from "@/infra/http/interfaces/HttpResponse";
 import { badRequest, ok, serverError } from "@/infra/http/helpers/http";
-import { ListFinanceMetaUseCaseI } from "@/application/interfaces/use-cases/financeMeta/ListFinanceMetaUseCase";
+import { ListFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeGoal/ListFinanceGoalUseCase";
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
 
-export class ListFinanceMetaController extends BaseController {
-  constructor(private readonly useCase: ListFinanceMetaUseCaseI) {
+export class ListFinanceGoalController extends BaseController {
+  constructor(private readonly useCase: ListFinanceGoalUseCaseI) {
     super();
   }
 
   async execute(
-    httpRequest: ListFinanceMetaController.Request,
-  ): Promise<ListFinanceMetaController.Response> {
+    httpRequest: ListFinanceGoalController.Request,
+  ): Promise<ListFinanceGoalController.Response> {
     const reqBody = httpRequest.body;
 
     const responseData = await this.useCase.execute(reqBody!);
@@ -26,7 +26,7 @@ export class ListFinanceMetaController extends BaseController {
   }
 }
 
-export namespace ListFinanceMetaController {
-  export type Request = HttpRequest<ListFinanceMetaUseCaseI.Request>;
-  export type Response = HttpResponse<ListFinanceMetaUseCaseI.Response>;
+export namespace ListFinanceGoalController {
+  export type Request = HttpRequest<ListFinanceGoalUseCaseI.Request>;
+  export type Response = HttpResponse<ListFinanceGoalUseCaseI.Response>;
 }

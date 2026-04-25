@@ -1,13 +1,13 @@
-import { IFinanceMetaRepository } from "@/application/interfaces/repositories/financeMeta.repository";
+import { IFinanceGoalRepository } from "@/application/interfaces/repositories/financeGoal.repository";
 import { DuplicatedUserError } from "@/application/errors/user/DuplicatedUserError";
-import { CreateFinanceMetaUseCaseI } from "@/application/interfaces/use-cases/financeMeta/CreateFinanceMetaUseCase";
+import { CreateFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeGoal/CreateFinanceGoalUseCase";
 
-export class CreateFinanceMetaUseCaseImpl implements CreateFinanceMetaUseCaseI {
-  constructor(private readonly repository: IFinanceMetaRepository) {}
+export class CreateFinanceGoalUseCaseImpl implements CreateFinanceGoalUseCaseI {
+  constructor(private readonly repository: IFinanceGoalRepository) {}
 
   async execute(
-    reqBody: CreateFinanceMetaUseCaseI.Request,
-  ): Promise<CreateFinanceMetaUseCaseI.Response> {
+    reqBody: CreateFinanceGoalUseCaseI.Request,
+  ): Promise<CreateFinanceGoalUseCaseI.Response> {
     try {
       const obj = await this.repository.save(reqBody);
 

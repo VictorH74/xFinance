@@ -1,34 +1,34 @@
-import { FinanceMeta } from "@/domain/entities/financeMeta";
+import { FinanceGoal } from "@/domain/entities/financeGoal";
 import { User } from "@/domain/entities/user";
 
-export interface IFinanceMetaRepository {
+export interface IFinanceGoalRepository {
   save(
-    FinanceMeta_data: IFinanceMetaRepository.SaveFinanceMetaRequest,
-  ): Promise<IFinanceMetaRepository.SaveFinanceMetaResponse>;
+    FinanceGoal_data: IFinanceGoalRepository.SaveFinanceGoalRequest,
+  ): Promise<IFinanceGoalRepository.SaveFinanceGoalResponse>;
 
   findAll(
-    userId: IFinanceMetaRepository.FindAllFinanceMetaRequest,
-  ): Promise<IFinanceMetaRepository.FindAllFinanceMetaResponse>;
+    userId: IFinanceGoalRepository.FindAllFinanceGoalRequest,
+  ): Promise<IFinanceGoalRepository.FindAllFinanceGoalResponse>;
 
   update(
-    FinanceMeta_data: IFinanceMetaRepository.UpdateFinanceMetaRequest,
-  ): Promise<IFinanceMetaRepository.UpdateFinanceMetaResponse>;
+    FinanceGoal_data: IFinanceGoalRepository.UpdateFinanceGoalRequest,
+  ): Promise<IFinanceGoalRepository.UpdateFinanceGoalResponse>;
 
   remove(
-    id: IFinanceMetaRepository.RemoveFinanceMetaRequest,
+    id: IFinanceGoalRepository.RemoveFinanceGoalRequest,
   ): Promise<void>;
 }
 
-export namespace IFinanceMetaRepository {
-  export type FindAllFinanceMetaRequest = User["id"];
-  export type RemoveFinanceMetaRequest = FinanceMeta["id"];
-  export type SaveFinanceMetaRequest = Omit<FinanceMeta, "createdAt" | "id">;
-  export type UpdateFinanceMetaRequest = Omit<
-    FinanceMeta,
+export namespace IFinanceGoalRepository {
+  export type FindAllFinanceGoalRequest = User["id"];
+  export type RemoveFinanceGoalRequest = FinanceGoal["id"];
+  export type SaveFinanceGoalRequest = Omit<FinanceGoal, "createdAt" | "id">;
+  export type UpdateFinanceGoalRequest = Omit<
+    FinanceGoal,
     "createdAt" | "expenseValue"
   >;
 
-  export type SaveFinanceMetaResponse = FinanceMeta["id"];
-  export type FindAllFinanceMetaResponse = FinanceMeta[];
-  export type UpdateFinanceMetaResponse = FinanceMeta;
+  export type SaveFinanceGoalResponse = FinanceGoal["id"];
+  export type FindAllFinanceGoalResponse = FinanceGoal[];
+  export type UpdateFinanceGoalResponse = FinanceGoal;
 }

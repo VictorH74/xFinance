@@ -1,14 +1,14 @@
-import { IFinanceMetaRepository } from "@/application/interfaces/repositories/financeMeta.repository";
+import { IFinanceGoalRepository } from "@/application/interfaces/repositories/financeGoal.repository";
 import { IUserRepository } from "@/application/interfaces/repositories/user.repository";
-import { UpdateFinanceMetaUseCaseI } from "@/application/interfaces/use-cases/financeMeta/UpdateFinanceMetaUseCase";
+import { UpdateFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeGoal/UpdateFinanceGoalUseCase";
 import { UpdateUserUseCaseI } from "@/application/interfaces/use-cases/user/UpdateUserUseCase";
 
-export class UpdateFinanceMetaUseCaseImpl implements UpdateFinanceMetaUseCaseI {
-  constructor(private readonly repository: IFinanceMetaRepository) {}
+export class UpdateFinanceGoalUseCaseImpl implements UpdateFinanceGoalUseCaseI {
+  constructor(private readonly repository: IFinanceGoalRepository) {}
 
   async execute(
-    reqBody: UpdateFinanceMetaUseCaseI.Request,
-  ): Promise<UpdateFinanceMetaUseCaseI.Response> {
+    reqBody: UpdateFinanceGoalUseCaseI.Request,
+  ): Promise<UpdateFinanceGoalUseCaseI.Response> {
     const obj = await this.repository.update(reqBody);
 
     return obj;

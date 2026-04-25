@@ -1,4 +1,4 @@
-export type FinanceMeta = {
+export type FinanceGoal = {
   id: number;
   categoryId: number;
   expenseValue: number;
