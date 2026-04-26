@@ -12,16 +12,6 @@ import { CreateUserUseCaseI } from "@/application/interfaces/use-cases/user/Crea
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
 import { DuplicatedUserError } from "@/application/errors/user/DuplicatedUserError";
 
-type LoginResponse = {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-  };
-  accessToken: string;
-  refreshToken: string;
-};
-
 export class RegisterController extends BaseController {
   constructor(private readonly useCase: CreateUserUseCaseI) {
     super();
@@ -57,6 +47,15 @@ export class RegisterController extends BaseController {
 export namespace RegisterController {
   export type Request = HttpRequest<CreateUserUseCaseI.Request>;
   export type Response = HttpResponse<
-    LoginResponse | { error_code: string; error_description: string }
+    | {
+        user: {
+          id: string;
+          name: string;
+          email: string;
+        };
+        accessToken: string;
+        refreshToken: string;
+      }
+    | { error_code: string; error_description: string }
   >;
 }

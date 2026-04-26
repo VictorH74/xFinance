@@ -4,27 +4,31 @@ import { makeListFinanceGoalController } from "../factories/controllers/financeG
 import { makeCreateFinanceGoalController } from "../factories/controllers/financeGoal/makeCreateFinanceGoalController";
 import { makeRemoveFinanceGoalController } from "../factories/controllers/financeGoal/makeRemoveFinanceGoalController";
 import { makeUpdateFinanceGoalController } from "../factories/controllers/financeGoal/makeUpdateFinanceGoalController";
+import { authValidation } from "../middlewares/authValidation";
+import { validate } from "../middlewares/validate";
+import { createFinanceGoalDataSchema } from "@/infra/http/validations/financeGoal/createFinanceGoal.validation";
 
 // TODO: implement validations
 export default function financeGoalRoutes(router: Router) {
   router.get(
     "/finance-goal/by-user/:userId",
-    // validation,
+    authValidation,
     expressJsonRouteAdapter(makeListFinanceGoalController()),
   );
   router.post(
     "/finance-goal",
-    // validation,
+    authValidation,
+    validate(createFinanceGoalDataSchema, "INVALID_DATA"),
     expressJsonRouteAdapter(makeCreateFinanceGoalController()),
   );
   router.delete(
     "/finance-goal/:id",
-    // validation,
+    authValidation,
     expressJsonRouteAdapter(makeRemoveFinanceGoalController()),
   );
   router.put(
     "/finance-goal/:id",
-    // validation,
+    authValidation,
     expressJsonRouteAdapter(makeUpdateFinanceGoalController()),
   );
 }

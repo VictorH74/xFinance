@@ -4,27 +4,31 @@ import { makeListCategoryController } from "../factories/controllers/category/ma
 import { makeCreateCategoryController } from "../factories/controllers/category/makeCreateCategoryController";
 import { makeRemoveCategoryController } from "../factories/controllers/category/makeRemoveCategoryController";
 import { makeUpdateCategoryController } from "../factories/controllers/category/makeUpdateCategoryController";
+import { authValidation } from "../middlewares/authValidation";
+import { validate } from "../middlewares/validate";
+import { createCategoryDataSchema } from "@/infra/http/validations/category/createCategory.validation";
 
 // TODO: implement validations
 export default function categoryRoutes(router: Router) {
   router.get(
     "/categories/by-user/:userId",
-    // validation,
+    authValidation,
     expressJsonRouteAdapter(makeListCategoryController()),
   );
   router.post(
     "/categories",
-    // validation,
+    authValidation,
+    validate(createCategoryDataSchema, "INVALID_DATA"),
     expressJsonRouteAdapter(makeCreateCategoryController()),
   );
   router.delete(
     "/categories/:id",
-    // validation,
+    authValidation,
     expressJsonRouteAdapter(makeRemoveCategoryController()),
   );
   router.put(
     "/categories/:id",
-    // validation,
+    authValidation,
     expressJsonRouteAdapter(makeUpdateCategoryController()),
   );
 }

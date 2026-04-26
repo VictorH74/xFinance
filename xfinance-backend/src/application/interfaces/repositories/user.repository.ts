@@ -24,7 +24,7 @@ export namespace IUserRepository {
   export type FindByEmailRequest = User["email"];
   export type FindByIdRequest = User["id"];
   export type RemoveUserRequest = User["id"];
-  export type SaveUserRequest = Omit<User, "createdAt">;
+  export type SaveUserRequest = Omit<User, "createdAt" | "id">;
   export type UpdateUserRequest = Pick<User, "name" | "id" >;
 
   export type SaveUserResponse = Omit<User, "password">;

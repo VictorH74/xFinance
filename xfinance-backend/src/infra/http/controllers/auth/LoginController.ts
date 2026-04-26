@@ -6,29 +6,14 @@ import { IUserRepository } from "@/application/interfaces/repositories/user.repo
 import { verifyPassword } from "@/main/security/password";
 import { createAccessToken, createRefreshToken } from "@/main/security/jwt";
 
-type LoginRequest = {
-  email: string;
-  password: string;
-};
-
-type LoginResponse = {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-  };
-  accessToken: string;
-  refreshToken: string;
-};
-
 export class LoginController extends BaseController {
   constructor(private readonly userRepository: IUserRepository) {
     super();
   }
 
   async execute(
-    httpRequest: HttpRequest<LoginRequest>,
-  ): Promise<HttpResponse<LoginResponse | { error_code: string; error_description: string }>> {
+    httpRequest: LoginController.Request,
+  ): Promise<LoginController.Response> {
     const body = httpRequest.body;
 
     if (!body?.email || !body?.password) {
@@ -51,4 +36,23 @@ export class LoginController extends BaseController {
       refreshToken: createRefreshToken(user),
     });
   }
+}
+
+export namespace LoginController {
+  export type Request = HttpRequest<{
+    email: string;
+    password: string;
+  }>;
+  export type Response = HttpResponse<
+    | {
+        user: {
+          id: string;
+          name: string;
+          email: string;
+        };
+        accessToken: string;
+        refreshToken: string;
+      }
+    | { error_code: string; error_description: string }
+  >;
 }

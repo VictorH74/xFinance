@@ -3,6 +3,7 @@ import { BaseController } from "../BaseController";
 import { HttpResponse } from "../../interfaces/HttpResponse";
 import { GetDashboardDataUseCaseI } from "@/application/interfaces/use-cases/dashboard/GetDashboardDataUseCase";
 import { ok } from "../../helpers/http";
+import { includeUserId } from "@/main/utils/functions";
 
 export class GetDashboardDataController extends BaseController {
   constructor(private readonly useCase: GetDashboardDataUseCaseI) {
@@ -12,9 +13,10 @@ export class GetDashboardDataController extends BaseController {
   async execute(
     httpRequest: GetDashboardDataController.Request,
   ): Promise<GetDashboardDataController.Response> {
-    const requestData = (httpRequest.query ?? httpRequest.body ?? {}) as GetDashboardDataUseCaseI.Request;
+    const reqBody = includeUserId(httpRequest);
+    // const requestData = (httpRequest.query ?? httpRequest.body ?? {}) as GetDashboardDataUseCaseI.Request;
 
-    const responseData = await this.useCase.execute(requestData);
+    const responseData = await this.useCase.execute(reqBody);
 
     return ok(responseData);
   }

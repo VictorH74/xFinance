@@ -3,6 +3,14 @@ import { readFileSync } from "node:fs";
 import { prisma } from "../src/main/lib/prisma";
 import { hashPassword } from "../src/main/security/password";
 
+type UserMock = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  created_at: string;
+};
+
 type CategoryMock = {
   id: string;
   user_id: string;
@@ -50,6 +58,7 @@ const readJson = <T>(relativePath: string): T => {
   return JSON.parse(readFileSync(fileUrl, "utf-8")) as T;
 };
 
+const users = readJson<UserMock[]>("./data/mocks/users.json");
 const categories = readJson<CategoryMock[]>("./data/mocks/categories.json");
 const goals = readJson<GoalMock[]>("./data/mocks/goals.json");
 const transactions = readJson<TransactionMock[]>("./data/mocks/transactions.json");
@@ -60,14 +69,6 @@ const buildUncategorizedId = (userId: string) => {
 };
 
 async function main() {
-  const userIds = Array.from(
-    new Set([
-      ...categories.map((item) => item.user_id),
-      ...goals.map((item) => item.user_id),
-      ...transactions.map((item) => item.user_id),
-    ]),
-  );
-
   const existingCategoryIds = new Set(categories.map((item) => item.id));
   const uncategorizedUsers = Array.from(
     new Set(
@@ -83,15 +84,12 @@ async function main() {
   await prisma.user.deleteMany();
 
   await prisma.user.createMany({
-    data: userIds.map((userId, index) => ({
-      id: userId,
-      name: userIds.length === 1 ? "Mock User" : `Mock User ${index + 1}`,
-      email:
-        userIds.length === 1
-          ? "mock-user@xfinance.local"
-          : `mock-user-${index + 1}@xfinance.local`,
-      password: hashPassword("123456"),
-      createdAt: new Date("2026-01-01T00:00:00Z"),
+    data: users.map((user) => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      password: hashPassword(user.password),
+      createdAt: new Date(user.created_at),
     })),
   });
 
@@ -153,7 +151,7 @@ async function main() {
   });
 
   console.log(
-    `Seed concluido: ${userIds.length} users, ${categories.length} categories, ${goals.length} goals, ${transactions.length} transactions.`,
+    `Seed concluido: ${users.length} users, ${categories.length} categories, ${goals.length} goals, ${transactions.length} transactions.`,
   );
 }
 

@@ -3,21 +3,11 @@ import { badRequest, ok, unauthorized } from "@/infra/http/helpers/http";
 import { HttpRequest } from "@/infra/http/interfaces/HttpRequest";
 import { HttpResponse } from "@/infra/http/interfaces/HttpResponse";
 import { IUserRepository } from "@/application/interfaces/repositories/user.repository";
-import { createAccessToken, createRefreshToken, verifyRefreshToken } from "@/main/security/jwt";
-
-type RefreshRequest = {
-  refreshToken: string;
-};
-
-type RefreshResponse = {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-  };
-  accessToken: string;
-  refreshToken: string;
-};
+import {
+  createAccessToken,
+  createRefreshToken,
+  verifyRefreshToken,
+} from "@/main/security/jwt";
 
 export class RefreshSessionController extends BaseController {
   constructor(private readonly userRepository: IUserRepository) {
@@ -25,8 +15,8 @@ export class RefreshSessionController extends BaseController {
   }
 
   async execute(
-    httpRequest: HttpRequest<RefreshRequest>,
-  ): Promise<HttpResponse<RefreshResponse | { error_code: string; error_description: string }>> {
+    httpRequest: RefreshSessionController.Request,
+  ): Promise<RefreshSessionController.Response> {
     const refreshToken = httpRequest.body?.refreshToken;
 
     if (!refreshToken) {
@@ -55,4 +45,22 @@ export class RefreshSessionController extends BaseController {
       refreshToken: createRefreshToken(user),
     });
   }
+}
+
+export namespace RefreshSessionController {
+  export type Request = HttpRequest<{
+    refreshToken: string;
+  }>;
+  export type Response = HttpResponse<
+    | {
+        user: {
+          id: string;
+          name: string;
+          email: string;
+        };
+        accessToken: string;
+        refreshToken: string;
+      }
+    | { error_code: string; error_description: string }
+  >;
 }

@@ -47,10 +47,14 @@ function formatDate(date: Date): string {
 
 export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
   async execute(
-    filter: GetDashboardDataUseCaseI.Request,
+    {userId, ...data}: GetDashboardDataUseCaseI.Request,
   ): Promise<GetDashboardDataUseCaseI.Response> {
-    // temp
-    const userId = "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101"
+    // // temp
+    // const userId = "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101"
+
+    // if ('minDate' in data) {
+    //   data.
+    // }
 
     const start = new Date();
     const fourMonthsAgo = periodStart(120);
@@ -200,47 +204,5 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
       expensesByCategory,
       recentTransactions,
     };
-
-    // mock
-    // return {
-    //   summary: {
-    //     balance: 5000,
-    //     expenseTotal: 1200,
-    //     incomeTotal: 7000,
-    //     savingsRate: 200,
-    //   },
-    //   expensesByCategory: [
-    //     {
-    //       categoryId: "aaa",
-    //       color: "#fff",
-    //       emoji: ":_",
-    //       name: "Compras",
-    //       percentage: 50,
-    //       total: 1000,
-    //     },
-    //   ],
-    //   monthlyEvolution: [
-    //     {
-    //       expense: 500,
-    //       income: 1000,
-    //       month: "Jan",
-    //     },
-    //   ],
-    //   recentTransactions: [
-    //     {
-    //       aiRawText: null,
-    //       amount: 1000,
-    //       categoryId: "aaa",
-    //       createdAt: new Date(),
-    //       date: new Date(),
-    //       description: null,
-    //       id: "aaaa",
-    //       importBatchId: null,
-    //       source: "x",
-    //       type: "income",
-    //       userId: "aaa",
-    //     },
-    //   ],
-    // };
   }
 }

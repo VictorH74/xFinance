@@ -7,13 +7,13 @@ export interface GetDashboardDataUseCaseI extends UseCase<
   GetDashboardDataUseCaseI.Response
 > {
   execute(
-    userId: GetDashboardDataUseCaseI.Request,
+    data: GetDashboardDataUseCaseI.Request,
   ): Promise<GetDashboardDataUseCaseI.Response>;
 }
 
 export namespace GetDashboardDataUseCaseI {
   GetDashboardDataUseCaseI;
-  export type Request =
+  export type Request = (
     | {
         categoryIds?: string[];
         transactionType?: string;
@@ -23,7 +23,8 @@ export namespace GetDashboardDataUseCaseI {
         maxDate: string;
         categoryIds?: string[];
         transactionType?: string;
-      };
+      }
+  ) & { userId: string };
   export type Response = {
     summary: {
       balance: number;
@@ -53,6 +54,9 @@ export namespace GetDashboardDataUseCaseI {
       | "importBatchId"
       | "createdAt"
       | "date"
-    > & { date: string, category: Pick<Category, "color" | "emoji" | "name"> | null })[];
+    > & {
+      date: string;
+      category: Pick<Category, "color" | "emoji" | "name"> | null;
+    })[];
   };
 }

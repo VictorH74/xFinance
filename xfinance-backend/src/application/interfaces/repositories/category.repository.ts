@@ -20,9 +20,12 @@ export interface ICategoryRepository {
 export namespace ICategoryRepository {
   export type FindAllCategoryRequest = User["id"];
   export type RemoveCategoryRequest = Category["id"];
-  export type SaveCategoryRequest = Omit<Category, "createdAt" | "id">;
+  export type SaveCategoryRequest = Omit<
+    Category,
+    "createdAt" | "id" | "updatedAt"
+  >;
   export type UpdateCategoryRequest = Pick<Category, "id"> &
-    Partial<Omit<Category, "createdAt" | "updateAt" | "userId">>;
+    Partial<Omit<Category, "createdAt" | "updatedAt" | "userId">>;
 
   export type SaveCategoryResponse = Category["id"];
   export type FindAllCategoryResponse = Category[];
