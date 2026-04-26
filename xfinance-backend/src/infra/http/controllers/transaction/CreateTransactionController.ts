@@ -1,13 +1,10 @@
 import { BaseController } from "@/infra/http/controllers/BaseController";
 import { HttpRequest } from "@/infra/http/interfaces/HttpRequest";
 import { HttpResponse } from "@/infra/http/interfaces/HttpResponse";
-import {
-  badRequest,
-  ok,
-  serverError,
-} from "@/infra/http/helpers/http";
+import { badRequest, ok, serverError } from "@/infra/http/helpers/http";
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
 import { CreateTransactionUseCaseI } from "@/application/interfaces/use-cases/transaction/CreateTransactionUseCase";
+import { includeUserId } from "@/main/utils/functions";
 
 export class CreateTransactionController extends BaseController {
   constructor(private readonly useCase: CreateTransactionUseCaseI) {
@@ -17,7 +14,7 @@ export class CreateTransactionController extends BaseController {
   async execute(
     httpRequest: CreateTransactionController.Request,
   ): Promise<CreateTransactionController.Response> {
-    const reqBody = httpRequest.body;
+    const reqBody = includeUserId(httpRequest);
 
     const responseData = await this.useCase.execute(reqBody!);
 

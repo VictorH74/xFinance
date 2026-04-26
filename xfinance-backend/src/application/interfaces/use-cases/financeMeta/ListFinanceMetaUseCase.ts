@@ -1,5 +1,5 @@
+import { IFinanceGoalRepository } from "../../repositories/financeMeta.repository";
 import { UseCase } from "../UseCase";
-import { IFinanceGoalRepository } from "../../repositories/financeGoal.repository";
 
 export interface ListFinanceGoalUseCaseI extends UseCase<
   ListFinanceGoalUseCaseI.Request,

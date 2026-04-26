@@ -3,14 +3,10 @@ import { HttpRequest } from "@/infra/http/interfaces/HttpRequest";
 import { HttpResponse } from "@/infra/http/interfaces/HttpResponse";
 import {
   badRequest,
-  conflict,
   ok,
   serverError,
 } from "@/infra/http/helpers/http";
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
-import { CreateUserUseCaseI } from "@/application/interfaces/use-cases/user/CreateUserUseCase";
-import { DuplicatedUserError } from "@/application/errors/user/DuplicatedUserError";
-import { CreateTransactionUseCaseI } from "@/application/interfaces/use-cases/transaction/CreateTransactionUseCase";
 import { UpdateTransactionUseCaseI } from "@/application/interfaces/use-cases/transaction/UpdateTransactionUseCase";
 
 export class UpdateTransactionController extends BaseController {

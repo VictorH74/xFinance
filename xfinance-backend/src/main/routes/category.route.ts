@@ -8,22 +8,22 @@ import { makeUpdateCategoryController } from "../factories/controllers/category/
 // TODO: implement validations
 export default function categoryRoutes(router: Router) {
   router.get(
-    "categories/by-user/:userId",
+    "/categories/by-user/:userId",
     // validation,
     expressJsonRouteAdapter(makeListCategoryController()),
   );
   router.post(
-    "categories",
+    "/categories",
     // validation,
     expressJsonRouteAdapter(makeCreateCategoryController()),
   );
   router.delete(
-    "categories/:id",
+    "/categories/:id",
     // validation,
     expressJsonRouteAdapter(makeRemoveCategoryController()),
   );
   router.put(
-    "categories/:id",
+    "/categories/:id",
     // validation,
     expressJsonRouteAdapter(makeUpdateCategoryController()),
   );

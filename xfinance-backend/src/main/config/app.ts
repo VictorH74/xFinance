@@ -5,7 +5,8 @@ import setupMiddlewares from './middlewares';
 
 
 export default async function setupApp(): Promise<Express> {
-    await setupDbClient();
+    // TODO: setupDbClient can be use to setup prisma
+    // await setupDbClient(); 
     const app = express();
     setupMiddlewares(app);
     setupRoutes(app);

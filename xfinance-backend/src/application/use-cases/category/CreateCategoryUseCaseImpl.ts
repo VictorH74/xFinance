@@ -1,5 +1,4 @@
 import { ICategoryRepository } from "@/application/interfaces/repositories/category.repository";
-import { IUserRepository } from "@/application/interfaces/repositories/user.repository";
 import { CreateCategoryUseCaseI } from "@/application/interfaces/use-cases/category/CreateCategoryUseCase";
 
 export class CreateCategoryUseCaseImpl implements CreateCategoryUseCaseI {

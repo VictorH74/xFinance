@@ -14,18 +14,15 @@ export interface IFinanceGoalRepository {
     FinanceGoal_data: IFinanceGoalRepository.UpdateFinanceGoalRequest,
   ): Promise<IFinanceGoalRepository.UpdateFinanceGoalResponse>;
 
-  remove(
-    id: IFinanceGoalRepository.RemoveFinanceGoalRequest,
-  ): Promise<void>;
+  remove(id: IFinanceGoalRepository.RemoveFinanceGoalRequest): Promise<void>;
 }
 
 export namespace IFinanceGoalRepository {
   export type FindAllFinanceGoalRequest = User["id"];
   export type RemoveFinanceGoalRequest = FinanceGoal["id"];
   export type SaveFinanceGoalRequest = Omit<FinanceGoal, "createdAt" | "id">;
-  export type UpdateFinanceGoalRequest = Omit<
-    FinanceGoal,
-    "createdAt" | "expenseValue"
+  export type UpdateFinanceGoalRequest = Pick<FinanceGoal, "id"> & Partial<
+    Omit<FinanceGoal, "createdAt" | "userId">
   >;
 
   export type SaveFinanceGoalResponse = FinanceGoal["id"];

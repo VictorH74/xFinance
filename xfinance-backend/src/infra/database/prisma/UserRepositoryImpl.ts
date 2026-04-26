@@ -5,12 +5,23 @@ const toUser = (user: {
   id: string;
   name: string;
   email: string;
+  password: string;
   createdAt: Date;
-}): IUserRepository.SaveUserResponse => ({
+}): IUserRepository.FindByEmailResponse => ({
   id: user.id,
   name: user.name,
   email: user.email,
+  password: user.password,
   createdAt: user.createdAt.toISOString(),
+});
+
+const toPublicUser = (
+  user: NonNullable<IUserRepository.FindByEmailResponse>,
+): IUserRepository.SaveUserResponse => ({
+  id: user.id,
+  name: user.name,
+  email: user.email,
+  createdAt: user.createdAt,
 });
 
 export class UserRepositoryImpl implements IUserRepository {
@@ -21,8 +32,29 @@ export class UserRepositoryImpl implements IUserRepository {
       data: userData
     });
 
-    return toUser(user);
+    return toPublicUser(toUser(user)!);
   }
+
+  async findByEmail(
+    email: IUserRepository.FindByEmailRequest,
+  ): Promise<IUserRepository.FindByEmailResponse> {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    return user ? toUser(user) : null;
+  }
+
+  async findById(
+    userId: IUserRepository.FindByIdRequest,
+  ): Promise<IUserRepository.FindByIdResponse> {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    return user ? toUser(user) : null;
+  }
+
   async update(
     userData: IUserRepository.UpdateUserRequest,
   ): Promise<IUserRepository.UpdateUserResponse> {
@@ -33,7 +65,7 @@ export class UserRepositoryImpl implements IUserRepository {
       data,
     });
 
-    return toUser(user);
+    return toPublicUser(toUser(user)!);
   }
   async remove(userId: IUserRepository.RemoveUserRequest): Promise<void> {
     await prisma.user.delete({

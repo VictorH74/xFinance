@@ -32,6 +32,7 @@ export class CreateUserController extends BaseController {
     if (responseData instanceof Error) return serverError(responseData);
 
     return ok(responseData);
+
   }
 }
 

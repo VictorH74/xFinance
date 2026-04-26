@@ -7,17 +7,17 @@ import { makeUpdateUserController } from "../factories/controllers/user/makeUpda
 // TODO: implement validations
 export default function userRoutes(router: Router) {
   router.post(
-    "users",
+    "/users",
     // validation,
     expressJsonRouteAdapter(makeCreateUserController()),
   );
   router.delete(
-    "users/:userId",
+    "/users/:userId",
     // validation,
     expressJsonRouteAdapter(makeRemoveUserController()),
   );
   router.put(
-    "users/:userId",
+    "/users/:userId",
     // validation,
     expressJsonRouteAdapter(makeUpdateUserController()),
   );

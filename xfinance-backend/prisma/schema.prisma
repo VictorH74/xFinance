@@ -16,6 +16,7 @@ model User {
   id           String        @id @default(uuid())
   name         String
   email        String        @unique
+  password     String
   createdAt    DateTime      @default(now())
   transactions Transaction[]
   financeGoals FinanceGoal[]
@@ -23,44 +24,55 @@ model User {
 }
 
 model Category {
-  id           Int           @id @default(autoincrement())
-  name         String
-  iconName     String?
-  color        String
-  createdAt    DateTime      @default(now())
-  user         User          @relation(fields: [userId], references: [id])
-  userId       String
+  id        String  @id @default(uuid())
+  name      String
+  emoji     String
+  color     String
+  isDefault Boolean @default(false)
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
   transactions Transaction[]
   financeGoals FinanceGoal[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model Transaction {
-  id    Int   @id @default(autoincrement())
-  price Float
-
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
-
-  type String
-  note String?
+  id String @id @default(uuid())
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
-  date DateTime
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  amount        Float
+  type          String
+  description   String?
+  date          DateTime
+  source        String
+  aiRawText     String?
+  importBatchId String?
+  createdAt     DateTime @default(now())
 }
 
 model FinanceGoal {
-  id Int @id @default(autoincrement())
-
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
+  id String @id @default(uuid())
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
-  expensePercent Float @default(0)
-  limit          Float
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+
+  amountLimit    Float
+  periodMonth    Int
+  periodYear     Int
+  isRecurring    Boolean @default(true)
+  notificationAt Int     @default(80)
 
   createdAt DateTime @default(now())
 }

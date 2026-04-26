@@ -2,14 +2,8 @@
 import { Pool } from 'pg';
 import { env } from './env';
 
-const { DB_NAME, DB_USER, DB_PASS, DB_PORT } = env;
-
 export const Client = new Pool({
-    host: 'postgres_db',
-    database: DB_NAME,
-    user: DB_USER,
-    password: DB_PASS,
-    port: DB_PORT,
+    connectionString: env.DATABASE_URL,
 });
 
 const createMeasureTable = async () => {

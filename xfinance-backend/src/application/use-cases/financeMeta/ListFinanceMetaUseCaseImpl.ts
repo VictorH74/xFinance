@@ -1,5 +1,6 @@
-import { IFinanceGoalRepository } from "@/application/interfaces/repositories/financeGoal.repository";
-import { ListFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeGoal/ListFinanceGoalUseCase";
+import { IFinanceGoalRepository } from "@/application/interfaces/repositories/financeMeta.repository";
+import { ListFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeMeta/ListFinanceMetaUseCase";
+
 
 export class ListFinanceGoalUseCaseImpl implements ListFinanceGoalUseCaseI {
   constructor(private readonly repository: IFinanceGoalRepository) {}

@@ -14,22 +14,15 @@ export interface ITransactionRepository {
     Transaction_data: ITransactionRepository.UpdateTransactionRequest,
   ): Promise<ITransactionRepository.UpdateTransactionResponse>;
 
-  remove(
-    id: ITransactionRepository.RemoveTransactionRequest,
-  ): Promise<void>;
+  remove(id: ITransactionRepository.RemoveTransactionRequest): Promise<void>;
 }
 
 export namespace ITransactionRepository {
   export type RemoveTransactionRequest = Transaction["id"];
-  export type SaveTransactionRequest = Omit<
-    Transaction,
-    "createdAt" | "id"
-  >;
+  export type SaveTransactionRequest = Omit<Transaction, "createdAt" | "id">;
   export type FindAllTransactionRequest = User["id"];
-  export type UpdateTransactionRequest = Omit<
-    Transaction,
-    "createdAt" | "userId"
-  >;
+  export type UpdateTransactionRequest = Pick<Transaction, "id"> &
+    Partial<Omit<Transaction, "createdAt" | "userId">>;
 
   export type SaveTransactionResponse = Transaction["id"];
   export type FindAllTransactionResponse = Transaction[];

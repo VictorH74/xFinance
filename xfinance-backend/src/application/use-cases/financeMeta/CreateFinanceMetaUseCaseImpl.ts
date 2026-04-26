@@ -1,6 +1,6 @@
-import { IFinanceGoalRepository } from "@/application/interfaces/repositories/financeGoal.repository";
 import { DuplicatedUserError } from "@/application/errors/user/DuplicatedUserError";
-import { CreateFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeGoal/CreateFinanceGoalUseCase";
+import { IFinanceGoalRepository } from "@/application/interfaces/repositories/financeMeta.repository";
+import { CreateFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeMeta/CreateFinanceMetaUseCase";
 
 export class CreateFinanceGoalUseCaseImpl implements CreateFinanceGoalUseCaseI {
   constructor(private readonly repository: IFinanceGoalRepository) {}

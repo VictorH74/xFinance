@@ -1,6 +1,6 @@
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
 import { UseCase } from "../UseCase";
-import { IFinanceGoalRepository } from "../../repositories/financeGoal.repository";
+import { IFinanceGoalRepository } from "../../repositories/financeMeta.repository";
 
 export interface RemoveFinanceGoalUseCaseI extends UseCase<
   RemoveFinanceGoalUseCaseI.Request,

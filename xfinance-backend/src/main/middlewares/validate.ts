@@ -1,9 +1,9 @@
-import { HttpResponseError } from '@infra/http/interfaces/HttpResponseError';
+import { HttpResponseError } from '@/infra/http/interfaces/HttpResponseError';
 import { NextFunction, Request, Response } from 'express';
-import { AnyZodObject, ZodError } from 'zod';
+import { ZodError, ZodObject, ZodRawShape } from 'zod';
 
 export const validate =
-    (schema: AnyZodObject, errorCode: string) =>
+    (schema: ZodObject<ZodRawShape>, errorCode: string) =>
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             await schema.parseAsync({

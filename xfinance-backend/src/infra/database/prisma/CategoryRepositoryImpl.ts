@@ -1,21 +1,21 @@
 import { ICategoryRepository } from "@/application/interfaces/repositories/category.repository";
 import { prisma } from "@/main/lib/prisma";
 
-const toCategory = (category: {
-  id: number;
-  name: string;
-  iconName: string | null;
-  color: string;
-  createdAt: Date;
-  userId: string;
-}): ICategoryRepository.UpdateCategoryResponse => ({
-  id: String(category.id),
-  name: category.name,
-  iconName: category.iconName ?? "",
-  color: category.color,
-  createdAt: category.createdAt.toISOString(),
-  userId: category.userId,
-});
+// const toCategory = (category: {
+//   id: number;
+//   name: string;
+//   iconName: string | null;
+//   color: string;
+//   createdAt: Date;
+//   userId: string;
+// }): ICategoryRepository.UpdateCategoryResponse => ({
+//   id: String(category.id),
+//   name: category.name,
+//   iconName: category.iconName ?? "",
+//   color: category.color,
+//   createdAt: category.createdAt.toISOString(),
+//   userId: category.userId,
+// });
 
 export class CategoryRepositoryImpl implements ICategoryRepository {
   async save(
@@ -31,15 +31,14 @@ export class CategoryRepositoryImpl implements ICategoryRepository {
   findAll(
     _userId: ICategoryRepository.FindAllCategoryRequest,
   ): ICategoryRepository.FindAllCategoryResponse {
-    return prisma.category
-      .findMany({
-        orderBy: {
-          id: "asc",
-        },
-      })
-      .then((categories) =>
-        categories.map(toCategory),
-      ) as unknown as ICategoryRepository.FindAllCategoryResponse;
+    return prisma.category.findMany({
+      orderBy: {
+        id: "asc",
+      },
+    }) as unknown as ICategoryRepository.FindAllCategoryResponse;
+    // .then((categories) =>
+    //   categories.map(toCategory),
+    // ) as unknown as ICategoryRepository.FindAllCategoryResponse;
   }
 
   async update(
@@ -56,25 +55,22 @@ export class CategoryRepositoryImpl implements ICategoryRepository {
 
     const category = await prisma.category.update({
       where: {
-        id: Number(id),
+        id: id,
       },
-      data: {
-        name: data.name,
-        iconName: data.iconName || null,
-        color: data.color,
-      },
+      data: { ...data, updatedAt: new Date() },
     });
 
-    return toCategory(category);
+    return category;
+    // return toCategory(category);
   }
 
   async remove(id: ICategoryRepository.RemoveCategoryRequest): Promise<void> {
     await prisma.category.delete({
       where: {
-        id: Number(id),
+        id: id,
       },
     });
   }
 }
 
-export const categoryRepository = new CategoryRepositoryImpl()
+export const categoryRepository = new CategoryRepositoryImpl();

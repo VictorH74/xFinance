@@ -1,9 +1,13 @@
 export type Transaction = {
-  id: number;
-  price: number;
-  categoryId: number;
-  type: string;
-  note?: string;
+  id: string;
   userId: string;
-  date: string;
+  categoryId: string;
+  amount: number;
+  type: string; // TODO: "income" | "expense"
+  description: string | null;
+  date: Date;
+  source: string;
+  aiRawText: string | null;
+  importBatchId: string | null;
+  createdAt: Date;
 };

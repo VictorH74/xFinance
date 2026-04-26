@@ -8,22 +8,22 @@ import { makeUpdateTransactionController } from "../factories/controllers/transa
 // TODO: implement validations
 export default function transactionRoutes(router: Router) {
   router.get(
-    "transaction/by-user/:userId",
+    "/transaction/by-user/:userId",
     // validation,
     expressJsonRouteAdapter(makeListTransactionController()),
   );
   router.post(
-    "transaction",
+    "/transaction",
     // validation,
     expressJsonRouteAdapter(makeCreateTransactionController()),
   );
   router.delete(
-    "transaction/:id",
+    "/transaction/:id",
     // validation,
     expressJsonRouteAdapter(makeRemoveTransactionController()),
   );
   router.put(
-    "transaction/:id",
+    "/transaction/:id",
     // validation,
     expressJsonRouteAdapter(makeUpdateTransactionController()),
   );

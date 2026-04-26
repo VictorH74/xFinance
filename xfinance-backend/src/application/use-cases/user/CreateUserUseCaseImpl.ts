@@ -1,5 +1,7 @@
 import { IUserRepository } from "@/application/interfaces/repositories/user.repository";
 import { CreateUserUseCaseI } from "@/application/interfaces/use-cases/user/CreateUserUseCase";
+import { DuplicatedUserError } from "@/application/errors/user/DuplicatedUserError";
+import { hashPassword } from "@/main/security/password";
 
 export class CreateUserUseCaseImpl implements CreateUserUseCaseI {
   constructor(private readonly UserRepository: IUserRepository) {}
@@ -7,9 +9,16 @@ export class CreateUserUseCaseImpl implements CreateUserUseCaseI {
   async execute(
     reqBody: CreateUserUseCaseI.Request,
   ): Promise<CreateUserUseCaseI.Response> {
-    const user = await this.UserRepository.save(reqBody);
+    const existingUser = await this.UserRepository.findByEmail(reqBody.email);
 
-    // TODO: handle duplicated user error
+    if (existingUser) {
+      return new DuplicatedUserError();
+    }
+
+    const user = await this.UserRepository.save({
+      ...reqBody,
+      password: hashPassword(reqBody.password),
+    });
 
     return user;
   }

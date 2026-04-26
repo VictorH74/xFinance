@@ -1,7 +1,6 @@
-import { IFinanceGoalRepository } from "@/application/interfaces/repositories/financeGoal.repository";
-import { IUserRepository } from "@/application/interfaces/repositories/user.repository";
-import { UpdateFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeGoal/UpdateFinanceGoalUseCase";
-import { UpdateUserUseCaseI } from "@/application/interfaces/use-cases/user/UpdateUserUseCase";
+import { IFinanceGoalRepository } from "@/application/interfaces/repositories/financeMeta.repository";
+import { UpdateFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeMeta/UpdateFinanceMetaUseCase";
+
 
 export class UpdateFinanceGoalUseCaseImpl implements UpdateFinanceGoalUseCaseI {
   constructor(private readonly repository: IFinanceGoalRepository) {}

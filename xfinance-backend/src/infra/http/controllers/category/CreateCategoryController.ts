@@ -8,6 +8,7 @@ import {
 } from "@/infra/http/helpers/http";
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
 import { CreateCategoryUseCaseI } from "@/application/interfaces/use-cases/category/CreateCategoryUseCase";
+import { includeUserId } from "@/main/utils/functions";
 
 export class CreateCategoryController extends BaseController {
   constructor(private readonly useCase: CreateCategoryUseCaseI) {
@@ -17,7 +18,7 @@ export class CreateCategoryController extends BaseController {
   async execute(
     httpRequest: CreateCategoryController.Request,
   ): Promise<CreateCategoryController.Response> {
-    const reqBody = httpRequest.body;
+    const reqBody = includeUserId(httpRequest);
 
     const responseData = await this.useCase.execute(reqBody!);
 
