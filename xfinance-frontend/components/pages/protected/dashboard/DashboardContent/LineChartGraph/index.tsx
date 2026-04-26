@@ -32,6 +32,19 @@ const expenseList = [
   },
 ];
 
+// TODO: customize Tooltip
+
+/*
+TODO: must receive as props:
+data: [
+  { month: '2025-01', income: 7200, expense: 5100 },
+  { month: '2025-02', income: 7800, expense: 4800 },
+  { month: '2025-03', income: 8200, expense: 4300 },
+  { month: '2025-04', income: 8500, expense: 4180 },
+]
+*/
+
+
 export const LineChartGraph = () => {
   return (
         <LineChart
@@ -50,14 +63,14 @@ export const LineChartGraph = () => {
           dataKey="income"
           stroke="green"
           strokeWidth={2}
-          name="Ganhou (R$)"
+          name="Ganhos (R$)"
           
         />
         <Line
           dataKey="expense"
           stroke="red"
           strokeWidth={2}
-          name="Gastou (R$)"
+          name="Gastos (R$)"
         />
         <XAxis dataKey="name" />
         <YAxis

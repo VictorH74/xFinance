@@ -40,6 +40,8 @@ export const metadata: Metadata = {
   title: "XFinance | Transactions",
 };
 
+// TODO: at add by text form, implement autocomplete para user writting patterns
+
 export default function TransactionsPage() {
   return (
     <main className="min-h-screen bg-zinc-50 px-6 py-8 text-zinc-950">
@@ -50,7 +52,7 @@ export default function TransactionsPage() {
         />
 
         <section className="flex flex-row gap-2">
-          <button className="rounded-2xl cursor-pointer border border-zinc-200 bg-white shadow-sm grow p-6 text-center text-zinc-700">
+          <button className="rounded-2xl cursor-pointer border border-zinc-200 bg-white shadow-sm flex-1 p-6 text-center text-zinc-700" data-aos="fade-right">
             <div className="grid place-items-center size-12 mx-auto bg-zinc-100 rounded-md">
               <InsertDriveFileIcon className="" />
             </div>
@@ -65,7 +67,7 @@ export default function TransactionsPage() {
               Selecionar arquivo
             </div>
           </button>
-          <button className="rounded-2xl cursor-pointer border border-zinc-200 bg-white shadow-sm grow p-6 text-center text-zinc-700">
+          <button className="rounded-2xl cursor-pointer border border-zinc-200 bg-white shadow-sm flex-1 p-6 text-center text-zinc-700" data-aos="fade-left">
             <div className="grid place-items-center size-12 mx-auto bg-zinc-100 rounded-md">
               <InsertChartIcon className="" />
             </div>
@@ -80,7 +82,7 @@ export default function TransactionsPage() {
           </button>
         </section>
 
-        <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm space-y-2">
+        <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm space-y-2" data-aos="flip-up">
           <div className="flex flex-row items-center gap-2">
             <h3 className="text-lg font-semibold">Adição por texto</h3>
             <span className="text-emerald-600 bg-emerald-50 rounded-lg px-2 text-sm">
@@ -97,15 +99,15 @@ export default function TransactionsPage() {
         </section>
 
         <section className="grid gap-4 md:grid-cols-3">
-          <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm" data-aos="zoom-in">
             <p className="text-sm text-zinc-500">Entradas desse mês</p>
             <p className="mt-2 text-3xl font-semibold">128</p>
           </div>
-          <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm" data-aos="zoom-in">
             <p className="text-sm text-zinc-500">Maior Gasto</p>
             <p className="mt-2 text-3xl font-semibold">$1,450</p>
           </div>
-          <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm" data-aos="zoom-in">
             <p className="text-sm text-zinc-500">Cobranças recorrentes?</p>
             <p className="mt-2 text-3xl font-semibold">12</p>
           </div>

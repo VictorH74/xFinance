@@ -1,0 +1,68 @@
+[
+  {
+    "id": "91f0d5d7-7a6f-4eca-b4f6-6e1e18a85001",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category_id": "f2222222-2222-4222-8222-222222222222",
+    "amount_limit": 1800.00,
+    "period_month": 4,
+    "period_year": 2026,
+    "is_recurring": true,
+    "notification_at": 80,
+    "created_at": "2026-04-01T08:00:00Z"
+  },
+  {
+    "id": "495d772a-d81e-4a62-b5fe-7e2a6cf75002",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category_id": "f3333333-3333-4333-8333-333333333333",
+    "amount_limit": 900.00,
+    "period_month": 4,
+    "period_year": 2026,
+    "is_recurring": true,
+    "notification_at": 75,
+    "created_at": "2026-04-01T08:05:00Z"
+  },
+  {
+    "id": "30580db2-53e0-44b0-8340-995b3cc25003",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category_id": "f4444444-4444-4444-8444-444444444444",
+    "amount_limit": 120.00,
+    "period_month": 4,
+    "period_year": 2026,
+    "is_recurring": true,
+    "notification_at": 85,
+    "created_at": "2026-04-01T08:10:00Z"
+  },
+  {
+    "id": "6217261b-4f52-46e0-b771-5b3ffea35004",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category_id": "f7777777-7777-4777-8777-777777777777",
+    "amount_limit": 350.00,
+    "period_month": 4,
+    "period_year": 2026,
+    "is_recurring": true,
+    "notification_at": 90,
+    "created_at": "2026-04-01T08:15:00Z"
+  },
+  {
+    "id": "10b886c5-7cda-4c59-86d2-4f7ce9b05005",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category_id": "f9999999-9999-4999-8999-999999999999",
+    "amount_limit": 420.00,
+    "period_month": 4,
+    "period_year": 2026,
+    "is_recurring": true,
+    "notification_at": 80,
+    "created_at": "2026-04-01T08:20:00Z"
+  },
+  {
+    "id": "f72c90a9-e0ef-4583-b38f-248ea0e95006",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category_id": null,
+    "amount_limit": 5200.00,
+    "period_month": 4,
+    "period_year": 2026,
+    "is_recurring": false,
+    "notification_at": 85,
+    "created_at": "2026-04-01T08:30:00Z"
+  }
+]

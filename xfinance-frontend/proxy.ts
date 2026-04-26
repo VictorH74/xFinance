@@ -17,7 +17,7 @@ function isProtectedPath(pathname: string) {
   );
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const session = await resolveMockSession({
@@ -92,5 +92,14 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/auth/login", "/dashboard/:path*", "/transactions/:path*", "/categories/:path*", "/goals/:path*", "/export/:path*", "/configurations/:path*"],
+  matcher: [
+    "/",
+    "/auth/login",
+    "/dashboard/:path*",
+    "/transactions/:path*",
+    "/categories/:path*",
+    "/goals/:path*",
+    "/export/:path*",
+    "/configurations/:path*",
+  ],
 };

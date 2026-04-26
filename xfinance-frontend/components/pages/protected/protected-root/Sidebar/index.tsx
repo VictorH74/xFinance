@@ -11,15 +11,6 @@ import CategoryIcon from "@mui/icons-material/Category";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import SettingsIcon from "@mui/icons-material/Settings";
 
-const navigationItems = [
-  { href: "/dashboard", label: "Dashboard", shortLabel: "DS" },
-  { href: "/transactions", label: "Transactions", shortLabel: "TR" },
-  { href: "/goals", label: "Goals", shortLabel: "GO" },
-  { href: "/categories", label: "Categories", shortLabel: "CA" },
-  { href: "/export", label: "Export", shortLabel: "EX" },
-  { href: "/configurations", label: "Configurations", shortLabel: "CF" },
-];
-
 const navSection = [
   {
     title: "Principal",

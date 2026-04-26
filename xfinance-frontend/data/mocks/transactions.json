@@ -1,0 +1,177 @@
+[
+  {
+    "id": "6a7a6f63-cd6c-4f47-a13d-bf1cf0a5b201",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category": {
+      "id": "f1111111-1111-4111-8111-111111111111",
+      "name": "Income",
+      "emoji": "💼",
+      "color": "#16A34A"
+    },
+    "amount": 6800.00,
+    "type": "income",
+    "description": "Salario empresa principal",
+    "date": "2026-04-05",
+    "source": "csv_import",
+    "ai_raw_text": null,
+    "import_batch_id": "c2f70cb0-1fb0-4f99-8f4c-3f3b5c4f1001",
+    "created_at": "2026-04-05T08:15:00Z"
+  },
+  {
+    "id": "7b8bcff0-8351-4b88-9d6d-43bdb7a2c202",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category": {
+      "id": "f2222222-2222-4222-8222-222222222222",
+      "name": "Housing",
+      "emoji": "🏠",
+      "color": "#F97316"
+    },
+    "amount": 1450.00,
+    "type": "expense",
+    "description": "Aluguel apartamento",
+    "date": "2026-04-06",
+    "source": "ofx_import",
+    "ai_raw_text": null,
+    "import_batch_id": "a95d1a9d-3324-44ad-a0ce-1b8d8b8a1002",
+    "created_at": "2026-04-06T11:42:00Z"
+  },
+  {
+    "id": "4c7d54b9-7fd0-49b6-8dbd-4e40b31dd303",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category": {
+      "id": "f3333333-3333-4333-8333-333333333333",
+      "name": "Food",
+      "emoji": "🍽️",
+      "color": "#EF4444"
+    },
+    "amount": 82.50,
+    "type": "expense",
+    "description": "Almoco restaurante centro",
+    "date": "2026-04-08",
+    "source": "manual",
+    "ai_raw_text": null,
+    "import_batch_id": null,
+    "created_at": "2026-04-08T13:05:00Z"
+  },
+  {
+    "id": "1d15e299-4a42-4699-8b7d-e7f18c7e9404",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category": {
+      "id": "f4444444-4444-4444-8444-444444444444",
+      "name": "Subscriptions",
+      "emoji": "📺",
+      "color": "#8B5CF6"
+    },
+    "amount": 39.90,
+    "type": "expense",
+    "description": "Assinatura streaming",
+    "date": "2026-04-10",
+    "source": "ofx_import",
+    "ai_raw_text": null,
+    "import_batch_id": "a95d1a9d-3324-44ad-a0ce-1b8d8b8a1002",
+    "created_at": "2026-04-10T21:18:00Z"
+  },
+  {
+    "id": "f7e5f0de-ecf8-4e07-93b0-cbb3b32f9505",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category": {
+      "id": "f5555555-5555-4555-8555-555555555555",
+      "name": "Freelance",
+      "emoji": "🧑‍💻",
+      "color": "#06B6D4"
+    },
+    "amount": 950.00,
+    "type": "income",
+    "description": "Pagamento projeto freelancer",
+    "date": "2026-04-12",
+    "source": "manual",
+    "ai_raw_text": null,
+    "import_batch_id": null,
+    "created_at": "2026-04-12T18:27:00Z"
+  },
+  {
+    "id": "f93a7d2f-2449-4d40-9490-6b2775e9bf06",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category": {
+      "id": "f3333333-3333-4333-8333-333333333333",
+      "name": "Food",
+      "emoji": "🍽️",
+      "color": "#EF4444"
+    },
+    "amount": 27.40,
+    "type": "expense",
+    "description": "Cafe e pao de queijo",
+    "date": "2026-04-14",
+    "source": "ai_text",
+    "ai_raw_text": "gastei 27,40 no cafe da manha perto do escritorio hoje cedo",
+    "import_batch_id": null,
+    "created_at": "2026-04-14T10:12:00Z"
+  },
+  {
+    "id": "e51fca9c-a53d-4c72-a074-45c1131e7607",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category": {
+      "id": "f6666666-6666-4666-8666-666666666666",
+      "name": "Groceries",
+      "emoji": "🛒",
+      "color": "#EAB308"
+    },
+    "amount": 420.75,
+    "type": "expense",
+    "description": "Compras supermercado",
+    "date": "2026-04-17",
+    "source": "csv_import",
+    "ai_raw_text": null,
+    "import_batch_id": "c2f70cb0-1fb0-4f99-8f4c-3f3b5c4f1001",
+    "created_at": "2026-04-17T19:54:00Z"
+  },
+  {
+    "id": "3f667642-8ac6-4f68-a11c-a6d155520908",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category": null,
+    "amount": 120.00,
+    "type": "expense",
+    "description": "Corrida de aplicativo aeroporto",
+    "date": "2026-04-20",
+    "source": "ai_text",
+    "ai_raw_text": "peguei uber pro aeroporto e paguei 120 reais",
+    "import_batch_id": null,
+    "created_at": "2026-04-20T06:40:00Z"
+  },
+  {
+    "id": "8b4f5fae-9107-4258-992e-d66af9775b09",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category": {
+      "id": "f7777777-7777-4777-8777-777777777777",
+      "name": "Utilities",
+      "emoji": "💡",
+      "color": "#F59E0B"
+    },
+    "amount": 310.00,
+    "type": "expense",
+    "description": "Conta de energia",
+    "date": "2026-04-22",
+    "source": "ofx_import",
+    "ai_raw_text": null,
+    "import_batch_id": "a95d1a9d-3324-44ad-a0ce-1b8d8b8a1002",
+    "created_at": "2026-04-22T14:31:00Z"
+  },
+  {
+    "id": "cb2d4958-8b2c-4d10-a0a7-96a596f60910",
+    "user_id": "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101",
+    "category": {
+      "id": "f8888888-8888-4888-8888-888888888888",
+      "name": "Travel",
+      "emoji": "✈️",
+      "color": "#3B82F6"
+    },
+    "amount": 1200.00,
+    "type": "income",
+    "description": "Reembolso viagem corporativa",
+    "date": "2026-04-24",
+    "source": "manual",
+    "ai_raw_text": null,
+    "import_batch_id": null,
+    "created_at": "2026-04-24T17:08:00Z"
+  }
+]
