@@ -1,3 +1,4 @@
+import { GetDashboarDataResponseT } from "@/lib/modules/dashboard/domain/dashboard.types";
 import {
   CartesianGrid,
   Legend,
@@ -7,50 +8,33 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-// import { RechartsDevtools } from "@recharts/devtools";
 
-const expenseList = [
-  {
-    name: "Jan",
-    income: 7200,
-    expense: 5100,
-  },
-  {
-    name: "Fev",
-    income: 7800,
-    expense: 4800,
-  },
-  {
-    name: "Mar",
-    income: 8200,
-    expense: 4300,
-  },
-  {
-    name: "Abr",
-    income: 8500,
-    expense: 4180,
-  },
-];
-
-// TODO: customize Tooltip
-
-/*
-TODO: must receive as props:
-data: [
-  { month: '2025-01', income: 7200, expense: 5100 },
-  { month: '2025-02', income: 7800, expense: 4800 },
-  { month: '2025-03', income: 8200, expense: 4300 },
-  { month: '2025-04', income: 8500, expense: 4180 },
-]
-*/
-
-
-export const LineChartGraph = () => {
+// TODO: make it shared
+const formatCurrency = (value: number) =>
+  new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    maximumFractionDigits: 0,
+  }).format(value);
+  
+export const LineChartGraph = ({
+  dataList,
+}: {
+  dataList: GetDashboarDataResponseT["monthlyEvolution"];
+}) => {
   return (
-        <LineChart
-        style={{ width: "100%", aspectRatio: 1.618, maxWidth: 600 }}
+    <article
+      className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm grow flex flex-col items-center"
+      data-aos="fade-right"
+    >
+      <div className="w-full">
+        <h3 className="text-lg text-zinc-500 font-semibold">Evolução mensal</h3>
+        <p className="text-zinc-400">Receitas vs Gastos — 2026</p>
+      </div>
+      <LineChart
+        style={{ width: "100%", aspectRatio: 1.618 }}
         responsive
-        data={expenseList}
+        data={dataList}
         margin={{
           top: 20,
           right: 20,
@@ -64,7 +48,6 @@ export const LineChartGraph = () => {
           stroke="green"
           strokeWidth={2}
           name="Ganhos (R$)"
-          
         />
         <Line
           dataKey="expense"
@@ -72,14 +55,11 @@ export const LineChartGraph = () => {
           strokeWidth={2}
           name="Gastos (R$)"
         />
-        <XAxis dataKey="name" />
-        <YAxis
-          width="auto"
-          label={{ position: "insideLeft", angle: -90 }}
-        />
+        <XAxis dataKey="month" />
+        <YAxis width="auto" label={{ position: "insideLeft", angle: -90 }} />
         <Legend align="right" />
         <Tooltip />
-        {/* <RechartsDevtools /> */}
       </LineChart>
+    </article>
   );
 };

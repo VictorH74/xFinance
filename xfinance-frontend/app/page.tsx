@@ -1,13 +1,8 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { resolveMockSession } from "@/lib/auth/mock-session";
+import { resolveSessionFromCookies } from "@/lib/modules/auth/domain/auth.actions";
 
 export default async function Home() {
-  const cookieStore = await cookies();
-  const session = await resolveMockSession({
-    accessToken: cookieStore.get("xfinance.access_token")?.value,
-    refreshToken: cookieStore.get("xfinance.refresh_token")?.value,
-  });
+  const session = await resolveSessionFromCookies();
 
   redirect(session ? "/dashboard" : "/auth/login");
 }

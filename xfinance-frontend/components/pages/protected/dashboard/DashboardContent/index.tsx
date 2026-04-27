@@ -7,48 +7,104 @@ import SavingsIcon from "@mui/icons-material/Savings";
 import { LineChartGraph } from "./LineChartGraph";
 import PieChartGraph from "./PieChartGraph";
 import { useTransactions } from "@/lib/modules/transactions/domain/transaction.queries";
+import { useDashboardData } from "@/lib/modules/dashboard/domain/dashboard.queries";
+import { DashboardFilters } from "@/lib/modules/dashboard/domain/dashboard.types";
+import { twMerge } from "tailwind-merge";
+import { getColorBackground } from "@/util/functions";
+import { Transaction } from "@/lib/modules/transactions/domain/transaction.types";
+import { TransactionTile } from "@/components/shared/TransactionTile";
+import { DatePicker, Select } from "antd";
 
-const activityItems = [
-  { name: "Salary", category: "Income", amount: "+$6,000" },
-  { name: "Rent", category: "Housing", amount: "-$1,450" },
-  { name: "Groceries", category: "Food", amount: "-$420" },
-  { name: "Emergency fund", category: "Transfer", amount: "+$600" },
+const options = [
+  {
+    label: "Happy",
+    value: "happy",
+    emoji: "😄",
+    desc: "Feeling Good",
+  },
+  {
+    label: "Sad",
+    value: "sad",
+    emoji: "😢",
+    desc: "Feeling Blue",
+  },
+  {
+    label: "Angry",
+    value: "angry",
+    emoji: "😡",
+    desc: "Furious",
+  },
+  {
+    label: "Cool",
+    value: "cool",
+    emoji: "😎",
+    desc: "Chilling",
+  },
+  {
+    label: "Sleepy",
+    value: "sleepy",
+    emoji: "😴",
+    desc: "Need Sleep",
+  },
 ];
 
-const overviewCards = [
+const { RangePicker } = DatePicker;
+
+const getDateRangeByPeriod = (
+  period: "30d" | "60d" | "90d",
+): [string, string] => {
+  const now = new Date();
+
+  const daysMap = {
+    "30d": 30,
+    "60d": 60,
+    "90d": 90,
+  } as const;
+
+  const minDate = new Date(now);
+  minDate.setDate(now.getDate() - daysMap[period]);
+
+  const format = (date: Date) => date.toISOString().split("T")[0];
+
+  return [format(minDate), format(now)];
+};
+
+const dateRangePresetList = [
   {
-    iconName: "balance",
-    label: "Balance",
-    value: "$24,580",
-    tone: "text-emerald-600",
+    label: "30d",
+    range: getDateRangeByPeriod("30d"),
   },
   {
-    iconName: "income",
-    label: "Income",
-    value: "$8,400",
-    tone: "text-cyan-600",
+    label: "60d",
+    range: getDateRangeByPeriod("60d"),
   },
   {
-    iconName: "expenses",
-    label: "Expenses",
-    value: "$5,120",
-    tone: "text-rose-600",
-  },
-  {
-    iconName: "saved-money",
-    label: "Saved this month",
-    value: "$2,140",
-    tone: "text-zinc-950",
+    label: "90d",
+    range: getDateRangeByPeriod("90d"),
   },
 ];
+
+const getSourceText = (source: Transaction["source"]): string => {
+  if (source === "ai_text") return "Adicionado via IA";
+  if (source === "csv_import") return "Importado via CSV";
+  if (source === "ofx_import") return "Importado via OFX";
+  return "Adicionado manualmente";
+};
 
 const renderOverviewCardIcon = (name: string) => {
   if (name === "balance") return <AttachMoneyIcon sx={{ fontSize: 20 }} />;
-  if (name === "income") return <TrendingUpIcon sx={{ fontSize: 20 }} />;
-  if (name === "expenses") return <TrendingDownIcon sx={{ fontSize: 20 }} />;
-  if (name === "saved-money") return <SavingsIcon sx={{ fontSize: 20 }} />;
+  if (name === "incomeTotal") return <TrendingUpIcon sx={{ fontSize: 20 }} />;
+  if (name === "expenseTotal")
+    return <TrendingDownIcon sx={{ fontSize: 20 }} />;
+  if (name === "savingsRate") return <SavingsIcon sx={{ fontSize: 20 }} />;
 
   return null;
+};
+
+// TODO: make it funcional
+const dateStr = (date: string): string => {
+  // return example
+  return "16 abr";
 };
 
 /*
@@ -78,18 +134,103 @@ TODO: GET /dashboard?period=30d
 }
 */
 
+// TODO: make it shared
+const formatCurrency = (value: number) =>
+  new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    maximumFractionDigits: 0,
+  }).format(value);
+
 export const DashboardContent = () => {
-  // TODO: GET /transactions?start={currentDate}&end={selectedPeriodDate}
-  const { data, isLoading, isError, refetch } = useTransactions({perPage: 5, });
+  const [filters, setFilters] = React.useState<DashboardFilters>({});
+  const { data, isLoading, isError, refetch } = useDashboardData(filters);
+
+  const summary = React.useMemo(() => {
+    return [
+      {
+        iconName: "balance",
+        label: "Saldo",
+        value: formatCurrency(data?.summary.balance ?? 0),
+        tone: "text-emerald-600",
+        aosDelay: 0
+      },
+      {
+        iconName: "incomeTotal",
+        label: "Receita",
+        value: formatCurrency(data?.summary.incomeTotal ?? 0),
+        tone: "text-cyan-600",
+        aosDelay: 100
+      },
+      {
+        iconName: "expenseTotal",
+        label: "Gastos",
+        value: formatCurrency(data?.summary.expenseTotal ?? 0),
+        tone: "text-rose-600",
+        aosDelay: 250
+      },
+      {
+        iconName: "savingsRate",
+        label: "Valor economizado",
+        value: formatCurrency(data?.summary.savingsRate ?? 0),
+        tone: "text-zinc-950",
+        aosDelay: 400
+      },
+    ];
+  }, [data]);
 
   return (
     <div className="space-y-8">
+      <div className="flex gap-2">
+        {dateRangePresetList.map((d) => (
+          <button
+            key={d.label}
+            className="px-2 py-1 rounded-md text-zinc-500 font-medium border border-zinc-300 cursor-pointer"
+          >
+            {d.label}
+          </button>
+        ))}
+        <RangePicker />
+        <Select
+          mode="multiple"
+          className="w-full"
+          placeholder="Selecionar categorias"
+          // defaultValue={["happy"]}
+          onChange={(value) => {
+            console.log(`selected ${value}`);
+          }}
+          options={data?.expensesByCategory.map(d => ({...d, value: d.name, label: `${d.emoji} ${d.name}`})) ?? []}
+          optionRender={(option) => (
+            <div className="flex gap-2">
+              <span role="img" aria-label={option.data.name}>
+                {option.data.emoji}
+              </span>
+              {option.data.name}
+            </div>
+          )}
+        />
+        <Select
+          defaultValue={'null'}
+          // style={{ width: 120 }}
+          className="w-56"
+          onChange={(value) => {
+            console.log(`selected ${value}`);
+          }}
+          options={[
+            { value: 'null', label: "Todas as entradas e saída" },
+            { value: "income", label: "Entradas" },
+            { value: "expense", label: "Saídas" },
+          ]}
+        />
+      </div>
+
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {overviewCards.map((card) => (
+        {summary.map((card) => (
           <article
             key={card.label}
             className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm"
             data-aos="flip-up"
+            data-aos-delay={card.aosDelay}
           >
             <div className="flex flex-row gap-2 items-center">
               <div className="bg-zinc-200 size-8 grid place-items-center rounded-md">
@@ -104,26 +245,9 @@ export const DashboardContent = () => {
         ))}
       </section>
       <section className="flex flex-row gap-3">
-        <article
-          className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm grow"
-          data-aos="fade-right"
-        >
-          <h3 className="text-lg text-zinc-500 font-semibold">
-            Evolução mensal
-          </h3>
-          <p className="text-zinc-400">Receitas vs Gastos — 2026</p>
-          <LineChartGraph />
-        </article>
-        <article
-          className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm"
-          data-aos="fade-left"
-        >
-          <h3 className="text-lg text-zinc-500 font-semibold">
-            Gastos por categoria
-          </h3>
-          <p className="text-zinc-400">Distribuição em abril</p>
-          <PieChartGraph />
-        </article>
+        <LineChartGraph dataList={data?.monthlyEvolution ?? []} />
+
+        <PieChartGraph dataList={data?.expensesByCategory ?? []} />
       </section>
 
       {/* <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm" data-aos="fade-up">
@@ -164,18 +288,8 @@ export const DashboardContent = () => {
           </p>
 
           <div className="mt-6 space-y-4">
-            {activityItems.map((item) => (
-              <div
-                key={item.name}
-                className="flex items-center justify-between rounded-2xl bg-zinc-50 px-4 py-4"
-                data-aos="fade-up"
-              >
-                <div>
-                  <p className="font-medium text-zinc-950">{item.name}</p>
-                  <p className="text-sm text-zinc-500">{item.category}</p>
-                </div>
-                <p className="font-semibold text-zinc-950">{item.amount}</p>
-              </div>
+            {(data?.recentTransactions ?? []).map((item) => (
+              <TransactionTile key={item.id} item={item} />
             ))}
           </div>
         </article>

@@ -1,6 +1,7 @@
 import { DashboardContent } from "@/components/pages/protected/dashboard/DashboardContent";
 import { PageTitle } from "@/components/pages/protected/PageTitle";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "XFinance | Dashboard",
@@ -15,7 +16,7 @@ export default function DashboardPage() {
             title="Dashboard"
             description="Abril 2025 · visão geral das suas finanças"
           />
-          <button className="bg-white border border-zinc-300 cursor-pointer px-3 py-2 rounded-md">Exportar</button>
+          <Link href={'/export'} replace className="bg-white border border-zinc-300 cursor-pointer px-3 py-2 rounded-md">Exportar</Link>
         </div>
 
         <DashboardContent />

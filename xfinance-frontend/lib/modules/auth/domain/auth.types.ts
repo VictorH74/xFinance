@@ -1,8 +1,14 @@
-export type AuthUser = {
+export type User = {
   id: string;
   name: string;
   email: string;
-};
+  createdAt: string;
+  phoneNumber: string; // TODO: include in backend user model
+}
+
+export type RegisterUser = Pick<User, "name" | "email" | "phoneNumber">
+
+export type AuthUser = Pick<User, "id" | "name" | "email">
 
 export type AuthTokens = {
   accessToken: string;

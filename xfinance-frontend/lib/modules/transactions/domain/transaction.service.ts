@@ -1,10 +1,9 @@
 import { api } from "@/lib/http/api-client";
-import { Transaction } from "./transaction.types";
+import { ListableTransaction } from "./transaction.types";
 
-type ListTransactionsResponse = Transaction[];
-
-export async function listTransactions(filters?: Record<string, unknown>): Promise<ListTransactionsResponse> {
-  const { data } = await api.get("/transactions", {params: filters});
+export async function listTransactions(filters?: Record<string, unknown>): Promise<ListableTransaction[]> {
+  const { data } = await api.get("/transaction", {params: filters});
+  console.log('listTransactions >>> ', data)
   return data;
 }
 
@@ -13,6 +12,6 @@ export async function createTransaction(payload: {
   amount: number;
   type: "income" | "expense";
 }) {
-  const { data } = await api.post("/transactions", payload);
+  const { data } = await api.post("/transaction", payload);
   return data;
 }

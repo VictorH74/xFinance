@@ -1,3 +1,5 @@
+import { Category } from "../../categories/domain/category.types";
+
 export type Transaction = {
   id: string;
   user_id: string;
@@ -10,4 +12,12 @@ export type Transaction = {
   ai_raw_text: string | null;
   import_batch_id: string | null;
   created_at: string;
+};
+
+export type ListableTransaction = Omit<
+  Transaction,
+  "date" | "userId" | "categoryId" | "aiRawText" | "importBatchId" | "createdAt"
+> & {
+  date: Date;
+  category: Pick<Category, "color" | "emoji" | "name"> | null;
 };

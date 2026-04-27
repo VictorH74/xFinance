@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { MockUser } from "@/lib/auth/mock-session";
-import LogoutIcon from "@mui/icons-material/Logout";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ModeStandbyIcon from "@mui/icons-material/ModeStandby";
 import CategoryIcon from "@mui/icons-material/Category";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { LogoutBtn } from "./LogoutBtn";
+import { AuthUser } from "@/lib/modules/auth/domain/auth.types";
 
 const navSection = [
   {
@@ -47,7 +47,7 @@ const renderNavIcon = (name: string) => {
 };
 
 type SidebarProps = {
-  user: MockUser;
+  user: AuthUser;
 };
 
 export default function Sidebar({ user }: SidebarProps) {
@@ -111,14 +111,7 @@ export default function Sidebar({ user }: SidebarProps) {
       <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
         <p className="text-sm font-semibold text-zinc-950">{user.name}</p>
         <p className="text-sm text-zinc-500">{user.email}</p>
-        <form action="/api/auth/logout" method="post" className="mt-4">
-          <button
-            type="submit"
-            className="w-full rounded-xl bg-zinc-950 px-3 py-2 text-sm font-semibold text-white transition hover:bg-zinc-800 uppercase"
-          >
-            Sign out
-          </button>
-        </form>
+        <LogoutBtn />
       </div>
     </aside>
   );

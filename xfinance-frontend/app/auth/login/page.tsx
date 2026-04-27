@@ -1,13 +1,9 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { resolveMockSession } from "@/lib/auth/mock-session";
+import { redirect } from 'next/navigation';
+import { ClientLoginForm } from '../../../components/pages/auth/ClientLoginForm';
+import { resolveSessionFromCookies } from '@/lib/modules/auth/domain/auth.actions';
 
 export default async function LoginPage() {
-  const cookieStore = await cookies();
-  const session = await resolveMockSession({
-    accessToken: cookieStore.get("xfinance.access_token")?.value,
-    refreshToken: cookieStore.get("xfinance.refresh_token")?.value,
-  });
+  const session = await resolveSessionFromCookies()
 
   if (session) {
     redirect("/dashboard");
@@ -20,23 +16,10 @@ export default async function LoginPage() {
           xFinance
         </p>
         <h1 className="mt-4 text-3xl font-semibold tracking-tight text-zinc-950">
-          Mock JWT login
+          Login
         </h1>
-        <p className="mt-3 text-sm leading-6 text-zinc-600">
-          This screen simulates a real authentication flow with `httpOnly`
-          cookies, access token validation, refresh token fallback, and user
-          loading on the server.
-        </p>
 
-        <form action="/api/auth/login" method="post" className="mt-8 space-y-4">
-          <input type="hidden" name="userId" value="user-1" />
-          <button
-            type="submit"
-            className="w-full rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-emerald-500"
-          >
-            Sign in as demo user
-          </button>
-        </form>
+        <ClientLoginForm />
       </div>
     </main>
   );

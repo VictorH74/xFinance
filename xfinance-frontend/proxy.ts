@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { authCookieNames, resolveMockSession } from "@/lib/auth/mock-session";
+import { authCookieNames } from "./lib/modules/auth/domain/auth.data";
+import { resolveSessionFromCookies } from "./lib/modules/auth/domain/auth.actions";
 
 const protectedRoutes = [
   "/dashboard",
@@ -20,19 +21,16 @@ function isProtectedPath(pathname: string) {
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const session = await resolveMockSession({
-    accessToken: request.cookies.get(authCookieNames.accessToken)?.value,
-    refreshToken: request.cookies.get(authCookieNames.refreshToken)?.value,
-  });
+  const session = await resolveSessionFromCookies()
 
   if (pathname === "/") {
     const destination = session ? "/dashboard" : "/auth/login";
     const response = NextResponse.redirect(new URL(destination, request.url));
 
-    if (session?.refreshedAccessToken) {
+    if (session?.refreshToken) {
       response.cookies.set(
         authCookieNames.accessToken,
-        session.refreshedAccessToken,
+        session.refreshToken,
         {
           httpOnly: true,
           sameSite: "lax",
@@ -49,10 +47,10 @@ export async function proxy(request: NextRequest) {
   if (pathname === "/auth/login" && session) {
     const response = NextResponse.redirect(new URL("/dashboard", request.url));
 
-    if (session.refreshedAccessToken) {
+    if (session.refreshToken) {
       response.cookies.set(
         authCookieNames.accessToken,
-        session.refreshedAccessToken,
+        session.refreshToken,
         {
           httpOnly: true,
           sameSite: "lax",
@@ -70,12 +68,12 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
-  if (session?.refreshedAccessToken) {
+  if (session?.refreshToken) {
     const response = NextResponse.next();
 
     response.cookies.set(
       authCookieNames.accessToken,
-      session.refreshedAccessToken,
+      session.refreshToken,
       {
         httpOnly: true,
         sameSite: "lax",
