@@ -1,8 +1,8 @@
 import { HttpRequest } from "@/infra/http/interfaces/HttpRequest";
 import { verifyAccessToken } from "@/main/security/jwt";
 
-export const includeUserId = <T extends object>(httpRequest: HttpRequest<T>) => {
-  const reqBody = (httpRequest.body ?? {}) as T & { userId?: string };
+export const includeUserId = <T extends object>(httpRequest: HttpRequest<T>, propName: keyof HttpRequest = "body") => {
+  const reqData = (httpRequest[propName] ?? {}) as T & { userId?: string };
 
   const authorization = httpRequest.headers?.authorization;
   const token = authorization?.startsWith("Bearer ")
@@ -11,8 +11,8 @@ export const includeUserId = <T extends object>(httpRequest: HttpRequest<T>) => 
 
   if (token) {
     const payload = verifyAccessToken(token);
-    reqBody.userId = payload?.sub;
+    reqData.userId = payload?.sub;
   }
 
-  return reqBody;
+  return reqData;
 };

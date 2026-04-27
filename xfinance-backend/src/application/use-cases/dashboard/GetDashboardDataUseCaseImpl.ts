@@ -75,6 +75,7 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
           type: true,
           date: true,
           categoryId: true,
+          source: true,
           category: {
             select: {
               id: true,
@@ -98,10 +99,6 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
       `,
     ]);
 
-    console.log(periodData)
-    console.log("────────────────────────────────────────────────────────")
-    console.log(monthlyRaw)
-
     // ── processa summary ────────────────────────────────────────────────────────
     let income_total = 0;
     let expense_total = 0;
@@ -118,7 +115,6 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
     const savingsRate =
       income_total > 0 ? Math.round((balance / income_total) * 100) / 100 : 0;
 
-    // ── processa monthly_evolution ──────────────────────────────────────────────
     const monthlyMap = new Map<
       string,
       GetDashboardDataUseCaseI.Response["monthlyEvolution"][number]
@@ -138,7 +134,6 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
 
     const monthlyEvolution = Array.from(monthlyMap.values());
 
-    // ── processa expenses_by_category ───────────────────────────────────────────
     const categoryMap = new Map<
       string,
       { name: string; emoji: string; color: string; total: number }
@@ -184,6 +179,7 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
         // amount: toNumber(t.amount),
         type: t.type,
         date: formatDate(new Date(t.date)),
+        source: t.source,
         category: t.category
           ? {
               name: t.category.name,

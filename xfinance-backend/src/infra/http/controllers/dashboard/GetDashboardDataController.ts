@@ -13,10 +13,10 @@ export class GetDashboardDataController extends BaseController {
   async execute(
     httpRequest: GetDashboardDataController.Request,
   ): Promise<GetDashboardDataController.Response> {
-    const reqBody = includeUserId(httpRequest);
+    const reqParams = includeUserId(httpRequest, "params");
     // const requestData = (httpRequest.query ?? httpRequest.body ?? {}) as GetDashboardDataUseCaseI.Request;
 
-    const responseData = await this.useCase.execute(reqBody);
+    const responseData = await this.useCase.execute(reqParams);
 
     return ok(responseData);
   }

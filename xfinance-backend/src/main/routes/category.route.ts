@@ -11,7 +11,7 @@ import { createCategoryDataSchema } from "@/infra/http/validations/category/crea
 // TODO: implement validations
 export default function categoryRoutes(router: Router) {
   router.get(
-    "/categories/by-user/:userId",
+    "/categories",
     authValidation,
     expressJsonRouteAdapter(makeListCategoryController()),
   );

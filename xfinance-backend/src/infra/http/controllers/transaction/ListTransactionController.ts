@@ -4,6 +4,7 @@ import { HttpResponse } from "@/infra/http/interfaces/HttpResponse";
 import { badRequest, ok, serverError } from "@/infra/http/helpers/http";
 import { ListTransactionUseCaseI } from "@/application/interfaces/use-cases/transaction/ListTransactionUseCase";
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
+import { includeUserId } from "@/main/utils/functions";
 
 export class ListTransactionController extends BaseController {
   constructor(private readonly useCase: ListTransactionUseCaseI) {
@@ -13,9 +14,9 @@ export class ListTransactionController extends BaseController {
   async execute(
     httpRequest: ListTransactionController.Request,
   ): Promise<ListTransactionController.Response> {
-    const reqBody = httpRequest.body;
+    const reqBody = includeUserId(httpRequest, 'query');
 
-    const responseData = await this.useCase.execute(reqBody!);
+    const responseData = await this.useCase.execute(reqBody.userId);
 
     if (responseData instanceof InvalidDataError)
       return badRequest(responseData);
@@ -27,6 +28,7 @@ export class ListTransactionController extends BaseController {
 }
 
 export namespace ListTransactionController {
-  export type Request = HttpRequest<ListTransactionUseCaseI.Request>;
+  // TODO: include pagination filter
+  export type Request = HttpRequest<{ userId: string, }>;
   export type Response = HttpResponse<ListTransactionUseCaseI.Response>;
 }

@@ -9,7 +9,8 @@ Projeto fullstack com:
 
 - Node.js 20+ instalado
 - npm instalado
-- PostgreSQL rodando localmente ou em container
+- Docker
+- Python3
 
 ## Estrutura
 
@@ -17,6 +18,28 @@ Projeto fullstack com:
 xFinance/
   xfinance-backend/
   xfinance-frontend/
+```
+
+## Raiz do projeto
+
+### 1. Gerar arquivos de variáveis de ambiente
+
+Na pasta raiz, execute os comandos abaixo para gerar o arquivo `.env.local` em `xfinance-frontend/` e `.env` em `xfinance-backend/`
+
+```bash
+cp ./xfinance-frontend/.env.local.example ./xfinance-frontend/.env.local
+cp ./xfinance-backend/.env.example ./xfinance-backend/.env
+```
+
+### 2. Subir banco de dados via docker
+
+```bash
+docker run --name xfinance-postgres \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=xfinance \
+  -p 5432:5432 \
+  -d postgres:16
 ```
 
 ## Backend
@@ -32,17 +55,28 @@ npm install
 
 ### 2. Configurar variáveis de ambiente
 
-Crie o arquivo `.env` dentro de `xfinance-backend/`.
-
-Exemplo recomendado para desenvolvimento com Postgres direto:
+Arquivo `.env` de `xfinance-backend/`:
 
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/xfinance?schema=public"
+JWT_ACCESS_SECRET=
+JWT_REFRESH_SECRET=
 ```
 
-Se quiser, ajuste usuário, senha, porta e nome do banco conforme o seu ambiente.
+Execute o comando `python3 -c "import secrets; print(secrets.token_urlsafe())"` no terminal, copie o hash retornado e cole nas variáveis `JWT_ACCESS_SECRET` e `JWT_ACCESS_SECRET`
 
-### 3. Rodar as migrations do Prisma
+### 3. Subir banco de dados via docker
+
+```bash
+docker run --name xfinance-postgres \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=xfinance \
+  -p 5432:5432 \
+  -d postgres:16
+```
+
+### 4. Rodar as migrations do Prisma
 
 ```bash
 npx prisma migrate dev
@@ -54,7 +88,7 @@ Esse comando:
 - aplica as migrations no banco
 - atualiza o Prisma Client
 
-### 4. Popular o banco com dados mock
+### 5. Popular o banco com dados mock
 
 ```bash
 npm run seed
@@ -62,7 +96,7 @@ npm run seed
 
 O seed usa os arquivos em [xfinance-backend/prisma/data/mocks](/home/victorleal/projects/apps/web/fullstack/node-next/xFinance/xfinance-backend/prisma/data/mocks).
 
-### 5. Subir o backend
+### 6. Subir o backend
 
 ```bash
 npm run dev
@@ -87,17 +121,7 @@ cd xfinance-frontend
 npm install
 ```
 
-### 2. Configurar variáveis de ambiente
-
-Crie um arquivo `.env.local` dentro de `xfinance-frontend/`:
-
-```env
-NEXT_PUBLIC_API_URL="http://localhost:4000"
-```
-
-Essas variáveis são usadas pelo cliente HTTP e pelas rotas de autenticação do frontend.
-
-### 3. Subir o frontend
+### 2. Subir o frontend
 
 ```bash
 npm run dev

@@ -1,5 +1,5 @@
-import { Category } from "@/domain/entities/category";
-import { User } from "@/domain/entities/user";
+import { Category } from "@/domain/entities/category.entity";
+import { User } from "@/domain/entities/user.entity";
 
 export interface ICategoryRepository {
   save(

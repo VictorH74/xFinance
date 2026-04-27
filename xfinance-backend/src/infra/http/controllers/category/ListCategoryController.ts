@@ -4,6 +4,7 @@ import { HttpResponse } from "@/infra/http/interfaces/HttpResponse";
 import { badRequest, ok, serverError } from "@/infra/http/helpers/http";
 import { ListCategoryUseCaseI } from "@/application/interfaces/use-cases/category/ListCategoryUseCase";
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
+import { includeUserId } from "@/main/utils/functions";
 
 export class ListCategoryController extends BaseController {
   constructor(private readonly useCase: ListCategoryUseCaseI) {
@@ -13,9 +14,9 @@ export class ListCategoryController extends BaseController {
   async execute(
     httpRequest: ListCategoryController.Request,
   ): Promise<ListCategoryController.Response> {
-    const reqBody = httpRequest.body;
+    const data = includeUserId(httpRequest, 'query');
 
-    const responseData = await this.useCase.execute(reqBody!);
+    const responseData = await this.useCase.execute(data.userId!);
 
     if (responseData instanceof InvalidDataError)
       return badRequest(responseData);
@@ -27,6 +28,6 @@ export class ListCategoryController extends BaseController {
 }
 
 export namespace ListCategoryController {
-  export type Request = HttpRequest<ListCategoryUseCaseI.Request>;
+  export type Request = HttpRequest<{ userId: string, }>;
   export type Response = HttpResponse<ListCategoryUseCaseI.Response>;
 }

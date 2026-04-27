@@ -10,7 +10,7 @@ import { authValidation } from "../middlewares/authValidation";
 
 export default function transactionRoutes(router: Router) {
   router.get(
-    "/transaction/by-user/:userId",
+    "/transaction",
     authValidation,
     expressJsonRouteAdapter(makeListTransactionController()),
   );

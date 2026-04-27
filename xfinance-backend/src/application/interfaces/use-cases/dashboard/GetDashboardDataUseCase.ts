@@ -1,4 +1,4 @@
-import { Transaction } from "@/domain/entities/transaction";
+import { Transaction } from "@/domain/entities/transaction.entity";
 import { UseCase } from "../UseCase";
 import { Category } from "@prisma-generated/prisma/browser";
 
@@ -49,7 +49,6 @@ export namespace GetDashboardDataUseCaseI {
       Transaction,
       | "userId"
       | "categoryId"
-      | "source"
       | "aiRawText"
       | "importBatchId"
       | "createdAt"

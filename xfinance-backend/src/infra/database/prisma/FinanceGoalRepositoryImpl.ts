@@ -17,6 +17,8 @@ import { prisma } from "@/main/lib/prisma";
 //   userId: financeGoal.userId,
 // });
 
+// TODO: delete goals with !isRecurring && periodMonth < currentMonth & periodYear < currentYear using cron
+
 export class FinanceGoalRepositoryImpl implements IFinanceGoalRepository {
   async save(
     FinanceGoal_data: IFinanceGoalRepository.SaveFinanceGoalRequest,
@@ -28,18 +30,66 @@ export class FinanceGoalRepositoryImpl implements IFinanceGoalRepository {
     return financeGoal.id;
   }
 
-  // TODO: user category obj (id, name, emoji, color) instead categoryId
-  async findAll(
-    _userId: IFinanceGoalRepository.FindAllFinanceGoalRequest,
-  ): Promise<IFinanceGoalRepository.FindAllFinanceGoalResponse> {
-    const goals = await prisma.financeGoal.findMany({
-      orderBy: {
-        id: "asc",
-      },
-    });
+  async findAll({
+    userId,
+    periodMonth,
+    periodYear,
+  }: IFinanceGoalRepository.FindAllFinanceGoalRequest): Promise<IFinanceGoalRepository.FindAllFinanceGoalResponse> {
+    const [goals, spendingByCategory] = await Promise.all([
+      prisma.financeGoal.findMany({
+        where: { userId, 
+          // periodMonth: Number(periodMonth), periodYear: Number(periodYear) 
+        },
+        orderBy: { id: "asc" },
+        select: {
+          id: true,
+          amountLimit: true,
+          periodMonth: true,
+          periodYear: true,
+          isRecurring: true,
+          notificationAt: true,
+          categoryId: true,
+          category: {
+            select: { color: true, name: true, emoji: true },
+          },
+        },
+      }),
 
-    return goals
-    // return goals.map(toFinanceGoal);
+      // soma de transações agrupadas por categoria — mesmo período
+      prisma.transaction.groupBy({
+        by: ["categoryId"],
+        where: {
+          userId,
+          type: "expense",
+          // date: {
+          //   gte: new Date(periodYear, periodMonth - 1, 1), // primeiro dia do mês
+          //   lt: new Date(periodYear, periodMonth, 1), // primeiro dia do mês seguinte
+          // },
+        },
+        _sum: { amount: true },
+      }),
+    ]);
+
+    const spendingMap = new Map(
+      spendingByCategory.map((s) => [s.categoryId, Number(s._sum.amount ?? 0)]),
+    );
+
+    console.log(goals)
+
+    return goals.map((g) => ({
+      id: g.id,
+      amountLimit: Number(g.amountLimit),
+      periodMonth: g.periodMonth,
+      periodYear: g.periodYear,
+      isRecurring: g.isRecurring,
+      notificationAt: g.notificationAt,
+      category: {
+        color: g.category?.color ?? "",
+        emoji: g.category?.emoji ?? "",
+        name: g.category?.name ?? "",
+      },
+      currentValue: spendingMap.get(g.categoryId ?? "") ?? 0,
+    }));
   }
 
   async update(
@@ -54,7 +104,7 @@ export class FinanceGoalRepositoryImpl implements IFinanceGoalRepository {
       data,
     });
 
-    return financeGoal
+    return financeGoal;
     // return toFinanceGoal(financeGoal);
   }
 
@@ -69,4 +119,4 @@ export class FinanceGoalRepositoryImpl implements IFinanceGoalRepository {
   }
 }
 
-export const financeGoalRepository = new FinanceGoalRepositoryImpl()
+export const financeGoalRepository = new FinanceGoalRepositoryImpl();

@@ -5,11 +5,14 @@ import { ZodError, ZodObject, ZodRawShape } from 'zod';
 export const validate =
     (schema: ZodObject<ZodRawShape>, errorCode: string) =>
     async (req: Request, res: Response, next: NextFunction) => {
+        // console.log(req.headers)
+        
         try {
             await schema.parseAsync({
                 body: req.body,
                 query: req.query,
                 params: req.params,
+                headers: req.headers,
             });
             return next();
         } catch (error) {

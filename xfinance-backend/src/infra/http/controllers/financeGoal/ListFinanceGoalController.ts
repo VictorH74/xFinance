@@ -4,6 +4,7 @@ import { HttpResponse } from "@/infra/http/interfaces/HttpResponse";
 import { badRequest, ok, serverError } from "@/infra/http/helpers/http";
 import { InvalidDataError } from "@/application/errors/InvalidDataError";
 import { ListFinanceGoalUseCaseI } from "@/application/interfaces/use-cases/financeMeta/ListFinanceMetaUseCase";
+import { includeUserId } from "@/main/utils/functions";
 
 export class ListFinanceGoalController extends BaseController {
   constructor(private readonly useCase: ListFinanceGoalUseCaseI) {
@@ -13,9 +14,13 @@ export class ListFinanceGoalController extends BaseController {
   async execute(
     httpRequest: ListFinanceGoalController.Request,
   ): Promise<ListFinanceGoalController.Response> {
-    const reqBody = httpRequest.body;
+    console.log('ListFinanceGoalController >>> httpRequest', httpRequest.params)
 
-    const responseData = await this.useCase.execute(reqBody!);
+    const data = includeUserId(httpRequest, 'query');
+
+    console.log('ListFinanceGoalController >> data', data)
+
+    const responseData = await this.useCase.execute(data);
 
     if (responseData instanceof InvalidDataError)
       return badRequest(responseData);

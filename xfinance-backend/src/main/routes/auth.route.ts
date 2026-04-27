@@ -9,11 +9,12 @@ import { validate } from "../middlewares/validate";
 import { loginDataSchema } from "@/infra/http/validations/auth/login.validation";
 import { registerDataSchema } from "@/infra/http/validations/auth/register.validation";
 import { refreshDataSchema } from "@/infra/http/validations/auth/refresh.validation";
+import { sessionDataSchema } from "@/infra/http/validations/auth/session.validation";
 
 export default function authRoutes(router: Router) {
   router.post("/auth/register", validate(registerDataSchema, "INVALID_DATA"), expressJsonRouteAdapter(makeRegisterController()));
   router.post("/auth/login", validate(loginDataSchema, "INVALID_DATA"), expressJsonRouteAdapter(makeLoginController()));
-  router.get("/auth/session", expressJsonRouteAdapter(makeGetSessionController()));
+  router.get("/auth/session"/*, validate(sessionDataSchema, "INVALID_HEADER")*/, expressJsonRouteAdapter(makeGetSessionController()));
   router.post("/auth/refresh", validate(refreshDataSchema, "INVALID_DATA"), expressJsonRouteAdapter(makeRefreshSessionController()));
   router.post("/auth/logout", expressJsonRouteAdapter(makeLogoutController()));
 }

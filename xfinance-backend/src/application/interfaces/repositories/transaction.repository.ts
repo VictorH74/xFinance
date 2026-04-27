@@ -1,5 +1,6 @@
-import { Transaction } from "@/domain/entities/transaction";
-import { User } from "@/domain/entities/user";
+import { Category } from "@/domain/entities/category.entity";
+import { Transaction } from "@/domain/entities/transaction.entity";
+import { User } from "@/domain/entities/user.entity";
 
 export interface ITransactionRepository {
   save(
@@ -25,6 +26,16 @@ export namespace ITransactionRepository {
     Partial<Omit<Transaction, "createdAt" | "userId">>;
 
   export type SaveTransactionResponse = Transaction["id"];
-  export type FindAllTransactionResponse = Transaction[];
+  // TODO: same type of GetDashboardDataUseCaseI['recentTransitions']. create a unique type
+  export type FindAllTransactionResponse = (Omit<
+        Transaction,
+        | "userId"
+        | "categoryId"
+        | "aiRawText"
+        | "importBatchId"
+        | "createdAt"
+      > & {
+        category: Pick<Category, "color" | "emoji" | "name"> | null;
+      })[];
   export type UpdateTransactionResponse = Transaction;
 }

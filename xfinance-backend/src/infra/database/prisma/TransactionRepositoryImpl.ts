@@ -36,9 +36,24 @@ export class TransactionRepositoryImpl implements ITransactionRepository {
     const transactions = await prisma.transaction.findMany({
       where: {
         userId,
+        // date: { gte: new Date("2026-01-15"), },
       },
-      orderBy: {
-        date: "desc",
+      orderBy: [{ date: "desc" }, { createdAt: "desc" }],
+      select: {
+        id: true,
+        description: true,
+        amount: true,
+        type: true,
+        date: true,
+        source: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+            emoji: true,
+            color: true,
+          },
+        },
       },
     });
 

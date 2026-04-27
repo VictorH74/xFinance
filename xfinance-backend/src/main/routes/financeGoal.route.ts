@@ -11,23 +11,23 @@ import { createFinanceGoalDataSchema } from "@/infra/http/validations/financeGoa
 // TODO: implement validations
 export default function financeGoalRoutes(router: Router) {
   router.get(
-    "/finance-goal/by-user/:userId",
+    "/goal",
     authValidation,
     expressJsonRouteAdapter(makeListFinanceGoalController()),
   );
   router.post(
-    "/finance-goal",
+    "/goal",
     authValidation,
     validate(createFinanceGoalDataSchema, "INVALID_DATA"),
     expressJsonRouteAdapter(makeCreateFinanceGoalController()),
   );
   router.delete(
-    "/finance-goal/:id",
+    "/goal/:id",
     authValidation,
     expressJsonRouteAdapter(makeRemoveFinanceGoalController()),
   );
   router.put(
-    "/finance-goal/:id",
+    "/goal/:id",
     authValidation,
     expressJsonRouteAdapter(makeUpdateFinanceGoalController()),
   );
