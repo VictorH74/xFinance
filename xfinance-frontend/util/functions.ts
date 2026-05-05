@@ -1,3 +1,5 @@
+import { MONTH_LIST } from "./constants";
+
 export const getColorBackground = (color: string, opacity?: number) => {
   const input = color.trim();
 
@@ -25,4 +27,18 @@ export const getColorBackground = (color: string, opacity?: number) => {
   }
 
   return input;
+};
+
+type CurrencyT = "BRL" | "EN";
+
+export const formatCurrency = (value: number, currency: CurrencyT) =>
+  new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 0,
+  }).format(value);
+
+export const getCurrentMonthName = () => {
+  const date = new Date();
+  return MONTH_LIST[date.getMonth()];
 };

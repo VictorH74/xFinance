@@ -4,6 +4,8 @@ import InsertChartIcon from "@mui/icons-material/InsertChart";
 import { PageTitle } from "@/components/pages/protected/PageTitle";
 import { useTransactions } from "@/lib/modules/transactions/domain/transaction.queries";
 import { TransactionTile } from "@/components/shared/TransactionTile";
+import { TransactionTilePlaceholder } from "@/components/shared/TransactionTilePlaceholder";
+import { AddTransactionTabView } from "./AddTransactionTabView";
 // TODO: handle all use query: isLoading, isError and refetch
 
 export const TransactionsChildren = () => {
@@ -49,25 +51,7 @@ export const TransactionsChildren = () => {
         </button>
       </section>
 
-      <section
-        className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm space-y-2"
-        data-aos="flip-up"
-        data-aos-delay={300}
-      >
-        <div className="flex flex-row items-center gap-2">
-          <h3 className="text-lg font-semibold">Adição por texto</h3>
-          <span className="text-emerald-600 bg-emerald-50 rounded-lg px-2 text-sm">
-            ✦ IA
-          </span>
-        </div>
-        <form action="">
-          <input
-            type="text"
-            className="w-full bg-zinc-50 border border-zinc-300 rounded-md p-2 outline-none"
-            placeholder="gastei 45 reais no almoço hoje no restaurante"
-          />
-        </form>
-      </section>
+      <AddTransactionTabView />
 
       <section className="grid gap-4 md:grid-cols-3">
         <div
@@ -105,9 +89,23 @@ export const TransactionsChildren = () => {
         </div>
 
         <div className="space-y-4 p-5">
-          {(data ?? []).map((transaction) => (
-            <TransactionTile key={transaction.id} item={transaction} containerClassName="px-6" />
-          ))}
+          {isLoading ? (
+            Array(3)
+              .fill(null)
+              .map((_, i) => (
+                <TransactionTilePlaceholder key={i} containerClassName="px-6" />
+              ))
+          ) : isError || !data ? (
+            <p>Error</p>
+          ) : (
+            data.map((transaction) => (
+              <TransactionTile
+                key={transaction.id}
+                item={transaction}
+                containerClassName="px-6"
+              />
+            ))
+          )}
         </div>
       </section>
     </div>

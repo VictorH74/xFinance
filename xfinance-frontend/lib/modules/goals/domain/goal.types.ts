@@ -14,5 +14,26 @@ export type Goal = {
 
 export type ListableGoal = Omit<Goal, "userId" | "categoryId" | "createdAt"> & {
   category: Pick<Category, "name" | "color" | "emoji">;
-  currentValue: number
+  currentValue: number;
 };
+
+export type CreateGoalPayload = Pick<
+  Goal,
+  | "categoryId"
+  | "amountLimit"
+  | "periodYear"
+  | "periodMonth"
+  | "notificationAt"
+  | "isRecurring"
+>;
+
+export type UpdateGoalPayload = Pick<
+  Goal,
+  | "id"
+  | "categoryId"
+  | "amountLimit"
+  | "periodYear"
+  | "periodMonth"
+  | "notificationAt"
+  | "isRecurring"
+>;

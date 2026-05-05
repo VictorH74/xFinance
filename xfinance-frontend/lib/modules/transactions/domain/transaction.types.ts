@@ -21,3 +21,25 @@ export type ListableTransaction = Omit<
   date: Date;
   category: Pick<Category, "color" | "emoji" | "name"> | null;
 };
+
+export type CreateTransactionsPayload = Pick<
+  Transaction,
+  | "ai_raw_text"
+  | "source"
+  | "date"
+  | "description"
+  | "category_id"
+  | "amount"
+  | "import_batch_id"
+  | "type"
+>[];
+
+export type UpdateTransactionsPayload = Pick<
+  Transaction,
+  | "id"
+  | "date"
+  | "description"
+  | "category_id"
+  | "amount"
+  | "type"
+>;

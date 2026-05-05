@@ -1,15 +1,8 @@
 import { ListableTransaction } from "@/lib/modules/transactions/domain/transaction.types";
-import { getColorBackground } from "@/util/functions";
+import { MONTH_LIST } from "@/util/constants";
+import { formatCurrency, getColorBackground } from "@/util/functions";
 import React from "react";
 import { twMerge } from "tailwind-merge";
-
-// TODO: make it shared
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    maximumFractionDigits: 0,
-  }).format(value);
 
 const getSourceText = (source: ListableTransaction["source"]): string => {
   if (source === "ai_text") return "Adicionado via IA";
@@ -20,10 +13,11 @@ const getSourceText = (source: ListableTransaction["source"]): string => {
 
 const getFormattedDate = (_date: Date) => {
   const date = new Date(_date)
-  const monthList = ['Jan', 'Fev', 'Mar', "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
-  
-  return `${date.getUTCDate()} ${monthList[date.getMonth()]}`
+  return `${date.getUTCDate()} ${MONTH_LIST[date.getMonth()]}`
 }
+
+// TODO: ...
+const currCurrency = "BRL"
 
 export const TransactionTile: React.FC<{ item: ListableTransaction, containerClassName?: string }> = ({
   item,
@@ -33,8 +27,8 @@ export const TransactionTile: React.FC<{ item: ListableTransaction, containerCla
     <div
       key={item.id}
       className={twMerge("flex items-center justify-between rounded-2xl bg-zinc-50 px-4 py-4", containerClassName)}
-      data-aos="fade-up"
-      data-aos-delay={500}
+      // data-aos="fade-up"
+      // data-aos-delay={500}
     >
       <div className="flex gap-3">
         <div
@@ -67,7 +61,7 @@ export const TransactionTile: React.FC<{ item: ListableTransaction, containerCla
           item.type === "income" ? "text-green-700" : "text-red-700",
         )}
       >
-        {item.type === "income" ? "+" : "-"} {formatCurrency(item.amount)}
+        {item.type === "income" ? "+" : "-"} {formatCurrency(item.amount, currCurrency)}
       </p>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { goalKeys } from "./goal.keys";
-import { createGoal, listGoals } from "./goal.service";
+import { createGoal, deleteGoal, listGoals, updateGoal } from "./goal.service";
 
 
 export function useGoals(filters?: Record<string, unknown>) {
@@ -17,6 +17,32 @@ export function useCreateGoal() {
 
   return useMutation({
     mutationFn: createGoal,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: goalKeys.all,
+      });
+    },
+  });
+}
+
+export function useUpdateGoal() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateGoal,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: goalKeys.all,
+      });
+    },
+  });
+}
+
+export function useDeleteGoal() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteGoal,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: goalKeys.all,

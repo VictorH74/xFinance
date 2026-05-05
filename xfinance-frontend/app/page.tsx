@@ -6,3 +6,7 @@ export default async function Home() {
 
   redirect(session ? "/dashboard" : "/auth/login");
 }
+
+// TODO: implement add goal, category and transaction
+// TODO: implement update goal, category, transaction and user
+// TODO: implement data fetching loading and error handlers to goal, category and transaction

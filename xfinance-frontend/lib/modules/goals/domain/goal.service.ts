@@ -1,5 +1,10 @@
 import { api } from "@/lib/http/api-client";
-import { Goal, ListableGoal } from "./goal.types";
+import {
+  CreateGoalPayload,
+  Goal,
+  ListableGoal,
+  UpdateGoalPayload,
+} from "./goal.types";
 
 export async function listGoals(
   filters?: Record<string, unknown>,
@@ -12,14 +17,16 @@ export async function listGoals(
   return data;
 }
 
-export async function createGoal(payload: {
-  categoryId: string | null;
-  amountLimit: number;
-  periodMonth: number;
-  periodYear: number;
-  isRecurring: boolean;
-  notificationAt: number;
-}) {
+export async function createGoal(payload: CreateGoalPayload) {
   const { data } = await api.post("/goal", payload);
   return data;
+}
+
+export async function updateGoal({id, ...payload}: UpdateGoalPayload) {
+  const { data } = await api.put(`/goal/${id}`, payload);
+  return data;
+}
+
+export async function deleteGoal(id: Goal["id"]) {
+  return api.delete(`/goal/${id}`);
 }

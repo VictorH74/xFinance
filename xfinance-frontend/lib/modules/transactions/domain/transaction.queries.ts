@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { createTransaction, listTransactions } from "./transaction.service";
+import { createTransactions, deleteTransaction, listTransactions, updateTransaction } from "./transaction.service";
 import { transactionKeys } from "./transaction.keys";
 
 export function useTransactions(filters?: Record<string, unknown>) {
@@ -15,7 +15,33 @@ export function useCreateTransaction() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: createTransaction,
+    mutationFn: createTransactions,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: transactionKeys.all,
+      });
+    },
+  });
+}
+
+export function useUpdateTransaction() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateTransaction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: transactionKeys.all,
+      });
+    },
+  });
+}
+
+export function useDeleteTransaction() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteTransaction,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: transactionKeys.all,

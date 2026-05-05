@@ -1,22 +1,16 @@
 import { GetDashboarDataResponseT } from "@/lib/modules/dashboard/domain/dashboard.types";
+import { formatCurrency } from "@/util/functions";
 import {
   CartesianGrid,
   Legend,
   Line,
   LineChart,
   Tooltip,
+  TooltipContentProps,
   XAxis,
   YAxis,
 } from "recharts";
 
-// TODO: make it shared
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    maximumFractionDigits: 0,
-  }).format(value);
-  
 export const LineChartGraph = ({
   dataList,
 }: {
@@ -58,8 +52,44 @@ export const LineChartGraph = ({
         <XAxis dataKey="month" />
         <YAxis width="auto" label={{ position: "insideLeft", angle: -90 }} />
         <Legend align="right" />
-        <Tooltip />
+        <Tooltip
+          content={(props) => <CustomTooltip {...props} list={dataList} />}
+        />
       </LineChart>
     </article>
   );
+};
+
+const getIntroOfPage = (
+  month: string | undefined = undefined,
+  list: GetDashboarDataResponseT["monthlyEvolution"],
+) => {
+  if (!month) return null
+
+  const item = list.find((d) => d.month === month);
+
+  if (!item) return null;
+  return item;
+};
+
+const CustomTooltip = ({
+  active,
+  payload,
+  list,
+}: TooltipContentProps & {
+  list: GetDashboarDataResponseT["monthlyEvolution"];
+}) => {
+  const isVisible = active && payload && payload.length;
+
+  const data = getIntroOfPage(payload?.[0]?.payload.month, list);
+
+  if (!data) return null
+
+  return (
+    <div className="px-4 py-2 border border-zinc-200 bg-white" style={{ visibility: isVisible ? "visible" : "hidden" }}>
+      <p className="text-zinc-500 text-sm">{data.month}</p>
+      <p className="text-green-600">{formatCurrency(data.income, "BRL")}</p>
+      <p className="text-red-600">{formatCurrency(data.expense, "BRL")}</p>
+    </div>
+  )
 };
