@@ -7,6 +7,6 @@ export class ListCategoryUseCaseImpl implements ListCategoryUseCaseI {
   async execute(
     reqBody: ListCategoryUseCaseI.Request,
   ): Promise<ListCategoryUseCaseI.Response> {
-    return this.repository.findAll(reqBody);
+    return this.repository.findAll(reqBody)
   }
 }

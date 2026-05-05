@@ -28,6 +28,6 @@ export namespace ICategoryRepository {
     Partial<Omit<Category, "createdAt" | "updatedAt" | "userId">>;
 
   export type SaveCategoryResponse = Category["id"];
-  export type FindAllCategoryResponse = Category[];
+  export type FindAllCategoryResponse = (Omit<Category, "createdAt" | "updatedAt"> & { transactionCount: number; hasActiveMeta: boolean; currentMonthExpense: number })[];
   export type UpdateCategoryResponse = Category;
 }

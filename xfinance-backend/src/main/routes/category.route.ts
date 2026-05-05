@@ -11,23 +11,23 @@ import { createCategoryDataSchema } from "@/infra/http/validations/category/crea
 // TODO: implement validations
 export default function categoryRoutes(router: Router) {
   router.get(
-    "/categories",
+    "/category",
     authValidation,
     expressJsonRouteAdapter(makeListCategoryController()),
   );
   router.post(
-    "/categories",
+    "/category",
     authValidation,
     validate(createCategoryDataSchema, "INVALID_DATA"),
     expressJsonRouteAdapter(makeCreateCategoryController()),
   );
   router.delete(
-    "/categories/:id",
+    "/category/:id",
     authValidation,
     expressJsonRouteAdapter(makeRemoveCategoryController()),
   );
   router.put(
-    "/categories/:id",
+    "/category/:id",
     authValidation,
     expressJsonRouteAdapter(makeUpdateCategoryController()),
   );

@@ -1,21 +1,26 @@
 import { ICategoryRepository } from "@/application/interfaces/repositories/category.repository";
+import { Category } from "@/domain/entities/category.entity";
 import { prisma } from "@/main/lib/prisma";
 
-// const toCategory = (category: {
-//   id: number;
-//   name: string;
-//   iconName: string | null;
-//   color: string;
-//   createdAt: Date;
-//   userId: string;
-// }): ICategoryRepository.UpdateCategoryResponse => ({
-//   id: String(category.id),
-//   name: category.name,
-//   iconName: category.iconName ?? "",
-//   color: category.color,
-//   createdAt: category.createdAt.toISOString(),
-//   userId: category.userId,
-// });
+const toListableCategory = (
+  category: {
+    _count: {
+      transactions: number;
+      financeGoals: number;
+    };
+    currentMonthExpense: number;
+  } & Category,
+): ICategoryRepository.FindAllCategoryResponse[number] => ({
+  id: category.id,
+  name: category.name,
+  emoji: category.emoji,
+  color: category.color,
+  userId: category.userId,
+  hasActiveMeta: category._count.financeGoals > 0,
+  transactionCount: category._count.transactions,
+  isDefault: category.isDefault,
+  currentMonthExpense: category.currentMonthExpense,
+});
 
 export class CategoryRepositoryImpl implements ICategoryRepository {
   async save(
@@ -25,20 +30,68 @@ export class CategoryRepositoryImpl implements ICategoryRepository {
       data: Category_data,
     });
 
-    return String(category.id);
+    return category.id;
   }
 
-  findAll(
-    _userId: ICategoryRepository.FindAllCategoryRequest,
-  ): ICategoryRepository.FindAllCategoryResponse {
-    return prisma.category.findMany({
-      orderBy: {
-        id: "asc",
-      },
-    }) as unknown as ICategoryRepository.FindAllCategoryResponse;
-    // .then((categories) =>
-    //   categories.map(toCategory),
-    // ) as unknown as ICategoryRepository.FindAllCategoryResponse;
+  async findAll(
+    userId: ICategoryRepository.FindAllCategoryRequest,
+  ): Promise<ICategoryRepository.FindAllCategoryResponse> {
+    const now = new Date();
+    const currentMonthStart = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      1,
+    );
+    const nextMonthStart = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1,
+      1,
+    );
+
+    const [categories, currentMonthExpenses] = await Promise.all([
+      prisma.category.findMany({
+        where: {
+          userId,
+        },
+        orderBy: {
+          id: "asc",
+        },
+        include: {
+          _count: {
+            select: {
+              transactions: true,
+              financeGoals: true,
+            },
+          },
+        },
+      }),
+      prisma.transaction.groupBy({
+        by: ["categoryId"],
+        where: {
+          userId,
+          type: "expense",
+          date: {
+            gte: currentMonthStart,
+            lt: nextMonthStart,
+          },
+        },
+        _sum: {
+          amount: true,
+        },
+      }),
+    ]);
+
+    const currentMonthExpenseByCategory = new Map(
+      currentMonthExpenses.map((item) => [item.categoryId, item._sum.amount ?? 0]),
+    );
+
+    return categories.map((category) =>
+      toListableCategory({
+        ...category,
+        currentMonthExpense:
+          currentMonthExpenseByCategory.get(category.id) ?? 0,
+      }),
+    );
   }
 
   async update(
