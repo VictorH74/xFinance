@@ -8,7 +8,7 @@ export interface CreateTransactionUseCaseI extends UseCase<
   CreateTransactionUseCaseI.Response
 > {
   execute(
-    reqBody: CreateTransactionUseCaseI.Request,
+    data: CreateTransactionUseCaseI.Request,
   ): Promise<CreateTransactionUseCaseI.Response>;
 }
 

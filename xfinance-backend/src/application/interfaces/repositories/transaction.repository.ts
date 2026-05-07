@@ -20,22 +20,21 @@ export interface ITransactionRepository {
 
 export namespace ITransactionRepository {
   export type RemoveTransactionRequest = Transaction["id"];
-  export type SaveTransactionRequest = Omit<Transaction, "createdAt" | "id">;
+  export type SaveTransactionRequest = {
+    transactions: (Omit<Transaction, "createdAt" | "id" | "userId">)[];
+    userId: Transaction["userId"];
+  };
   export type FindAllTransactionRequest = User["id"];
   export type UpdateTransactionRequest = Pick<Transaction, "id"> &
     Partial<Omit<Transaction, "createdAt" | "userId">>;
 
-  export type SaveTransactionResponse = Transaction["id"];
+  export type SaveTransactionResponse = {count: number};
   // TODO: same type of GetDashboardDataUseCaseI['recentTransitions']. create a unique type
   export type FindAllTransactionResponse = (Omit<
-        Transaction,
-        | "userId"
-        | "categoryId"
-        | "aiRawText"
-        | "importBatchId"
-        | "createdAt"
-      > & {
-        category: Pick<Category, "color" | "emoji" | "name"> | null;
-      })[];
+    Transaction,
+    "userId" | "categoryId" | "aiRawText" | "importBatchId" | "createdAt"
+  > & {
+    category: Pick<Category, "color" | "emoji" | "name" | "localizedName"> | null;
+  })[];
   export type UpdateTransactionResponse = Transaction;
 }

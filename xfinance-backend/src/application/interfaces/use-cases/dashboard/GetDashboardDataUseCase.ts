@@ -40,6 +40,7 @@ export namespace GetDashboardDataUseCaseI {
     expensesByCategory: {
       // categoryId: string;
       name: string;
+      localizedName?: Category["localizedName"];
       emoji: string;
       color: string;
       total: number;
@@ -55,7 +56,7 @@ export namespace GetDashboardDataUseCaseI {
       | "date"
     > & {
       date: string;
-      category: Pick<Category, "color" | "emoji" | "name"> | null;
+      category: Pick<Category, "color" | "emoji" | "name" | "localizedName"> | null;
     })[];
   };
 }

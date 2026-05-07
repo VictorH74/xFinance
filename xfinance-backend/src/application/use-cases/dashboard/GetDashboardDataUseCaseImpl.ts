@@ -19,6 +19,10 @@ interface RecentTransaction {
   date: string; // 'YYYY-MM-DD'
   category: {
     name: string;
+    localizedName?: {
+      en: string;
+      "pt-BR": string;
+    } | null;
     emoji: string;
     color: string;
   } | null;
@@ -32,8 +36,8 @@ function toNumber(value: Decimal | null | undefined): number {
 
 function periodStart(days: number): Date {
   const d = new Date();
-  d.setDate(d.getDate() - days);
   d.setHours(0, 0, 0, 0);
+  d.setMonth(d.getMonth() - 3)
   return d;
 }
 
@@ -65,7 +69,7 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
       prisma.transaction.findMany({
         where: {
           userId,
-          // date: { gte: new Date("2026-01-15"), },
+          // date: { gte: start, lt: fourMonthsAgo },
         },
         orderBy: [{ date: "desc" }, { createdAt: "desc" }],
         select: {
@@ -80,6 +84,7 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
             select: {
               id: true,
               name: true,
+              localizedName: true,
               emoji: true,
               color: true,
             },
@@ -136,7 +141,16 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
 
     const categoryMap = new Map<
       string,
-      { name: string; emoji: string; color: string; total: number }
+      {
+        name: string;
+        localizedName?: {
+          en: string;
+          "pt-BR": string;
+        } | null;
+        emoji: string;
+        color: string;
+        total: number;
+      }
     >();
 
     for (const t of periodData) {
@@ -144,12 +158,15 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
 
       const key = t.categoryId ?? "__uncategorized__";
       const name = t.category?.name ?? "Outros";
+      const localizedName =
+        t.category?.localizedName ??
+        (t.categoryId ? null : { en: "Uncategorized", "pt-BR": "Sem categoria" });
       const emoji = t.category?.emoji ?? "📦";
       const color = t.category?.color ?? "#98A2B3";
     //   const amt = toNumber(t.amount);
 
       if (!categoryMap.has(key)) {
-        categoryMap.set(key, { name, emoji, color, total: 0 });
+        categoryMap.set(key, { name, localizedName, emoji, color, total: 0 });
       }
       categoryMap.get(key)!.total += t.amount;
     //   categoryMap.get(key)!.total += amt;
@@ -157,9 +174,10 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
 
     const expensesByCategory: GetDashboardDataUseCaseI.Response["expensesByCategory"] =
       Array.from(categoryMap.entries())
-        .map(([category_id, data]) => ({
-          category_id: category_id === "__uncategorized__" ? null : category_id,
+        .map(([categoryId, data]) => ({
+          categoryId: categoryId === "__uncategorized__" ? null : categoryId,
           name: data.name,
+          localizedName: data.localizedName,
           emoji: data.emoji,
           color: data.color,
           total: Math.round(data.total * 100) / 100,
@@ -183,6 +201,7 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
         category: t.category
           ? {
               name: t.category.name,
+              localizedName: t.category.localizedName,
               emoji: t.category.emoji,
               color: t.category.color,
             }

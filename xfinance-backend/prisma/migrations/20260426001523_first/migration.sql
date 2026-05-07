@@ -1,3 +1,9 @@
+-- CreateEnum
+CREATE TYPE "TransactionType" AS ENUM ('income', 'expense');
+
+-- CreateEnum
+CREATE TYPE "TransactionSource" AS ENUM ('manual', 'ai_text', 'csv_import', 'ofx_import');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -13,6 +19,7 @@ CREATE TABLE "User" (
 CREATE TABLE "Category" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "localizedName" JSONB,
     "emoji" TEXT NOT NULL,
     "color" TEXT NOT NULL,
     "isDefault" BOOLEAN NOT NULL DEFAULT false,
@@ -27,12 +34,12 @@ CREATE TABLE "Category" (
 CREATE TABLE "Transaction" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "categoryId" TEXT NOT NULL,
+    "categoryId" TEXT,
     "amount" DOUBLE PRECISION NOT NULL,
-    "type" TEXT NOT NULL,
+    "type" "TransactionType" NOT NULL,
     "description" TEXT,
     "date" TIMESTAMP(3) NOT NULL,
-    "source" TEXT NOT NULL,
+    "source" "TransactionSource" NOT NULL,
     "aiRawText" TEXT,
     "importBatchId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

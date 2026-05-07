@@ -34,7 +34,7 @@ export namespace IFinanceGoalRepository {
     FinanceGoal,
     "userId" | "categoryId" | "createdAt"
   > & {
-    category: Pick<Category, "name" | "color" | "emoji">;
+    category: Pick<Category, "name" | "localizedName" | "color" | "emoji">;
     currentValue: number;
   })[];
   export type UpdateFinanceGoalResponse = FinanceGoal;

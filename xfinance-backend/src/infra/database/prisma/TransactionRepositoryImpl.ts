@@ -23,11 +23,12 @@ export class TransactionRepositoryImpl implements ITransactionRepository {
   async save(
     Transaction_data: ITransactionRepository.SaveTransactionRequest,
   ): Promise<ITransactionRepository.SaveTransactionResponse> {
-    const transaction = await prisma.transaction.create({
-      data: Transaction_data,
+    const { transactions, userId } = Transaction_data;
+    const data =  await prisma.transaction.createMany({
+      data: transactions.map((t) => ({ ...t, userId, date: new Date(t.date) })),
     });
 
-    return transaction.id;
+    return {count: data.count}
   }
 
   async findAll(
@@ -50,6 +51,7 @@ export class TransactionRepositoryImpl implements ITransactionRepository {
           select: {
             id: true,
             name: true,
+            localizedName: true,
             emoji: true,
             color: true,
           },

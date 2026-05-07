@@ -8,6 +8,7 @@ export const authValidation = async (
   res: Response,
   next: NextFunction,
 ) => {
+  console.log("authValidation")
   try {
     const authorization = req.headers.authorization;
     const token = authorization?.startsWith("Bearer ")

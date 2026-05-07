@@ -3,6 +3,13 @@ import { readFileSync } from "node:fs";
 import { prisma } from "../src/main/lib/prisma";
 import { hashPassword } from "../src/main/security/password";
 
+type TransactionType = "income" | "expense";
+type TransactionSource = "manual" | "ai_text" | "csv_import" | "ofx_import";
+type LocalizedCategoryName = {
+  en: string;
+  "pt-BR": string;
+};
+
 type UserMock = {
   id: string;
   name: string;
@@ -15,6 +22,7 @@ type CategoryMock = {
   id: string;
   user_id: string;
   name: string;
+  localizedName?: LocalizedCategoryName | null;
   emoji: string;
   color: string;
   is_default: boolean;
@@ -25,7 +33,7 @@ type CategoryMock = {
 type GoalMock = {
   id: string;
   user_id: string;
-  category_id: string | null;
+  categoryId: string | null;
   amount_limit: number;
   period_month: number;
   period_year: number;
@@ -44,12 +52,12 @@ type TransactionMock = {
     color: string;
   } | null;
   amount: number;
-  type: string;
+  type: TransactionType;
   description: string | null;
   date: string;
-  source: string;
-  ai_raw_text: string | null;
-  import_batch_id: string | null;
+  source: TransactionSource;
+  aiRawText: string | null;
+  importBatchId: string | null;
   created_at: string;
 };
 
@@ -99,6 +107,7 @@ async function main() {
         id: item.id,
         userId: item.user_id,
         name: item.name,
+        localizedName: item.localizedName ?? null,
         emoji: item.emoji,
         color: item.color,
         isDefault: item.is_default,
@@ -111,6 +120,10 @@ async function main() {
           id: buildUncategorizedId(userId),
           userId,
           name: "Sem categoria",
+          localizedName: {
+            en: "Uncategorized",
+            "pt-BR": "Sem categoria",
+          },
           emoji: "📦",
           color: "#94A3B8",
           isDefault: true,
@@ -124,7 +137,7 @@ async function main() {
     data: goals.map((item) => ({
       id: item.id,
       userId: item.user_id,
-      categoryId: item.category_id,
+      categoryId: item.categoryId,
       amountLimit: item.amount_limit,
       periodMonth: item.period_month,
       periodYear: item.period_year,
@@ -144,8 +157,8 @@ async function main() {
       description: item.description,
       date: new Date(item.date),
       source: item.source,
-      aiRawText: item.ai_raw_text,
-      importBatchId: item.import_batch_id,
+      aiRawText: item.aiRawText,
+      importBatchId: item.importBatchId,
       createdAt: new Date(item.created_at),
     })),
   });

@@ -50,7 +50,7 @@ export class FinanceGoalRepositoryImpl implements IFinanceGoalRepository {
           notificationAt: true,
           categoryId: true,
           category: {
-            select: { color: true, name: true, emoji: true },
+            select: { color: true, name: true, localizedName: true, emoji: true },
           },
         },
       }),
@@ -87,6 +87,7 @@ export class FinanceGoalRepositoryImpl implements IFinanceGoalRepository {
         color: g.category?.color ?? "",
         emoji: g.category?.emoji ?? "",
         name: g.category?.name ?? "",
+        localizedName: g.category?.localizedName ?? null,
       },
       currentValue: spendingMap.get(g.categoryId ?? "") ?? 0,
     }));

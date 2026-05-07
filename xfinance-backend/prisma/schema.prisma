@@ -12,6 +12,18 @@ datasource db {
   provider = "postgresql"
 }
 
+enum TransactionType {
+  income
+  expense
+}
+
+enum TransactionSource {
+  manual
+  ai_text
+  csv_import
+  ofx_import
+}
+
 model User {
   id           String        @id @default(uuid())
   name         String
@@ -26,6 +38,7 @@ model User {
 model Category {
   id        String  @id @default(uuid())
   name      String
+  localizedName Json?
   emoji     String
   color     String
   isDefault Boolean @default(false)
@@ -46,14 +59,14 @@ model Transaction {
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
 
   amount        Float
-  type          String
+  type          TransactionType
   description   String?
   date          DateTime
-  source        String
+  source        TransactionSource
   aiRawText     String?
   importBatchId String?
   createdAt     DateTime @default(now())

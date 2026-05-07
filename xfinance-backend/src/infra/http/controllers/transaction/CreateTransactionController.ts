@@ -14,9 +14,10 @@ export class CreateTransactionController extends BaseController {
   async execute(
     httpRequest: CreateTransactionController.Request,
   ): Promise<CreateTransactionController.Response> {
-    const reqBody = includeUserId(httpRequest);
+    const { userId } = includeUserId(httpRequest);
+    const transactions = httpRequest.body! as unknown as CreateTransactionUseCaseI.Request['transactions']
 
-    const responseData = await this.useCase.execute(reqBody!);
+    const responseData = await this.useCase.execute({transactions, userId});
 
     if (responseData instanceof InvalidDataError)
       return badRequest(responseData);

@@ -13,6 +13,7 @@ const toListableCategory = (
 ): ICategoryRepository.FindAllCategoryResponse[number] => ({
   id: category.id,
   name: category.name,
+  localizedName: category.localizedName,
   emoji: category.emoji,
   color: category.color,
   userId: category.userId,

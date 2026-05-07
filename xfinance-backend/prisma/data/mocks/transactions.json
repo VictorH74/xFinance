@@ -11,10 +11,10 @@
     "amount": 6500,
     "type": "income",
     "description": "Salario dezembro",
-    "date": "2025-12-05",
+    "date": "2025-12-05T09:05:00Z",
     "source": "csv_import",
-    "ai_raw_text": null,
-    "import_batch_id": "dec-batch-2025-001",
+    "aiRawText": null,
+    "importBatchId": "dec-batch-2025-001",
     "created_at": "2025-12-05T08:10:00Z"
   },
   {
@@ -29,10 +29,10 @@
     "amount": 1400,
     "type": "expense",
     "description": "Aluguel dezembro",
-    "date": "2025-12-06",
+    "date": "2025-12-06T09:05:00Z",
     "source": "ofx_import",
-    "ai_raw_text": null,
-    "import_batch_id": "dec-batch-2025-002",
+    "aiRawText": null,
+    "importBatchId": "dec-batch-2025-002",
     "created_at": "2025-12-06T11:00:00Z"
   },
   {
@@ -47,10 +47,10 @@
     "amount": 380.45,
     "type": "expense",
     "description": "Compras de fim de ano",
-    "date": "2025-12-18",
+    "date": "2025-12-18T09:05:00Z",
     "source": "manual",
-    "ai_raw_text": null,
-    "import_batch_id": null,
+    "aiRawText": null,
+    "importBatchId": null,
     "created_at": "2025-12-18T19:20:00Z"
   },
   {
@@ -65,10 +65,10 @@
     "amount": 6600,
     "type": "income",
     "description": "Salario janeiro",
-    "date": "2026-01-06",
+    "date": "2026-01-06T09:05:00Z",
     "source": "csv_import",
-    "ai_raw_text": null,
-    "import_batch_id": "jan-batch-2026-001",
+    "aiRawText": null,
+    "importBatchId": "jan-batch-2026-001",
     "created_at": "2026-01-06T08:05:00Z"
   },
   {
@@ -83,10 +83,10 @@
     "amount": 295.8,
     "type": "expense",
     "description": "Conta de energia janeiro",
-    "date": "2026-01-12",
+    "date": "2026-01-12T09:05:00Z",
     "source": "ofx_import",
-    "ai_raw_text": null,
-    "import_batch_id": "jan-batch-2026-002",
+    "aiRawText": null,
+    "importBatchId": "jan-batch-2026-002",
     "created_at": "2026-01-12T14:10:00Z"
   },
   {
@@ -101,10 +101,10 @@
     "amount": 74.2,
     "type": "expense",
     "description": "Jantar com amigos",
-    "date": "2026-01-20",
+    "date": "2026-01-20T09:05:00Z",
     "source": "manual",
-    "ai_raw_text": null,
-    "import_batch_id": null,
+    "aiRawText": null,
+    "importBatchId": null,
     "created_at": "2026-01-20T22:05:00Z"
   },
   {
@@ -119,10 +119,10 @@
     "amount": 6650,
     "type": "income",
     "description": "Salario fevereiro",
-    "date": "2026-02-05",
+    "date": "2026-02-05T09:05:00Z",
     "source": "csv_import",
-    "ai_raw_text": null,
-    "import_batch_id": "feb-batch-2026-001",
+    "aiRawText": null,
+    "importBatchId": "feb-batch-2026-001",
     "created_at": "2026-02-05T08:00:00Z"
   },
   {
@@ -137,10 +137,10 @@
     "amount": 39.9,
     "type": "expense",
     "description": "Streaming fevereiro",
-    "date": "2026-02-10",
+    "date": "2026-02-10T09:05:00Z",
     "source": "ofx_import",
-    "ai_raw_text": null,
-    "import_batch_id": "feb-batch-2026-002",
+    "aiRawText": null,
+    "importBatchId": "feb-batch-2026-002",
     "created_at": "2026-02-10T21:00:00Z"
   },
   {
@@ -155,10 +155,10 @@
     "amount": 700,
     "type": "income",
     "description": "Landing page freelance",
-    "date": "2026-02-21",
+    "date": "2026-02-21T09:05:00Z",
     "source": "manual",
-    "ai_raw_text": null,
-    "import_batch_id": null,
+    "aiRawText": null,
+    "importBatchId": null,
     "created_at": "2026-02-21T17:35:00Z"
   },
   {
@@ -173,10 +173,10 @@
     "amount": 6700,
     "type": "income",
     "description": "Salario marco",
-    "date": "2026-03-05",
+    "date": "2026-03-05T09:05:00Z",
     "source": "csv_import",
-    "ai_raw_text": null,
-    "import_batch_id": "mar-batch-2026-001",
+    "aiRawText": null,
+    "importBatchId": "mar-batch-2026-001",
     "created_at": "2026-03-05T08:12:00Z"
   },
   {
@@ -191,10 +191,10 @@
     "amount": 210.3,
     "type": "expense",
     "description": "Combustivel e pedagios",
-    "date": "2026-03-11",
+    "date": "2026-03-11T09:05:00Z",
     "source": "manual",
-    "ai_raw_text": null,
-    "import_batch_id": null,
+    "aiRawText": null,
+    "importBatchId": null,
     "created_at": "2026-03-11T18:10:00Z"
   },
   {
@@ -209,10 +209,10 @@
     "amount": 405.6,
     "type": "expense",
     "description": "Supermercado do mes",
-    "date": "2026-03-23",
+    "date": "2026-03-23T09:05:00Z",
     "source": "csv_import",
-    "ai_raw_text": null,
-    "import_batch_id": "mar-batch-2026-002",
+    "aiRawText": null,
+    "importBatchId": "mar-batch-2026-002",
     "created_at": "2026-03-23T20:00:00Z"
   },
   {
@@ -227,10 +227,10 @@
     "amount": 6800,
     "type": "income",
     "description": "Salario empresa principal",
-    "date": "2026-04-05",
+    "date": "2026-04-05T09:05:00Z",
     "source": "csv_import",
-    "ai_raw_text": null,
-    "import_batch_id": "c2f70cb0-1fb0-4f99-8f4c-3f3b5c4f1001",
+    "aiRawText": null,
+    "importBatchId": "c2f70cb0-1fb0-4f99-8f4c-3f3b5c4f1001",
     "created_at": "2026-04-05T08:15:00Z"
   },
   {
@@ -245,10 +245,10 @@
     "amount": 1450,
     "type": "expense",
     "description": "Aluguel apartamento",
-    "date": "2026-04-06",
+    "date": "2026-04-06T09:05:00Z",
     "source": "ofx_import",
-    "ai_raw_text": null,
-    "import_batch_id": "a95d1a9d-3324-44ad-a0ce-1b8d8b8a1002",
+    "aiRawText": null,
+    "importBatchId": "a95d1a9d-3324-44ad-a0ce-1b8d8b8a1002",
     "created_at": "2026-04-06T11:42:00Z"
   },
   {
@@ -263,10 +263,10 @@
     "amount": 82.5,
     "type": "expense",
     "description": "Almoco restaurante centro",
-    "date": "2026-04-08",
+    "date": "2026-04-08T09:05:00Z",
     "source": "manual",
-    "ai_raw_text": null,
-    "import_batch_id": null,
+    "aiRawText": null,
+    "importBatchId": null,
     "created_at": "2026-04-08T13:05:00Z"
   },
   {
@@ -281,10 +281,10 @@
     "amount": 39.9,
     "type": "expense",
     "description": "Assinatura streaming",
-    "date": "2026-04-10",
+    "date": "2026-04-10T09:05:00Z",
     "source": "ofx_import",
-    "ai_raw_text": null,
-    "import_batch_id": "a95d1a9d-3324-44ad-a0ce-1b8d8b8a1002",
+    "aiRawText": null,
+    "importBatchId": "a95d1a9d-3324-44ad-a0ce-1b8d8b8a1002",
     "created_at": "2026-04-10T21:18:00Z"
   },
   {
@@ -299,10 +299,10 @@
     "amount": 950,
     "type": "income",
     "description": "Pagamento projeto freelancer",
-    "date": "2026-04-12",
+    "date": "2026-04-12T09:05:00Z",
     "source": "manual",
-    "ai_raw_text": null,
-    "import_batch_id": null,
+    "aiRawText": null,
+    "importBatchId": null,
     "created_at": "2026-04-12T18:27:00Z"
   },
   {
@@ -317,10 +317,10 @@
     "amount": 27.4,
     "type": "expense",
     "description": "Cafe e pao de queijo",
-    "date": "2026-04-14",
+    "date": "2026-04-14T09:05:00Z",
     "source": "ai_text",
-    "ai_raw_text": "gastei 27,40 no cafe da manha perto do escritorio hoje cedo",
-    "import_batch_id": null,
+    "aiRawText": "gastei 27,40 no cafe da manha perto do escritorio hoje cedo",
+    "importBatchId": null,
     "created_at": "2026-04-14T10:12:00Z"
   },
   {
@@ -335,10 +335,10 @@
     "amount": 420.75,
     "type": "expense",
     "description": "Compras supermercado",
-    "date": "2026-04-17",
+    "date": "2026-04-17T09:05:00Z",
     "source": "csv_import",
-    "ai_raw_text": null,
-    "import_batch_id": "c2f70cb0-1fb0-4f99-8f4c-3f3b5c4f1001",
+    "aiRawText": null,
+    "importBatchId": "c2f70cb0-1fb0-4f99-8f4c-3f3b5c4f1001",
     "created_at": "2026-04-17T19:54:00Z"
   },
   {
@@ -348,10 +348,10 @@
     "amount": 120,
     "type": "expense",
     "description": "Corrida de aplicativo aeroporto",
-    "date": "2026-04-20",
+    "date": "2026-04-20T09:05:00Z",
     "source": "ai_text",
-    "ai_raw_text": "peguei uber pro aeroporto e paguei 120 reais",
-    "import_batch_id": null,
+    "aiRawText": "peguei uber pro aeroporto e paguei 120 reais",
+    "importBatchId": null,
     "created_at": "2026-04-20T06:40:00Z"
   },
   {
@@ -366,10 +366,10 @@
     "amount": 310,
     "type": "expense",
     "description": "Conta de energia",
-    "date": "2026-04-22",
+    "date": "2026-04-22T09:05:00Z",
     "source": "ofx_import",
-    "ai_raw_text": null,
-    "import_batch_id": "a95d1a9d-3324-44ad-a0ce-1b8d8b8a1002",
+    "aiRawText": null,
+    "importBatchId": "a95d1a9d-3324-44ad-a0ce-1b8d8b8a1002",
     "created_at": "2026-04-22T14:31:00Z"
   },
   {
@@ -384,10 +384,10 @@
     "amount": 1200,
     "type": "income",
     "description": "Reembolso viagem corporativa",
-    "date": "2026-04-24",
+    "date": "2026-04-24T09:05:00Z",
     "source": "manual",
-    "ai_raw_text": null,
-    "import_batch_id": null,
+    "aiRawText": null,
+    "importBatchId": null,
     "created_at": "2026-04-24T17:08:00Z"
   }
 ]
