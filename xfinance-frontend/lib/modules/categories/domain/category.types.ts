@@ -1,7 +1,13 @@
+export type LocalizedCategoryName = {
+  en: string;
+  "pt-BR": string;
+};
+
 export type Category = {
   id: string;
   userId: string;
   name: string;
+  localizedName?: LocalizedCategoryName | null;
   emoji: string;
   color: string;
   isDefault: boolean;
@@ -17,10 +23,10 @@ export type ListableCategory = Omit<Category, "createdAt" | "updatedAt"> & {
 
 export type CreateCategoryPayload = Pick<
   Category,
-  "name" | "emoji" | "color" | "isDefault"
+  "name" | "emoji" | "color"
 >;
 
 export type UpdateCategoryPayload = Pick<
   Category,
-  "id" | "name" | "emoji" | "color" | "isDefault"
+  "id" | "name" | "emoji" | "color"
 >;

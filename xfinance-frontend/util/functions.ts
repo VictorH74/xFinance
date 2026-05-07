@@ -1,3 +1,4 @@
+import { Category } from "@/lib/modules/categories/domain/category.types";
 import { MONTH_LIST } from "./constants";
 
 export const getColorBackground = (color: string, opacity?: number) => {
@@ -42,3 +43,5 @@ export const getCurrentMonthName = () => {
   const date = new Date();
   return MONTH_LIST[date.getMonth()];
 };
+
+export const getCategoryName = (cat: Pick<Category, "name" | "localizedName">) => cat.localizedName?.["pt-BR"] ?? cat.name

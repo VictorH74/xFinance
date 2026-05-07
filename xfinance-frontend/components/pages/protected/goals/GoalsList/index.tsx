@@ -3,12 +3,10 @@
 import React from "react";
 import { PageTitle } from "../../PageTitle";
 import { useGoals } from "@/lib/modules/goals/domain/goal.queries";
-import { getColorBackground } from "@/util/functions";
-import { twMerge } from "tailwind-merge";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditSquareIcon from "@mui/icons-material/EditSquare";
 import { GoalTilePlaceholder } from "./GoalTilePlaceholder";
 import { GoalTile } from "./GoalTile";
+import { Button } from "@/components/shared/Button";
+import { AddGoalModal } from "./AddGoalModal";
 
 // TODO: make it shared
 const formatCurrency = (value: number) =>
@@ -37,7 +35,8 @@ export const SummaryCard: React.FC<
 );
 
 export const GoalsList = () => {
-  const { data, isError, isLoading, refetch } = useGoals();
+  const [showAddGoalModal, setShowAddGoalModal] = React.useState(false);
+  const { data, isError, isLoading } = useGoals();
 
   // const [goals, addOptimistic] = React.useOptimistic(initialList);
 
@@ -101,33 +100,28 @@ export const GoalsList = () => {
                 Uma rápida visão de cada alvo e seu ritmo atual.
               </p>
             </div>
-            <button className="rounded-full bg-zinc-950 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800">
-              Add goal
-            </button>
+            <Button className="py-2" onClick={() => setShowAddGoalModal(true)}>
+              + Add goal
+            </Button>
           </div>
 
           <div className="divide-y divide-zinc-200">
             {isLoading ? (
               Array(3)
                 .fill(null)
-                .map((_, i) => (
-                  <GoalTilePlaceholder
-                    key={i}
-                  />
-                ))
+                .map((_, i) => <GoalTilePlaceholder key={i} />)
             ) : isError || !data ? (
               <p>Error</p>
             ) : (
-              data.map((goal) => (
-                <GoalTile
-                  key={goal.id}
-                  goal={goal}
-                />
-              ))
+              data.map((goal) => <GoalTile key={goal.id} goal={goal} />)
             )}
           </div>
         </section>
       </div>
+      <AddGoalModal
+        open={showAddGoalModal}
+        onClose={() => setShowAddGoalModal(false)}
+      />
     </main>
   );
 };

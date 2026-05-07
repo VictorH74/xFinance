@@ -14,7 +14,7 @@ export const CategoryCard: React.FC<{
       >
         <p>{cat.emoji}</p>
       </div>
-      <p className="font-semibold text-zinc-600">{cat.name}</p>
+      <p className="font-semibold text-zinc-600">{cat.localizedName?.["pt-BR"] ?? cat.name}</p>
       <p className="text-sm text-zinc-500 font-medium">
         {cat.transactionCount} transações ·{" "}
         {cat.hasActiveMeta ? "Meta ativa" : "Sem meta"}

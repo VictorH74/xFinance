@@ -8,7 +8,6 @@ import { LineChartGraph } from "./LineChartGraph";
 import PieChartGraph from "./PieChartGraph";
 import { useDashboardData } from "@/lib/modules/dashboard/domain/dashboard.queries";
 import { DashboardFilters } from "@/lib/modules/dashboard/domain/dashboard.types";
-import { Transaction } from "@/lib/modules/transactions/domain/transaction.types";
 import { TransactionTile } from "@/components/shared/TransactionTile";
 import { DatePicker, Select } from "antd";
 import { TransactionTilePlaceholder } from "@/components/shared/TransactionTilePlaceholder";
@@ -48,13 +47,6 @@ const dateRangePresetList = [
     range: getDateRangeByPeriod("90d"),
   },
 ];
-
-const getSourceText = (source: Transaction["source"]): string => {
-  if (source === "ai_text") return "Adicionado via IA";
-  if (source === "csv_import") return "Importado via CSV";
-  if (source === "ofx_import") return "Importado via OFX";
-  return "Adicionado manualmente";
-};
 
 const renderOverviewCardIcon = (name: string) => {
   if (name === "balance") return <AttachMoneyIcon sx={{ fontSize: 20 }} />;
@@ -127,7 +119,6 @@ export const DashboardContent = () => {
           mode="multiple"
           className="w-full"
           placeholder="Selecionar categorias"
-          // defaultValue={["happy"]}
           onChange={(value) => {
             console.log(`selected ${value}`);
           }}

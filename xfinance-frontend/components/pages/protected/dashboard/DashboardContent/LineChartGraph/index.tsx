@@ -11,6 +11,28 @@ import {
   YAxis,
 } from "recharts";
 
+const formatMonthLabel = (month: string) => {
+  const [year, monthNumber] = month.split("-");
+  const date = new Date(Number(year), Number(monthNumber) - 1, 1);
+
+  return new Intl.DateTimeFormat("pt-BR", {
+    month: "numeric",
+    year: "2-digit"
+  }).format(date);
+};
+
+const formatCompactCurrency = (value: number) => {
+  if (Math.abs(value) >= 1000) {
+    const compactValue = Number.isInteger(value / 1000)
+      ? value / 1000
+      : Number((value / 1000).toFixed(1));
+
+    return `R$ ${compactValue}k`;
+  }
+
+  return formatCurrency(value, "BRL");
+};
+
 export const LineChartGraph = ({
   dataList,
 }: {
@@ -49,8 +71,18 @@ export const LineChartGraph = ({
           strokeWidth={2}
           name="Gastos (R$)"
         />
-        <XAxis dataKey="month" />
-        <YAxis width="auto" label={{ position: "insideLeft", angle: -90 }} />
+        <XAxis
+          dataKey="month"
+          interval={0}
+          minTickGap={0}
+          tickFormatter={formatMonthLabel}
+        />
+        <YAxis
+          width={70}
+          tickFormatter={formatCompactCurrency}
+          axisLine={false}
+          tickLine={false}
+        />
         <Legend align="right" />
         <Tooltip
           content={(props) => <CustomTooltip {...props} list={dataList} />}
@@ -64,7 +96,7 @@ const getIntroOfPage = (
   month: string | undefined = undefined,
   list: GetDashboarDataResponseT["monthlyEvolution"],
 ) => {
-  if (!month) return null
+  if (!month) return null;
 
   const item = list.find((d) => d.month === month);
 
@@ -83,13 +115,16 @@ const CustomTooltip = ({
 
   const data = getIntroOfPage(payload?.[0]?.payload.month, list);
 
-  if (!data) return null
+  if (!data) return null;
 
   return (
-    <div className="px-4 py-2 border border-zinc-200 bg-white" style={{ visibility: isVisible ? "visible" : "hidden" }}>
+    <div
+      className="px-4 py-2 border border-zinc-200 bg-white"
+      style={{ visibility: isVisible ? "visible" : "hidden" }}
+    >
       <p className="text-zinc-500 text-sm">{data.month}</p>
       <p className="text-green-600">{formatCurrency(data.income, "BRL")}</p>
       <p className="text-red-600">{formatCurrency(data.expense, "BRL")}</p>
     </div>
-  )
+  );
 };

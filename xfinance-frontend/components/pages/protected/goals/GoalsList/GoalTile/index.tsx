@@ -1,6 +1,7 @@
 import { ListableGoal } from "@/lib/modules/goals/domain/goal.types";
 import {
   formatCurrency,
+  getCategoryName,
   getColorBackground,
   getCurrentMonthName,
 } from "@/util/functions";
@@ -39,7 +40,7 @@ export const GoalTile: React.FC<{
               {cat && <p className="text-lg -mt-1">{cat.emoji}</p>}
 
               <p className="text-[0.875rem] font-semibold text-zinc-600">
-                {cat?.name ?? "Sem categoria"}
+                {!!cat ? getCategoryName(cat) : "Sem categoria"}
               </p>
             </div>
           </div>

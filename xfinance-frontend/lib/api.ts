@@ -7,7 +7,6 @@ export async function apiFetch(path: string, init?: RequestInit) {
   return fetch(`${process.env.API_URL}${path}`, {
     ...init,
     headers: {
-      'Content-Type': 'application/json',
       ...(token ? { authorization: `Bearer ${token}` } : {}),
       ...init?.headers,
     },

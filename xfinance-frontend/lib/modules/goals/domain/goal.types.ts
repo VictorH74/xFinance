@@ -13,7 +13,7 @@ export type Goal = {
 };
 
 export type ListableGoal = Omit<Goal, "userId" | "categoryId" | "createdAt"> & {
-  category: Pick<Category, "name" | "color" | "emoji">;
+  category: Pick<Category, "name" | "color" | "emoji" | "localizedName">;
   currentValue: number;
 };
 

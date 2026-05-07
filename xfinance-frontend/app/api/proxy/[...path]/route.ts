@@ -12,9 +12,15 @@ async function handler(
 
   console.log("PROXY PATH", `${pathStr}${search}`)
 
+  const body =
+    req.method === "GET" || req.method === "HEAD" ? undefined : await req.text();
+
   const res =  await proxyFetch(`${pathStr}${search}`, {
     method: req.method,
-    body: req.body,
+    headers: req.headers.get("content-type")
+      ? { "Content-Type": req.headers.get("content-type")! }
+      : undefined,
+    body,
   });
 
   // const accessToken = (await cookies()).get("access_token")?.value;

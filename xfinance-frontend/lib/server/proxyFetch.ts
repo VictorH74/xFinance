@@ -6,7 +6,6 @@ export async function proxyFetch(path: string, options?: RequestInit) {
   const refreshToken = (await cookies()).get("refresh_token")?.value;
 
   let res = await apiFetch(path, {
-    headers: { "Content-Type": "application/json" },
     // body: req.method !== "GET" ? await req.text() : undefined,
     ...options,
   });
@@ -40,7 +39,6 @@ export async function proxyFetch(path: string, options?: RequestInit) {
 
     // 🔁 retry da request original
     res = await apiFetch(path, {
-      headers: { "Content-Type": "application/json" },
       // body: req.method !== "GET" ? await req.text() : undefined,
       ...options,
     });

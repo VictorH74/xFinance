@@ -6,9 +6,11 @@ import { CategoryCardPlaceholder } from "./CategoryCardPlaceholder";
 import React from "react";
 import { formatCurrency, getCurrentMonthName } from "@/util/functions";
 import { PageTitle } from "../../PageTitle";
+import { Button } from "@/components/shared/Button";
+import { AddCategoryModal } from "./AddCategoryModal";
 
 export const CategoryList = () => {
-  const [showNewCategoryModal, setShowNewCategoryModal] = React.useState(false)
+  const [showNewCategoryModal, setShowNewCategoryModal] = React.useState(false);
 
   const { data, isLoading, isError } = useCategories();
 
@@ -34,7 +36,7 @@ export const CategoryList = () => {
       spendsTheMost: catThatSpendsTheMost,
       withActiveGoal: data.filter((cat) => cat.hasActiveMeta).length,
     };
-  }, []);
+  }, [data]);
 
   return (
     <>
@@ -43,9 +45,9 @@ export const CategoryList = () => {
           title="Categorias"
           description="Gerencie as categorias usadas em transações e metas"
         />
-        <button className="py-3 px-4 bg-emerald-600 text-emerald-50 font-semibold rounded-lg cursor-pointer hover:brightness-110 duration-300" onClick={() => setShowNewCategoryModal(true)}>
+        <Button onClick={() => setShowNewCategoryModal(true)}>
           + Nova categoria
-        </button>
+        </Button>
       </div>
       <section className="grid gap-4 md:grid-cols-3">
         <div
@@ -102,6 +104,10 @@ export const CategoryList = () => {
           data.map((cat) => <CategoryCard key={cat.id} cat={cat} />)
         )}
       </section>
+      <AddCategoryModal
+        open={showNewCategoryModal}
+        onClose={() => setShowNewCategoryModal(false)}
+      />
     </>
   );
 };

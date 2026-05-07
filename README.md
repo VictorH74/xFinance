@@ -124,13 +124,18 @@ npm install
 ### 2. Subir o frontend
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Aplicação disponível em:
 
 ```text
 http://localhost:3000
+```
+Conta para testar aplicação com dados mockados:
+```text
+Email: victor-leal@xfinance.local
+Senha: 123456
 ```
 
 ## Fluxo Completo

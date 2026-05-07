@@ -3,6 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTransactions, deleteTransaction, listTransactions, updateTransaction } from "./transaction.service";
 import { transactionKeys } from "./transaction.keys";
+import { CreateTransactionsPayload } from "./transaction.types";
 
 export function useTransactions(filters?: Record<string, unknown>) {
   return useQuery({
@@ -11,7 +12,7 @@ export function useTransactions(filters?: Record<string, unknown>) {
   });
 }
 
-export function useCreateTransaction() {
+export function useCreateTransactions() {
   const queryClient = useQueryClient();
 
   return useMutation({
