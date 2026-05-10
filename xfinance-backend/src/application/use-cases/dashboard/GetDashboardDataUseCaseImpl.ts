@@ -1,4 +1,5 @@
 import { GetDashboardDataUseCaseI } from "@/application/interfaces/use-cases/dashboard/GetDashboardDataUseCase";
+import { TransactionType } from "@/domain/entities/transaction.entity";
 import { prisma } from "@/main/lib/prisma";
 import { Decimal } from "@prisma/client/runtime/index-browser";
 
@@ -30,14 +31,16 @@ interface RecentTransaction {
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
-function toNumber(value: Decimal | null | undefined): number {
-  return value ? Number(value) : 0;
+const toStringArray = (input: string[] | string): string[] => {
+  if (Array.isArray(input)) return input;
+  if (typeof input === "string") return [input];
+  return [];
 }
 
-function periodStart(days: number): Date {
+function getFourMonthsAgoDate(): Date {
   const d = new Date();
   d.setHours(0, 0, 0, 0);
-  d.setMonth(d.getMonth() - 3)
+  d.setMonth(d.getMonth() - 3);
   return d;
 }
 
@@ -50,18 +53,41 @@ function formatDate(date: Date): string {
 }
 
 export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
-  async execute(
-    {userId, ...data}: GetDashboardDataUseCaseI.Request,
-  ): Promise<GetDashboardDataUseCaseI.Response> {
-    // // temp
-    // const userId = "2c8b6b44-1e24-4f4f-9df4-9ef0c0d8a101"
+  async execute({
+    userId,
+    ...data
+  }: GetDashboardDataUseCaseI.Request): Promise<GetDashboardDataUseCaseI.Response> {
+    const categoryIds = toStringArray(data.categoryIds ?? []);
+    const includesUncategorized = categoryIds.includes("__uncategorized__");
+    const selectedCategoryIds = categoryIds.filter(
+      (categoryId) => categoryId !== "__uncategorized__",
+    );
+    let dateConfig = undefined;
 
-    // if ('minDate' in data) {
-    //   data.
-    // }
+    if ("startDate" in data)
+      dateConfig = { gte: new Date(data.startDate), lte: new Date(data.endDate) };
+    else {
+      const endDate = new Date();
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - PERIOD_DAYS["90d"]);
 
-    const start = new Date();
-    const fourMonthsAgo = periodStart(120);
+      dateConfig = { gte: startDate, lte: endDate };
+    }
+
+    const fourMonthsAgoDate = getFourMonthsAgoDate();
+    const categoryFilter =
+      categoryIds.length === 0
+        ? undefined
+        : includesUncategorized
+          ? selectedCategoryIds.length > 0
+            ? {
+                OR: [
+                  { categoryId: { in: selectedCategoryIds } },
+                  { categoryId: null },
+                ],
+              }
+            : { categoryId: null }
+          : { categoryId: { in: selectedCategoryIds } };
 
     // duas queries em paralelo — não bloqueia uma na outra
     const [periodData, monthlyRaw] = await Promise.all([
@@ -69,7 +95,9 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
       prisma.transaction.findMany({
         where: {
           userId,
-          // date: { gte: start, lt: fourMonthsAgo },
+          date: dateConfig,
+          type: data.transactionType as TransactionType | undefined,
+          ...categoryFilter,
         },
         orderBy: [{ date: "desc" }, { createdAt: "desc" }],
         select: {
@@ -91,14 +119,14 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
           },
         },
       }),
-        prisma.$queryRaw<Array<{ month: Date; type: string; total: number }>>`
+      prisma.$queryRaw<Array<{ month: Date; type: string; total: number }>>`
         SELECT
           date_trunc('month', date)::date AS month,
           type,
           SUM(amount)                     AS total
         FROM "Transaction"
         WHERE "userId"    = ${userId}
-          AND date      >= ${fourMonthsAgo}
+          AND date      >= ${fourMonthsAgoDate}
         GROUP BY date_trunc('month', date), type
         ORDER BY month ASC
       `,
@@ -109,9 +137,6 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
     let expense_total = 0;
 
     for (const t of periodData) {
-    //   const amt = toNumber(t.amount);
-    //   if (t.type === "income") income_total += amt;
-    //   if (t.type === "expense") expense_total += amt;
       if (t.type === "income") income_total += t.amount;
       if (t.type === "expense") expense_total += t.amount;
     }
@@ -133,11 +158,31 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
       const entry = monthlyMap.get(key)!;
       if (row.type === "income") entry.income = row.total;
       if (row.type === "expense") entry.expense = row.total;
-      // if (row.type === "income") entry.income = toNumber(row.total);
-      // if (row.type === "expense") entry.expense = toNumber(row.total);
     }
 
     const monthlyEvolution = Array.from(monthlyMap.values());
+
+    // fill missing months
+    let remianingMonthCount = 4 - monthlyEvolution.length;
+    if (remianingMonthCount > 0 && monthlyEvolution.length > 0) {
+      const minMonthDate = monthlyEvolution[0].month
+      const [year, month] = minMonthDate.split('-')
+
+      for (let i = 1; i <= remianingMonthCount; i++) {
+        const monthNumber = Number(month) - i
+        let adjustedYear = Number(year)
+        let adjustedMonth = monthNumber
+
+        if (monthNumber <= 0) {
+          adjustedYear -= 1
+          adjustedMonth = 12 + monthNumber
+        }
+
+        const d = new Date(adjustedYear, adjustedMonth - 1, 1)
+        const monthKey = formatMonth(d)
+        monthlyEvolution.unshift({ month: monthKey, income: 0, expense: 0 })
+      }
+    }
 
     const categoryMap = new Map<
       string,
@@ -160,22 +205,22 @@ export class GetDashboardDataUseCaseImpl implements GetDashboardDataUseCaseI {
       const name = t.category?.name ?? "Outros";
       const localizedName =
         t.category?.localizedName ??
-        (t.categoryId ? null : { en: "Uncategorized", "pt-BR": "Sem categoria" });
+        (t.categoryId
+          ? null
+          : { en: "Uncategorized", "pt-BR": "Sem categoria" });
       const emoji = t.category?.emoji ?? "📦";
       const color = t.category?.color ?? "#98A2B3";
-    //   const amt = toNumber(t.amount);
 
       if (!categoryMap.has(key)) {
         categoryMap.set(key, { name, localizedName, emoji, color, total: 0 });
       }
       categoryMap.get(key)!.total += t.amount;
-    //   categoryMap.get(key)!.total += amt;
     }
 
     const expensesByCategory: GetDashboardDataUseCaseI.Response["expensesByCategory"] =
       Array.from(categoryMap.entries())
         .map(([categoryId, data]) => ({
-          categoryId: categoryId === "__uncategorized__" ? null : categoryId,
+          categoryId: categoryId,
           name: data.name,
           localizedName: data.localizedName,
           emoji: data.emoji,

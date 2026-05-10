@@ -11,6 +11,8 @@ export const expressJsonRouteAdapter =
             query: req.query,
         };
 
+        console.log(httpRequest.query)
+
         const httpResponse = await controller.handle(httpRequest);
         res.status(httpResponse.statusCode).json(httpResponse.body);
     };

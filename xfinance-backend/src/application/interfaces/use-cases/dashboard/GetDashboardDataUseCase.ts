@@ -19,9 +19,9 @@ export namespace GetDashboardDataUseCaseI {
         transactionType?: string;
       }
     | {
-        minDate: string;
-        maxDate: string;
-        categoryIds?: string[];
+        startDate: string;
+        endDate: string;
+        categoryIds?: string[] | string;
         transactionType?: string;
       }
   ) & { userId: string };
@@ -38,7 +38,7 @@ export namespace GetDashboardDataUseCaseI {
       expense: number;
     }[];
     expensesByCategory: {
-      // categoryId: string;
+      categoryId: string;
       name: string;
       localizedName?: Category["localizedName"];
       emoji: string;

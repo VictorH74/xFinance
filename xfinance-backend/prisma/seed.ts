@@ -71,21 +71,7 @@ const categories = readJson<CategoryMock[]>("./data/mocks/categories.json");
 const goals = readJson<GoalMock[]>("./data/mocks/goals.json");
 const transactions = readJson<TransactionMock[]>("./data/mocks/transactions.json");
 
-const buildUncategorizedId = (userId: string) => {
-  const normalized = userId.replace(/-/g, "").slice(0, 12).padEnd(12, "0");
-  return `00000000-0000-4000-8000-${normalized}`;
-};
-
 async function main() {
-  const existingCategoryIds = new Set(categories.map((item) => item.id));
-  const uncategorizedUsers = Array.from(
-    new Set(
-      transactions
-        .filter((item) => item.category === null)
-        .map((item) => item.user_id),
-    ),
-  );
-
   await prisma.transaction.deleteMany();
   await prisma.financeGoal.deleteMany();
   await prisma.category.deleteMany();
@@ -102,8 +88,7 @@ async function main() {
   });
 
   await prisma.category.createMany({
-    data: [
-      ...categories.map((item) => ({
+    data: categories.map((item) => ({
         id: item.id,
         userId: item.user_id,
         name: item.name,
@@ -114,23 +99,6 @@ async function main() {
         createdAt: new Date(item.created_at),
         updatedAt: new Date(item.updated_at),
       })),
-      ...uncategorizedUsers
-        .filter((userId) => !existingCategoryIds.has(buildUncategorizedId(userId)))
-        .map((userId) => ({
-          id: buildUncategorizedId(userId),
-          userId,
-          name: "Sem categoria",
-          localizedName: {
-            en: "Uncategorized",
-            "pt-BR": "Sem categoria",
-          },
-          emoji: "📦",
-          color: "#94A3B8",
-          isDefault: true,
-          createdAt: new Date("2026-01-01T00:00:00Z"),
-          updatedAt: new Date("2026-01-01T00:00:00Z"),
-        })),
-    ],
   });
 
   await prisma.financeGoal.createMany({
@@ -151,7 +119,7 @@ async function main() {
     data: transactions.map((item) => ({
       id: item.id,
       userId: item.user_id,
-      categoryId: item.category?.id ?? buildUncategorizedId(item.user_id),
+      categoryId: item.category?.id ?? null,
       amount: item.amount,
       type: item.type,
       description: item.description,
