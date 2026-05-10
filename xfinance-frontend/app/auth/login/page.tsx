@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { ClientLoginForm } from '../../../components/pages/auth/ClientLoginForm';
-import { resolveSessionFromCookies } from '@/lib/modules/auth/domain/auth.actions';
+import { resolveSessionFromCookies } from '@/modules/auth/domain/auth.actions';
 
 export default async function LoginPage() {
   const session = await resolveSessionFromCookies()

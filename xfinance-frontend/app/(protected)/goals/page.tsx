@@ -2,7 +2,7 @@ import { PageTitle } from "@/components/pages/protected/PageTitle";
 import { Metadata } from "next";
 import React from "react";
 import { GoalsList } from "../../../components/pages/protected/goals/GoalsList";
-import { listGoalsAction } from "@/lib/modules/goals/domain/goal.action";
+import { listGoalsAction } from "@/modules/goals/domain/goal.action";
 
 const goals = [
   {

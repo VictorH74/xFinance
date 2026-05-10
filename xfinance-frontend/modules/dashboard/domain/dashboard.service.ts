@@ -7,8 +7,6 @@ export const getDashboardData = async (
   const { data } = await api.get<GetDashboarDataResponseT>("/dashboard", {
     params: filters,
   });
-
-  console.log(data)
-
+  
   return data;
 };

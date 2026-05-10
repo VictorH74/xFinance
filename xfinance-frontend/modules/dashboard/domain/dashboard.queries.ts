@@ -6,5 +6,5 @@ import { getDashboardData } from "./dashboard.service";
 export const useDashboardData = (filters?: DashboardFilters) =>
   useQuery({
     queryKey: dashboardKeys.data(filters),
-    queryFn: () => getDashboardData(),
+    queryFn: () => getDashboardData(filters),
   });

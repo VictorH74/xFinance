@@ -7,8 +7,8 @@ export type DashboardFilters =
       transactionType?: string;
     }
   | {
-      minDate: string;
-      maxDate: string;
+      startDate: string;
+      endDate: string;
       categoryIds?: string[];
       transactionType?: string;
     };
@@ -27,8 +27,10 @@ export type GetDashboarDataResponseT = {
   }[];
   expensesByCategory: {
     name: string;
+    localizedName: Category['localizedName'];
     emoji: string;
     color: string;
+    categoryId: string;
     total: number;
     percentage: number;
   }[];

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { resolveSessionFromCookies } from "@/lib/modules/auth/domain/auth.actions";
+import { resolveSessionFromCookies } from "@/modules/auth/domain/auth.actions";
 
 export default async function Home() {
   const session = await resolveSessionFromCookies();

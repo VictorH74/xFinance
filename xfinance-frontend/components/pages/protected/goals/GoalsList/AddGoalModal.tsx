@@ -2,8 +2,8 @@
 
 import React from "react";
 import { Button } from "@/components/shared/Button";
-import { useCategories } from "@/lib/modules/categories/domain/category.queries";
-import { useCreateGoal } from "@/lib/modules/goals/domain/goal.queries";
+import { useCategories } from "@/modules/categories/domain/category.queries";
+import { useCreateGoal } from "@/modules/goals/domain/goal.queries";
 import CloseIcon from "@mui/icons-material/Close";
 import { Select } from "antd";
 import { getCategoryName } from "@/util/functions";

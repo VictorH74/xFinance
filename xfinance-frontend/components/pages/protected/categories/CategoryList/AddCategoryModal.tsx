@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button } from "@/components/shared/Button";
-import { useCreateCategory } from "@/lib/modules/categories/domain/category.queries";
+import { useCreateCategory } from "@/modules/categories/domain/category.queries";
 import CloseIcon from '@mui/icons-material/Close';
 
 type AddCategoryModalProps = {

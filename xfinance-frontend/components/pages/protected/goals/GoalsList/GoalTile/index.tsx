@@ -1,9 +1,8 @@
-import { ListableGoal } from "@/lib/modules/goals/domain/goal.types";
+import { ListableGoal } from "@/modules/goals/domain/goal.types";
 import {
   formatCurrency,
   getCategoryName,
   getColorBackground,
-  getCurrentMonthName,
 } from "@/util/functions";
 import { twMerge } from "tailwind-merge";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -45,7 +44,7 @@ export const GoalTile: React.FC<{
             </div>
           </div>
           <div className="text-zinc-500 font-medium text-sm">
-            R$ {goal.currentValue} de R$ {goal.amountLimit}
+            {formatCurrency(goal.currentValue, "BRL")} de {formatCurrency(goal.amountLimit, "BRL")}
           </div>
         </div>
 

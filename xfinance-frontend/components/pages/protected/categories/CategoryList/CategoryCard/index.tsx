@@ -1,4 +1,4 @@
-import { ListableCategory } from "@/lib/modules/categories/domain/category.types";
+import { ListableCategory } from "@/modules/categories/domain/category.types";
 import { formatCurrency, getColorBackground, getCurrentMonthName } from "@/util/functions";
 
 export const CategoryCard: React.FC<{

@@ -1,13 +1,15 @@
 import { Button } from "@/components/shared/Button";
 import { api } from "@/lib/http/api-client";
-import { useCreateTransactions } from "@/lib/modules/transactions/domain/transaction.queries";
-import { Transaction } from "@/lib/modules/transactions/domain/transaction.types";
+import { useCreateTransactions } from "@/modules/transactions/domain/transaction.queries";
+import { Transaction } from "@/modules/transactions/domain/transaction.types";
 import { formatCurrency, getCategoryName } from "@/util/functions";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import { Select, DatePicker } from "antd";
 import dayjs from "dayjs";
-import { useCategories } from "@/lib/modules/categories/domain/category.queries";
+import { useCategories } from "@/modules/categories/domain/category.queries";
+
+type ErrorType = "INSUFFICIENT_DATA" | "AMBIGUOUS" | "PARSING_ERROR";
 
 type TransactionFormT = Pick<
   Transaction,
@@ -16,7 +18,7 @@ type TransactionFormT = Pick<
 
 type ErrorT = {
   message: string;
-  type: string;
+  type: ErrorType;
 };
 
 const dateDisplayFormat = "DD/MM/YYYY";
@@ -27,6 +29,16 @@ const transactionTypeOptions = [
   { id: "expense", label: "🔴 Saída" },
   { id: "income", label: "🟢 Entrada" },
 ];
+
+const getErrorMessage = (type: ErrorType) => {
+  if (type === "AMBIGUOUS")
+    return "O texto fornecido é ambíguo e pode ser interpretado de várias maneiras. Tente fornecer mais detalhes ou reformular a frase para esclarecer o significado.";
+  if (type === "INSUFFICIENT_DATA")
+    return "Os dados fornecidos são insuficientes para extrair as informações necessárias. Tente incluir mais detalhes ou reformular a frase para fornecer informações mais completas.";
+  if (type === "PARSING_ERROR")
+    return "Ocorreu um erro ao processar o texto fornecido. Tente reformular a frase ou verificar se há erros de digitação que possam estar causando o problema.";
+  return "Ocorreu um erro desconhecido.";
+};
 
 const transactionKeyLabel = (k: keyof TransactionFormT) => {
   if (k === "amount") return "Valor";
@@ -249,19 +261,11 @@ export const AddTransactionByAi = () => {
       )}
 
       {errors.length > 0 && (
-        <div className="bg-red-300 rounded-lg pp-5 w-full mt-3">
-          <p>Erros</p>
+        <div className="bg-red-400 rounded-lg p-5 w-full mt-3 text-white font-medium">
           <div className="divide-y-2">
             {errors.map((t, i) => (
-              <div key={i} className="">
-                <div className="flex justify-between items-center">
-                  <p>type</p>
-                  <p>{t.type}</p>
-                </div>
-                <div className="flex justify-between items-center">
-                  <p>message</p>
-                  <p>{t.message}</p>
-                </div>
+              <div key={i} className="divide-y divide-zinc-200">
+                <p>{getErrorMessage(t.type)}</p>
               </div>
             ))}
           </div>

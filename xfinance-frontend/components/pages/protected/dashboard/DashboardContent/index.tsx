@@ -4,49 +4,19 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import SavingsIcon from "@mui/icons-material/Savings";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { LineChartGraph } from "./LineChartGraph";
 import PieChartGraph from "./PieChartGraph";
-import { useDashboardData } from "@/lib/modules/dashboard/domain/dashboard.queries";
-import { DashboardFilters } from "@/lib/modules/dashboard/domain/dashboard.types";
+import { useDashboardData } from "@/modules/dashboard/domain/dashboard.queries";
+import { DashboardFilters } from "@/modules/dashboard/domain/dashboard.types";
 import { TransactionTile } from "@/components/shared/TransactionTile";
-import { DatePicker, Select } from "antd";
 import { TransactionTilePlaceholder } from "@/components/shared/TransactionTilePlaceholder";
-
-const { RangePicker } = DatePicker;
-
-const getDateRangeByPeriod = (
-  period: "30d" | "60d" | "90d",
-): [string, string] => {
-  const now = new Date();
-
-  const daysMap = {
-    "30d": 30,
-    "60d": 60,
-    "90d": 90,
-  } as const;
-
-  const minDate = new Date(now);
-  minDate.setDate(now.getDate() - daysMap[period]);
-
-  const format = (date: Date) => date.toISOString().split("T")[0];
-
-  return [format(minDate), format(now)];
-};
-
-const dateRangePresetList = [
-  {
-    label: "30d",
-    range: getDateRangeByPeriod("30d"),
-  },
-  {
-    label: "60d",
-    range: getDateRangeByPeriod("60d"),
-  },
-  {
-    label: "90d",
-    range: getDateRangeByPeriod("90d"),
-  },
-];
+import { DashboardFilters as DashboardFiltersControl } from "@/components/shared/DashboardFilters";
+import {
+  getDashboardFiltersFromSearchParams,
+  saveDashboardFilters,
+} from "@/modules/dashboard/domain/dashboard-filter.utils";
+import { useCategories } from "@/modules/categories/domain/category.queries";
 
 const renderOverviewCardIcon = (name: string) => {
   if (name === "balance") return <AttachMoneyIcon sx={{ fontSize: 20 }} />;
@@ -67,10 +37,39 @@ const formatCurrency = (value: number) =>
   }).format(value);
 
 export const DashboardContent = () => {
-  const [filters, setFilters] = React.useState<DashboardFilters>({});
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const filters = React.useMemo<DashboardFilters>(() => {
+    return getDashboardFiltersFromSearchParams(searchParams);
+  }, [searchParams]);
+  const { data: categories } = useCategories();
+  const updateFilters = React.useCallback((nextFilters: DashboardFilters) => {
+    const params = new URLSearchParams();
+
+    if (nextFilters.startDate && nextFilters.endDate) {
+      params.set("startDate", nextFilters.startDate);
+      params.set("endDate", nextFilters.endDate);
+    }
+
+    nextFilters.categoryIds?.forEach((categoryId) => {
+      params.append("categoryIds", categoryId);
+    });
+
+    if (nextFilters.transactionType) {
+      params.set("transactionType", nextFilters.transactionType);
+    }
+
+    const query = params.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname);
+  }, [pathname, router]);
   const { data, isLoading, isError, refetch } = useDashboardData(filters);
 
-  const summary = React.useMemo(() => {
+  React.useEffect(() => {
+    saveDashboardFilters(filters);
+  }, [filters]);
+
+  const summary = React.useMemo(() => {    
     return [
       {
         iconName: "balance",
@@ -96,7 +95,7 @@ export const DashboardContent = () => {
       {
         iconName: "savingsRate",
         label: "Valor economizado",
-        value: formatCurrency(data?.summary.savingsRate ?? 0),
+        value: `${(data?.summary.savingsRate ?? 0) * 100}%`,
         tone: "text-zinc-950",
         aosDelay: 400,
       },
@@ -105,53 +104,11 @@ export const DashboardContent = () => {
 
   return (
     <div className="space-y-8">
-      <div className="flex gap-2">
-        {dateRangePresetList.map((d) => (
-          <button
-            key={d.label}
-            className="px-2 py-1 rounded-md text-zinc-500 font-medium border border-zinc-300 cursor-pointer"
-          >
-            {d.label}
-          </button>
-        ))}
-        <RangePicker />
-        <Select
-          mode="multiple"
-          className="w-full"
-          placeholder="Selecionar categorias"
-          onChange={(value) => {
-            console.log(`selected ${value}`);
-          }}
-          options={
-            data?.expensesByCategory.map((d) => ({
-              ...d,
-              value: d.name,
-              label: `${d.emoji} ${d.name}`,
-            })) ?? []
-          }
-          optionRender={(option) => (
-            <div className="flex gap-2">
-              <span role="img" aria-label={option.data.name}>
-                {option.data.emoji}
-              </span>
-              {option.data.name}
-            </div>
-          )}
-        />
-        <Select
-          defaultValue={"null"}
-          // style={{ width: 120 }}
-          className="w-56"
-          onChange={(value) => {
-            console.log(`selected ${value}`);
-          }}
-          options={[
-            { value: "null", label: "Todas as entradas e saída" },
-            { value: "income", label: "Entradas" },
-            { value: "expense", label: "Saídas" },
-          ]}
-        />
-      </div>
+      <DashboardFiltersControl
+        filters={filters}
+        onChange={updateFilters}
+        categories={categories}
+      />
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {summary.map((card) => (
@@ -194,7 +151,9 @@ export const DashboardContent = () => {
             ) : isError || !data ? (
               <p>Error</p>
             ) : (
-              (data?.recentTransactions ?? []).map((item) => <TransactionTile key={item.id} item={item} />)
+              (data?.recentTransactions ?? []).map((item) => (
+                <TransactionTile key={item.id} item={item} />
+              ))
             )}
           </div>
         </article>

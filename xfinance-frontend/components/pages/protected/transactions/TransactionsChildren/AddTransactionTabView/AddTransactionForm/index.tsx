@@ -1,7 +1,7 @@
 import { Button } from "@/components/shared/Button";
-import { useCategories } from "@/lib/modules/categories/domain/category.queries";
-import { useCreateTransactions } from "@/lib/modules/transactions/domain/transaction.queries";
-import { Transaction } from "@/lib/modules/transactions/domain/transaction.types";
+import { useCategories } from "@/modules/categories/domain/category.queries";
+import { useCreateTransactions } from "@/modules/transactions/domain/transaction.queries";
+import { Transaction } from "@/modules/transactions/domain/transaction.types";
 import { getCategoryName } from "@/util/functions";
 import { Select, DatePicker } from "antd";
 import dayjs from "dayjs";

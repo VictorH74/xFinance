@@ -1,4 +1,5 @@
-import { GetDashboarDataResponseT } from "@/lib/modules/dashboard/domain/dashboard.types";
+import { GetDashboarDataResponseT } from "@/modules/dashboard/domain/dashboard.types";
+import { getCategoryName } from "@/util/functions";
 import {
   Pie,
   PieChart,
@@ -69,6 +70,7 @@ export default function PieChartGraph({
   isAnimationActive?: boolean;
   dataList: GetDashboarDataResponseT["expensesByCategory"];
 }) {
+  const list = dataList.map(d => ({...d, name: getCategoryName(d)}))
   return (
     <article
       className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm"
@@ -79,20 +81,20 @@ export default function PieChartGraph({
       </h3>
       <p className="text-zinc-400">Distribuição em abril</p>
       <div className="flex gap-4 flex-wrap w-[400px]">
-        {dataList.map((d) => (
+        {list.map((d) => (
           <div key={d.name} className="flex gap-1.5 items-center">
             <div
               className="size-3 rounded-xs"
               style={{ backgroundColor: d.color }}
             />
             <p className="text-[0.875rem]">{d.name}</p>
-            <p className="text-[0.875rem]">{d.percentage}</p>
+            <p className="text-[0.875rem]">{d.percentage}%</p>
           </div>
         ))}
       </div>
       <PieChart width={400} height={400}>
         <Pie
-          data={dataList}
+          data={list}
           dataKey="percentage"
           nameKey="name"
           isAnimationActive={isAnimationActive}
@@ -100,10 +102,10 @@ export default function PieChartGraph({
           cy="50%"
           innerRadius="55%"
           outerRadius="80%"
-          shape={(props) => <MyCustomPie {...props} list={dataList} />}
+          shape={(props) => <MyCustomPie {...props} list={list} />}
         />
         <Tooltip
-          content={(props) => <CustomTooltip {...props} list={dataList} />}
+          content={(props) => <CustomTooltip {...props} list={list} />}
         />
       </PieChart>
     </article>

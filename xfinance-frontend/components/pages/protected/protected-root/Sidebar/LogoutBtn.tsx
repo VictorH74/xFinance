@@ -1,4 +1,4 @@
-import { logoutAction } from "@/lib/modules/auth/domain/auth.actions";
+import { logoutAction } from "@/modules/auth/domain/auth.actions";
 import { useActionState } from "react";
 
 export const LogoutBtn = () => {

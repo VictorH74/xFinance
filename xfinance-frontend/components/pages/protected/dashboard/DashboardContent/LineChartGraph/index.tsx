@@ -1,4 +1,4 @@
-import { GetDashboarDataResponseT } from "@/lib/modules/dashboard/domain/dashboard.types";
+import { GetDashboarDataResponseT } from "@/modules/dashboard/domain/dashboard.types";
 import { formatCurrency } from "@/util/functions";
 import {
   CartesianGrid,
@@ -45,7 +45,7 @@ export const LineChartGraph = ({
     >
       <div className="w-full">
         <h3 className="text-lg text-zinc-500 font-semibold">Evolução mensal</h3>
-        <p className="text-zinc-400">Receitas vs Gastos — 2026</p>
+        <p className="text-zinc-400">Receitas vs Gastos — {new Date().getFullYear()}</p>
       </div>
       <LineChart
         style={{ width: "100%", aspectRatio: 1.618 }}

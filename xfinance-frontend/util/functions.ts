@@ -1,4 +1,4 @@
-import { Category } from "@/lib/modules/categories/domain/category.types";
+import { Category } from "@/modules/categories/domain/category.types";
 import { MONTH_LIST } from "./constants";
 
 export const getColorBackground = (color: string, opacity?: number) => {

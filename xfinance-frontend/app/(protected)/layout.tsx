@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Sidebar from "@/components/pages/protected/protected-root/Sidebar";
 import React from "react";
 import { QueryProvider } from "@/components/pages/protected/protected-root/QueryProvider";
-import { resolveSessionFromCookies } from "@/lib/modules/auth/domain/auth.actions";
+import { resolveSessionFromCookies } from "@/modules/auth/domain/auth.actions";
 
 export default async function ProtectedLayout({
   children,

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { authCookieNames } from "./lib/modules/auth/domain/auth.data";
-import { resolveSessionFromCookies } from "./lib/modules/auth/domain/auth.actions";
+import { authCookieNames } from "./modules/auth/domain/auth.data";
+import { resolveSessionFromCookies } from "./modules/auth/domain/auth.actions";
 
 const protectedRoutes = [
   "/dashboard",

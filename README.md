@@ -1,5 +1,7 @@
 # xFinance
 
+![alt](/docs/assets/xFinance-dashboard.png)
+
 Projeto fullstack com:
 
 - `xfinance-backend`: API em Node.js + Express + Prisma

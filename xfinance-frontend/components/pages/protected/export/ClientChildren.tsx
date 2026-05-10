@@ -4,42 +4,14 @@ import ImageIcon from "@mui/icons-material/Image";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import { twMerge } from "tailwind-merge";
-import { DatePicker, Select } from "antd";
-
-const options = [
-  {
-    label: "Happy",
-    value: "happy",
-    emoji: "😄",
-    desc: "Feeling Good",
-  },
-  {
-    label: "Sad",
-    value: "sad",
-    emoji: "😢",
-    desc: "Feeling Blue",
-  },
-  {
-    label: "Angry",
-    value: "angry",
-    emoji: "😡",
-    desc: "Furious",
-  },
-  {
-    label: "Cool",
-    value: "cool",
-    emoji: "😎",
-    desc: "Chilling",
-  },
-  {
-    label: "Sleepy",
-    value: "sleepy",
-    emoji: "😴",
-    desc: "Need Sleep",
-  },
-];
-
-const { RangePicker } = DatePicker;
+import React from "react";
+import { DashboardFilters } from "@/components/shared/DashboardFilters";
+import { DashboardFilters as DashboardFiltersT } from "@/modules/dashboard/domain/dashboard.types";
+import {
+  loadDashboardFilters,
+  saveDashboardFilters,
+} from "@/modules/dashboard/domain/dashboard-filter.utils";
+import { useCategories } from "@/modules/categories/domain/category.queries";
 
 const exportFormats = [
   {
@@ -82,87 +54,28 @@ const exportFormats = [
   },
 ];
 
-const getDateRangeByPeriod = (
-  period: "30d" | "60d" | "90d",
-): [string, string] => {
-  const now = new Date();
-
-  const daysMap = {
-    "30d": 30,
-    "60d": 60,
-    "90d": 90,
-  } as const;
-
-  const minDate = new Date(now);
-  minDate.setDate(now.getDate() - daysMap[period]);
-
-  const format = (date: Date) => date.toISOString().split("T")[0];
-
-  return [format(minDate), format(now)];
-};
-
-const dateRangePresetList = [
-  {
-    label: "30d",
-    range: getDateRangeByPeriod("30d"),
-  },
-  {
-    label: "60d",
-    range: getDateRangeByPeriod("60d"),
-  },
-  {
-    label: "90d",
-    range: getDateRangeByPeriod("90d"),
-  },
-];
-
 export const ClientChildren = () => {
+  const [filters, setFilters] = React.useState<DashboardFiltersT | null>(null);
+  const { data: categories } = useCategories();
+
+  React.useEffect(() => {
+    setFilters(loadDashboardFilters());
+  }, []);
+
+  React.useEffect(() => {
+    if (!filters) return;
+    saveDashboardFilters(filters);
+  }, [filters]);
+
   return (
     <>
       <div className="space-y-3">
         <h3 className="text-lg font-semibold">Filtrar antes de exportar</h3>
-        <div className="flex gap-2">
-          {dateRangePresetList.map((d) => (
-            <button
-              key={d.label}
-              className="px-2 py-1 rounded-md text-zinc-500 font-medium border border-zinc-300 cursor-pointer"
-            >
-              {d.label}
-            </button>
-          ))}
-          <RangePicker />
-          <Select
-            mode="multiple"
-            className="w-full"
-            placeholder="Selecionar categorias"
-            defaultValue={["happy"]}
-            onChange={(value) => {
-              console.log(`selected ${value}`);
-            }}
-            options={options}
-            optionRender={(option) => (
-              <div className="flex gap-2">
-                <span role="img" aria-label={option.data.label}>
-                  {option.data.emoji}
-                </span>
-                {`${option.data.label} (${option.data.desc})`}
-              </div>
-            )}
-          />
-          <Select
-            defaultValue={'null'}
-            // style={{ width: 120 }}
-            className="w-56"
-            onChange={(value) => {
-              console.log(`selected ${value}`);
-            }}
-            options={[
-              { value: 'null', label: "Todas as entradas e saída" },
-              { value: "income", label: "Entradas" },
-              { value: "expense", label: "Saídas" },
-            ]}
-          />
-        </div>
+        <DashboardFilters
+          filters={filters ?? {}}
+          onChange={(nextFilters) => setFilters(nextFilters)}
+          categories={categories}
+        />
       </div>
 
       <section className="grid gap-6 ">

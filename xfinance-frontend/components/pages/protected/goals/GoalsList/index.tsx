@@ -2,7 +2,7 @@
 
 import React from "react";
 import { PageTitle } from "../../PageTitle";
-import { useGoals } from "@/lib/modules/goals/domain/goal.queries";
+import { useGoals } from "@/modules/goals/domain/goal.queries";
 import { GoalTilePlaceholder } from "./GoalTilePlaceholder";
 import { GoalTile } from "./GoalTile";
 import { Button } from "@/components/shared/Button";
@@ -73,19 +73,19 @@ export const GoalsList = () => {
 
         <section className="grid gap-4 md:grid-cols-3">
           <SummaryCard
-            data-aos="zoom-in"
+            data-aos="flip-up"
             data-aos-delay={0}
             title="Total de limite"
             content={formatCurrency(summary.totalTarget)}
           />
           <SummaryCard
-            data-aos="zoom-in"
+            data-aos="flip-up"
             data-aos-delay={200}
             title="Valor restante"
             content={formatCurrency(summary.totalTarget - summary.totalCurrent)}
           />
           <SummaryCard
-            data-aos="zoom-in"
+            data-aos="flip-up"
             data-aos-delay={400}
             title="Mais prox. do prazo"
             content={"Ago 2026"}

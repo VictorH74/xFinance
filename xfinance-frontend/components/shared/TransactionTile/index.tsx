@@ -1,4 +1,4 @@
-import { ListableTransaction } from "@/lib/modules/transactions/domain/transaction.types";
+import { ListableTransaction } from "@/modules/transactions/domain/transaction.types";
 import { MONTH_LIST } from "@/util/constants";
 import {
   formatCurrency,
@@ -47,13 +47,13 @@ export const TransactionTile: React.FC<{
             ),
           }}
         >
-          <p className="text-lg">{item.category?.emoji}</p>
+          <p className="text-lg">{item.category?.emoji ?? "📦"}</p>
         </div>
         <div>
           <p className="font-medium text-zinc-950">{item.description}</p>
           <div className="flex gap-2 items-center">
             <p className="text-sm text-zinc-500">
-              {item.category && getCategoryName(item.category)}
+              {item.category ? getCategoryName(item.category) : "Sem categoria"}
             </p>
             <div className="size-1 rounded-full bg-zinc-400" />
             <p className="text-sm text-zinc-400">

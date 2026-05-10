@@ -2,7 +2,7 @@
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import { PageTitle } from "@/components/pages/protected/PageTitle";
-import { useTransactions } from "@/lib/modules/transactions/domain/transaction.queries";
+import { useTransactions } from "@/modules/transactions/domain/transaction.queries";
 import { TransactionTile } from "@/components/shared/TransactionTile";
 import { TransactionTilePlaceholder } from "@/components/shared/TransactionTilePlaceholder";
 import { AddTransactionTabView } from "./AddTransactionTabView";

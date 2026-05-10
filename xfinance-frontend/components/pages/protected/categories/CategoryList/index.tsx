@@ -1,6 +1,6 @@
 "use client";
 
-import { useCategories } from "@/lib/modules/categories/domain/category.queries";
+import { useCategories } from "@/modules/categories/domain/category.queries";
 import { CategoryCard } from "./CategoryCard";
 import { CategoryCardPlaceholder } from "./CategoryCardPlaceholder";
 import React from "react";

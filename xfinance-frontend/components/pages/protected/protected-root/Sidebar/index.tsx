@@ -9,7 +9,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { LogoutBtn } from "./LogoutBtn";
-import { AuthUser } from "@/lib/modules/auth/domain/auth.types";
+import { AuthUser } from "@/modules/auth/domain/auth.types";
 
 const navSection = [
   {
